@@ -2,9 +2,9 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<title>@venturerer</title>
-<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=VT323&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>@venturerer · The Last Account</title>
+<!-- Self-contained: no fonts, libraries, or assets need a network connection. -->
 <style>
 :root{
   --g:#33ff33;--dg:#1a5c1a;--bg:#010601;--am:#ffcc00;
@@ -154,11 +154,159 @@ body::after{content:'';position:fixed;inset:0;
 .sts{font-size:10px;padding:0 3px;margin:1px;display:inline-block;border:1px solid;}
 .sts-burn{color:#ff6600;border-color:#ff6600}.sts-stun{color:var(--ye);border-color:var(--ye)}
 @keyframes blink{50%{opacity:0}}.blink{animation:blink 1s step-end infinite;color:var(--am);}
+
+/* Revised edition: retain the CRT palette; let every control fit or scroll. */
+:root{--dg:#709b79;--bdr:#204328;--tile:48px;}
+body{height:auto;min-height:100vh;min-height:100dvh;overflow:auto;}
+body::after{background:radial-gradient(ellipse at center,transparent 65%,rgba(0,0,0,.25));}
+#wrap{height:100vh;height:100dvh;min-height:600px;width:min(1000px,calc(100% - 16px));}
+#hdr{display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:19px;letter-spacing:1px;padding:9px 0;animation:none;text-align:left;}
+#hdr small{font-size:10px;color:var(--dg);text-shadow:none;letter-spacing:0;}
+.actions{display:flex;flex-wrap:wrap;gap:7px;align-items:center;justify-content:center;}
+.btn{cursor:pointer;min-height:34px;font-family:monospace;font-size:12px;padding:7px 11px;}
+.btn:hover:not(:disabled){background:#112616;border-color:var(--g);}
+.btn:focus-visible,.bt:focus-visible{outline:2px solid var(--cy);outline-offset:2px;}
+.btn:disabled{color:#637567;border-color:#25332a;cursor:default;}
+#s-title{overflow:auto;padding:16px 0;gap:18px;}
+#t-art{font-size:clamp(29px,7vw,52px);letter-spacing:2px;}
+.t-sub{color:var(--dg);line-height:1.8;max-width:650px;}
+#s-dun.on{grid-template-columns:minmax(0,1fr) 184px;grid-template-rows:minmax(0,1fr) 88px;}
+#map-wrap{container-type:inline-size;display:flex;align-items:center;justify-content:center;}
+#map-pre{font-family:monospace;font-size:clamp(9px,4.2cqw,21px);line-height:1.18;padding:4px;}
+#stat-col{overflow:auto;gap:3px;}
+.cw{color:#588260}.cf{color:#193e23}.cx{color:#30543a}
+#d-objective{font-size:11px;line-height:1.6;color:var(--am);white-space:normal;padding:7px 0;}
+#d-pad{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;margin-top:auto;}
+#d-pad .btn{min-height:34px;padding:4px;}
+#s-cmb.on{grid-template-columns:220px minmax(0,1fr);grid-template-rows:minmax(0,1fr) 164px;}
+#e-panel{overflow:auto;gap:5px;}
+#b-panel,#trs-bwrap{align-items:center;overflow:auto;padding:10px;}
+#board,#trs-board{--tile:clamp(29px,calc((100dvh - 340px)/7),58px);grid-template-columns:repeat(7,var(--tile));grid-template-rows:repeat(7,var(--tile));max-width:100%;}
+.bt{width:var(--tile);height:var(--tile);padding:0;border-radius:0;cursor:pointer;touch-action:none;font-family:monospace;font-size:calc(var(--tile)*.55);}
+#board .bt[data-t=ATK],#trs-board .bt[data-t=ATK]{border-color:#431d23;}
+#board .bt[data-t=DEF],#trs-board .bt[data-t=DEF]{border-color:#142d58;}
+#board .bt[data-t=MAG],#trs-board .bt[data-t=MAG]{border-color:#441844;}
+#board .bt[data-t=HLT],#trs-board .bt[data-t=HLT]{border-color:#164721;}
+#board .bt[data-t=SKL],#trs-board .bt[data-t=SKL]{border-color:#414018;}
+.board-note{font-size:11px;color:var(--dg);line-height:1.6;margin:8px 0;max-width:480px;min-height:36px;}
+#c-int{font-size:12px!important;line-height:1.7;overflow:visible!important;white-space:normal!important;padding:7px;background:#130b09;border:1px solid #542826;}
+#c-cbo,#trs-cbo{min-height:18px;min-width:0;text-align:right;line-height:1.1;overflow-wrap:anywhere;}
+.board-head{display:flex;justify-content:space-between;align-items:baseline;gap:12px;width:100%;margin-bottom:2px;flex-shrink:0;}
+.board-head .phdr{min-width:0;flex:1;}
+#turn-ind{font-size:15px;white-space:normal;letter-spacing:1px;padding:5px 0;}
+#c-pstatus{min-height:15px;font-size:10px;color:var(--am);}
+#s-trs.on{grid-template-columns:185px minmax(0,1fr);grid-template-rows:minmax(0,1fr) 88px;}
+#trs-info{overflow:auto;gap:4px;}
+#trs-log{max-height:80px;}
+#shop-box{min-width:0;width:min(500px,calc(100vw - 20px));max-width:500px;}
+.shop-row{flex-wrap:wrap;padding:9px 0;}
+.shop-desc{font-size:11px;line-height:1.5;}
+#shop-message{min-height:30px;margin:8px 0;color:var(--cy);font-size:12px;line-height:1.5;}
+.modal-box{border:1px solid var(--am);background:#020902;padding:18px;width:min(590px,calc(100vw - 20px));max-height:92vh;max-height:92dvh;overflow:auto;}
+.guide{font-size:12px;line-height:1.7;color:var(--dg);margin:14px 0;}
+.guide p{margin:9px 0;}
+.guide strong{color:var(--am);}
+.guide table{border-collapse:collapse;width:100%;margin:10px 0;font-size:11px;text-align:left;}
+.guide td{padding:6px 5px;border-bottom:1px solid var(--bdr);vertical-align:top;}
+.guide td:first-child{white-space:nowrap;}
+.legend-line{font-size:11px;line-height:1.8;color:var(--dg);}
+@media(max-width:700px){
+  #wrap{height:auto;min-height:100dvh;}
+  #hdr{font-size:15px;}#hdr small{display:none;}
+  #s-title{min-height:80dvh;}
+  #s-dun.on{grid-template-columns:minmax(0,1fr);grid-template-rows:auto auto auto;}
+  #map-wrap{grid-column:1;grid-row:1;min-height:230px;}
+  #stat-col{grid-column:1;grid-row:2;display:grid;grid-template-columns:1fr 1fr;gap:4px 12px;}
+  #stat-col>.bar,#stat-col>hr,#stat-col>.phdr,#stat-col>.d-keys{display:none;}
+  #d-objective{grid-column:1/-1;}#d-pad{grid-column:1/-1;max-width:280px;justify-self:center;width:100%;}
+  #log-wrap{grid-column:1;grid-row:3;height:80px;}
+  #s-cmb.on,#s-trs.on{grid-template-columns:minmax(0,1fr);grid-template-rows:auto auto auto;}
+  #e-panel,#trs-info{grid-column:1;grid-row:1;display:grid;grid-template-columns:1fr 1fr;align-content:start;}
+  #e-art{display:none;}#c-ename,#c-int,#turn-ind{grid-column:1/-1;}
+  #c-ests{grid-column:1/-1;}#e-panel>.bar{display:none;}
+  #b-panel,#trs-bwrap{grid-column:1;grid-row:2;overflow:visible;}
+  #cmb-bot,#trs-bot{grid-column:1;grid-row:3;min-height:166px;}
+  #board,#trs-board{--tile:clamp(31px,calc((100vw - 64px)/7),58px);}
+  #trs-info .vault-legend{display:none;}#trs-info>.phdr{grid-column:1/-1;}
+  #trs-bot{min-height:80px;}#trs-info>hr{display:none;}
+  .board-note{margin-bottom:0;}
+}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;}body::before{display:none;}}
+
+/* Build choices share the same terminal vocabulary as the dungeon. */
+#s-build.on{display:flex;flex-direction:column;gap:13px;padding:16px 12px;overflow:auto;}
+.build-heading{font-size:clamp(20px,4vw,30px);color:var(--am);letter-spacing:2px;}
+.build-intro{color:var(--dg);font-size:12px;line-height:1.7;max-width:750px;}
+.choice-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;}
+.spell-grid{grid-template-columns:repeat(4,minmax(0,1fr));}
+.choice{font-family:monospace;background:#030d06;border:1px solid var(--bdr);color:var(--dg);padding:12px;text-align:left;cursor:pointer;line-height:1.6;min-width:0;}
+.choice strong{display:block;color:var(--am);font-size:13px;margin-bottom:7px;}
+.choice span{display:block;font-size:11px;}
+.choice.selected{border-color:var(--am);background:#181604;box-shadow:inset 0 0 0 1px #665500;}
+.choice.equipped{border-color:var(--cy);background:#03191a;}
+.choice.equipped strong{color:var(--cy);}
+.choice:focus-visible{outline:2px solid var(--g);outline-offset:2px;}
+.relic-list{display:flex;gap:5px;flex-wrap:wrap;font-size:10px;line-height:1.6;}
+.relic-chip{color:var(--am);border:1px solid #514717;padding:3px 6px;}
+#d-build{grid-column:1/-1;border-top:1px solid var(--bdr);padding-top:5px;}
+#d-build .btn{width:100%;margin-top:6px;}
+#c-spell-wrap,#c-relics{grid-column:1/-1;}
+#c-spell-wrap{margin-top:6px;}
+#spell-bar{display:grid;gap:6px;}
+.spell-btn{text-align:left;white-space:normal;letter-spacing:0;font-size:11px;min-height:48px;padding:8px;line-height:1.5;}
+.spell-btn strong,.spell-btn span{display:block;}
+.spell-btn span{font-size:10px;color:var(--dg);}
+.spell-btn:disabled span{color:#68796b;}
+#build-message{min-height:18px;color:var(--cy);font-size:12px;}
+#build-summary{margin-bottom:1px;}
+.sts-poison{color:#b7ec60;border-color:#789f37;}
+@media(max-width:700px){
+  .choice-grid{grid-template-columns:1fr;}
+  .spell-grid{grid-template-columns:repeat(2,minmax(0,1fr));}
+  #spell-bar{grid-template-columns:repeat(2,minmax(0,1fr));}
+  #d-build{grid-column:1/-1;}#s-build.on{overflow:visible;padding:12px 2px;}
+}
+
+[hidden]{display:none!important;}
+#s-story.on,#s-journal.on{display:flex;flex-direction:column;align-items:center;overflow:auto;padding:18px 10px;}
+.story-card{width:100%;max-width:740px;border:1px solid var(--bdr);background:#020b04;padding:24px;}
+.story-kicker{font-size:11px;letter-spacing:2px;color:var(--cy);margin-bottom:10px;}
+.story-title{font-size:clamp(22px,4vw,32px);line-height:1.3;color:var(--am);margin-bottom:20px;}
+.story-prose{font-size:14px;line-height:1.85;color:#b3cfb9;max-width:700px;}
+.story-prose p{margin:0 0 15px;}
+#story-choice-list{display:grid;gap:9px;margin:20px 0 14px;}
+.story-choice{font-family:monospace;cursor:pointer;text-align:left;background:#06140a;border:1px solid var(--bdr);color:var(--g);padding:13px;line-height:1.6;}
+.story-choice strong,.story-choice span{display:block;}
+.story-choice strong{font-size:13px;}.story-choice span{font-size:11px;color:var(--dg);margin-top:4px;}
+.story-choice.selected{border-color:var(--am);background:#181604;}
+.story-choice:disabled{opacity:.55;cursor:default;}
+.story-choice:focus-visible{outline:2px solid var(--cy);outline-offset:2px;}
+#story-result{color:var(--cy);border-left:2px solid var(--cy);padding-left:14px;}
+#story-result:empty{display:none;}
+#story-message{color:var(--am);font-size:12px;line-height:1.7;min-height:20px;}
+#story-controls{margin-top:16px;text-align:center;}
+#d-story{grid-column:1/-1;border-top:1px solid var(--bdr);padding-top:7px;font-size:11px;line-height:1.6;}
+#d-chapter{color:var(--am);}#d-pages{color:var(--dg);margin:5px 0;}#d-story .btn{width:100%;}
+.journal-entry{border-top:1px solid var(--bdr);padding:15px 0;}
+.journal-entry h3{font-size:14px;color:var(--am);margin-bottom:10px;}
+.journal-choice{font-size:12px;line-height:1.8;color:var(--cy);margin-top:8px;}
+#s-vic.on{overflow:auto;justify-content:flex-start;padding-top:24px;}
+#vic-title{font-size:clamp(25px,5vw,44px)!important;}#vic-story{text-align:left;width:100%;}
+#score-table{width:min(700px,100%);}
+.score-row{padding:7px 2px;border-bottom:1px solid var(--bdr);}
+.score-main{font-size:11px;line-height:1.7;}
+.score-meta{font-size:10px;line-height:1.55;color:var(--dg);padding-left:12px;}
+.score-row:first-of-type .score-main{color:var(--am);}
+@media(max-width:700px){
+  #s-story.on,#s-journal.on{overflow:visible;padding:10px 0;}
+  .story-card{padding:16px;}.story-prose{font-size:13px;}
+  #d-story{grid-column:1/-1;}
+}
 </style>
 </head>
 <body>
 <div id="wrap">
-  <div id="hdr">⚔  @venturerer  ⚔</div>
+  <div id="hdr"><span>⚔ @venturerer <small>THE LAST ACCOUNT · 1.4</small></span><button class="btn btn-am" id="guide-btn">? GUIDE / PAUSE</button></div>
 
   <!-- ══ TITLE ══ -->
   <div id="s-title" class="scr on">
@@ -170,7 +318,8 @@ body::after{content:'';position:fixed;inset:0;
       SHOP: ↑↓ = NAVIGATE &nbsp;·&nbsp; ENTER = BUY &nbsp;·&nbsp; ESC = LEAVE<br>
       &gt; = DESCEND &nbsp;&nbsp; $ = TREASURE VAULT &nbsp;&nbsp; § = SHOP
     </div>
-    <div class="blink" style="font-size:24px;letter-spacing:3px;">ENTER = BEGIN &nbsp;·&nbsp; E = ENDLESS</div>
+    <div class="t-sub">THE LAST ACCOUNT<br>A town is forgetting its people. The answer lies ten floors below.<br>Choose relics. Equip two spells. Build your own way down.<br>Match 4+ in a straight line for an extra turn.</div>
+    <div class="actions"><button id="continue-story-btn" class="btn btn-am" hidden>ENTER · CONTINUE STORY</button><button id="story-btn" class="btn btn-am">ENTER · STORY</button><button id="begin-btn" class="btn">C · CLASSIC</button><button id="endless-btn" class="btn btn-cy">E · ENDLESS</button></div>
     <div id="score-table" style="margin-top:6px;text-align:left;min-width:290px;"></div>
   </div>
 
@@ -192,14 +341,24 @@ body::after{content:'';position:fixed;inset:0;
       <div class="sl"><span class="sk">GOLD</span><span class="sv-g" id="d-gld">0</span></div>
       <div class="sl"><span class="sk">KILLS</span><span class="sv" id="d-kls">0</span></div>
       <hr style="border-color:var(--bdr);margin:4px 0">
-      <div style="color:var(--dg);font-size:10px;line-height:1.8">
+      <div class="d-keys" style="color:var(--dg);font-size:10px;line-height:1.8">
         MOVE: WASD/ARROWS<br>
-        BUMP @: FIGHT<br>
+        BUMP ENEMY: FIGHT<br>
         &gt; : DESCEND<br>
         $ : TREASURE<br>
         § : SHOP<br>
         P/ESC : PAUSE<br>
-        M : MUSIC
+        M : MUSIC · . : WAIT
+      </div>
+      <div class="sl"><span class="sk">NEXT SHIELD</span><span id="d-reserve">0</span></div>
+      <div class="sl"><span class="sk">NEXT DODGE</span><span id="d-dodge">—</span></div>
+      <div id="d-objective"></div>
+      <div id="d-story" hidden><div id="d-chapter"></div><div id="d-pages"></div><button id="journal-btn" class="btn">J · JOURNAL</button></div>
+      <div id="d-build"><div id="d-relics" class="relic-list"></div><button id="build-btn" class="btn btn-cy">B · RELICS &amp; SPELLS</button></div>
+      <div id="d-pad" aria-label="Dungeon movement">
+        <span></span><button class="btn" data-move="0,-1" aria-label="Move north">↑</button><span></span>
+        <button class="btn" data-move="-1,0" aria-label="Move west">←</button><button class="btn" data-move="0,0">WAIT</button><button class="btn" data-move="1,0" aria-label="Move east">→</button>
+        <span></span><button class="btn" data-move="0,1" aria-label="Move south">↓</button><span></span>
       </div>
     </div>
     <div id="log-wrap"><div id="log-inner"></div></div>
@@ -217,11 +376,13 @@ body::after{content:'';position:fixed;inset:0;
       <div id="c-ests" style="min-height:14px;"></div>
       <div id="c-int" style="font-size:10px;color:#ff7777;min-height:13px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;"></div>
       <div id="turn-ind" class="ti-p">YOUR TURN</div>
+      <div id="c-relics" class="relic-list"></div>
+      <div id="c-spell-wrap"><div class="phdr">SPELLS · 1 / 2</div><div id="spell-bar"></div><div class="legend-line">Cast instead of matching.<br>Board Shift keeps your turn.</div></div>
     </div>
     <div id="b-panel">
-      <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:2px;flex-shrink:0">
+      <div class="board-head">
         <div class="phdr" style="margin:0;border:none;">MATCH TILES</div>
-        <span id="c-cbo" style="color:var(--ye);font-size:16px;font-family:'VT323',monospace;"></span>
+        <span id="c-cbo" role="status" aria-live="polite" aria-atomic="true" style="color:var(--ye);font-size:16px;font-family:'VT323',monospace;"></span>
       </div>
       <div style="font-size:10px;color:var(--dg);margin-bottom:4px;flex-shrink:0;">
         <span style="color:var(--re)">♠ATK</span>&nbsp;
@@ -231,7 +392,9 @@ body::after{content:'';position:fixed;inset:0;
         <span style="color:var(--ye)">♣SKL</span>
         &nbsp;<span style="color:var(--dg)">ARROWS + ENTER</span>
       </div>
-      <div id="board"></div>
+      <div id="board" role="group" aria-label="Combat match board"></div>
+      <div id="c-feedback" class="board-note" role="status">Select a tile, then an adjacent tile. Match 4+ for an extra turn.</div>
+      <div class="legend-line">♣ SKILL restores MP and boosts attacks.<br>ARROWS/WASD + ENTER · click, tap or swipe · H hints</div>
     </div>
     <div id="cmb-bot">
       <div id="p-stats-wrap">
@@ -242,7 +405,7 @@ body::after{content:'';position:fixed;inset:0;
         <div class="bar"><div class="bf bf-mp" id="c-pmp-b" style="width:100%"></div></div>
         <div class="sl"><span class="sk">SHIELD</span><span class="sv-sh" id="c-shld">0</span></div>
         <div class="sl"><span class="sk">ATK×</span><span id="c-abuf" style="color:#ff8888;">1.0</span></div>
-        <div class="sl"><span class="sk">DODGE</span><span id="c-dodge" style="color:var(--cy);">—</span></div>
+        <div class="sl"><span class="sk">DODGE</span><span id="c-dodge" style="color:var(--cy);">—</span></div><div id="c-pstatus" role="status"></div>
       </div>
       <div id="c-log-wrap">
         <div class="phdr" style="font-size:13px;">COMBAT LOG</div>
@@ -259,21 +422,21 @@ body::after{content:'';position:fixed;inset:0;
       <div class="sl"><span class="sk">GOLD FOUND</span><span class="sv-g" id="trs-gold">0</span></div>
       <div class="sl"><span class="sk">HP HEALED</span><span class="sv-hp" id="trs-hp">0</span></div>
       <hr style="border-color:var(--bdr);margin:5px 0">
-      <div style="color:var(--dg);font-size:10px;line-height:1.85">
+      <div class="vault-legend" style="color:var(--dg);font-size:10px;line-height:1.85">
         <span style="color:var(--re)">♠</span> ATK = GOLD<br>
-        <span style="color:var(--bl)">◆</span> DEF = SHIELD<br>
+        <span style="color:var(--bl)">◆</span> DEF = NEXT-FIGHT SHIELD<br>
         <span style="color:var(--mg)">★</span> MAG = MP restore<br>
         <span style="color:var(--g)">♥</span> HLT = HEAL<br>
-        <span style="color:var(--ye)">♣</span> SKL = GOLD x2
+        <span style="color:var(--ye)">♣</span> SKL = GOLD MULT +0.5
       </div>
       <div style="margin-top:auto;padding-top:6px;">
-        <div style="color:var(--cy);font-size:12px;text-align:center;letter-spacing:1px;">[ Q ] TAKE LOOT &amp; LEAVE</div>
+        <div class="sl"><span class="sk">GOLD MULT</span><span id="trs-mult">×1.0</span></div><button id="loot-btn" class="btn btn-cy">Q · TAKE LOOT</button>
       </div>
     </div>
     <div id="trs-bwrap">
-      <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:3px;flex-shrink:0;">
+      <div class="board-head">
         <div class="phdr" style="margin:0;border:none;">MATCH FOR LOOT</div>
-        <span id="trs-cbo" style="color:var(--am);font-size:16px;font-family:'VT323',monospace;"></span>
+        <span id="trs-cbo" role="status" aria-live="polite" aria-atomic="true" style="color:var(--am);font-size:16px;font-family:'VT323',monospace;"></span>
       </div>
       <div style="font-size:10px;color:var(--dg);margin-bottom:4px;flex-shrink:0;">
         <span style="color:var(--re)">♠ATK</span>&nbsp;
@@ -283,44 +446,95 @@ body::after{content:'';position:fixed;inset:0;
         <span style="color:var(--ye)">♣SKL</span>
         &nbsp;<span style="color:var(--dg)">ARROWS + ENTER</span>
       </div>
-      <div id="trs-board"></div>
+      <div id="trs-board" role="group" aria-label="Treasure match board"></div><div id="trs-feedback" class="board-note" role="status">Match 4+ to keep your move. Invalid swaps cost nothing.</div>
     </div>
     <div id="trs-bot">
       <div id="trs-log"></div>
     </div>
   </div>
 
+  <!-- ══ BUILD / RELIC CHOICES ══ -->
+  <div id="s-build" class="scr" tabindex="-1" aria-label="Relics and spell loadout">
+    <div class="build-heading" id="build-title">PACK FOR THE DESCENT</div>
+    <div id="build-intro" class="build-intro"></div>
+    <div id="build-summary" class="relic-list"></div>
+    <div class="phdr" id="spell-choice-title">EQUIP TWO SPELLS</div>
+    <div id="spell-choices" class="choice-grid spell-grid"></div>
+    <div class="phdr" id="relic-choice-title">CHOOSE ONE RELIC</div>
+    <div id="relic-choices" class="choice-grid"></div>
+    <div id="build-message" role="status"></div>
+    <div class="actions"><button class="btn btn-am" id="build-confirm">ENTER · CLAIM &amp; CONTINUE</button></div>
+    <div class="build-intro">1–4 toggle spells · ← → choose a relic · Enter continue.<br>You can change your two spells between fights with B. Relics stay with you for the run.</div>
+  </div>
+
+  <!-- ══ STORY ══ -->
+  <div id="s-story" class="scr" tabindex="-1" aria-label="Story chapter">
+    <div class="story-card">
+      <div id="story-kicker" class="story-kicker">THE LAST ACCOUNT</div>
+      <div id="story-title" class="story-title"></div>
+      <div id="story-body" class="story-prose"></div>
+      <div id="story-choice-list"></div>
+      <div id="story-result" class="story-prose" role="status"></div>
+      <div id="story-message" role="status"></div>
+      <div class="actions"><button id="story-continue" class="btn btn-am" hidden>ENTER · CONTINUE</button><button id="story-journal-btn" class="btn">J · JOURNAL</button></div>
+      <div class="legend-line" id="story-controls">↑↓ choose · Enter confirm · 1–3 choose directly · P pause</div>
+    </div>
+  </div>
+
+  <!-- ══ JOURNAL ══ -->
+  <div id="s-journal" class="scr" tabindex="-1" aria-label="Story journal">
+    <div class="story-card">
+      <div class="story-kicker">THE LAST ACCOUNT</div><div class="story-title">YOUR ACCOUNT</div>
+      <div id="journal-summary" class="story-prose"></div>
+      <div id="journal-entries"></div>
+      <button id="journal-close" class="btn btn-am">ESC / J · RETURN</button>
+    </div>
+  </div>
+
   <!-- ══ VICTORY ══ -->
   <div id="s-vic" class="scr">
-    <div style="color:var(--am);font-family:'VT323',monospace;font-size:44px;letter-spacing:3px;text-shadow:0 0 14px var(--am);">THE KING IS SLAIN</div>
+    <div id="vic-title" style="color:var(--am);font-family:'VT323',monospace;font-size:44px;letter-spacing:3px;text-shadow:0 0 14px var(--am);">THE KING IS SLAIN</div>
+    <div id="vic-story" class="story-prose" hidden></div>
     <div id="vic-st" style="color:var(--dg);font-size:13px;line-height:2.1;"></div>
-    <div class="blink" style="font-size:22px;">*** GLORY ETERNAL ***</div>
-    <div style="color:var(--dg);font-size:13px;letter-spacing:2px;margin-top:8px;">PRESS ENTER TO PLAY AGAIN</div>
+    <div id="vic-tagline" class="blink" style="font-size:22px;">*** GLORY ETERNAL ***</div>
+    <div class="actions"><button class="btn btn-am" id="again-btn">ENTER · PLAY AGAIN</button><button class="btn" id="vic-journal-btn" hidden>J · JOURNAL</button></div>
   </div>
 </div>
 
-<!-- ══ PAUSE OVERLAY ══ -->
-<div id="pause-overlay" style="display:none;position:fixed;inset:0;z-index:600;background:rgba(0,0,0,.92);align-items:center;justify-content:center;">
-  <div style="border:1px solid var(--am);background:#000;padding:20px 28px;min-width:260px;text-align:center;">
-    <div class="phdr" style="font-size:22px;letter-spacing:4px;margin-bottom:14px;">II PAUSED</div>
-    <div id="pause-music-row" style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--bdr);">
-      <span style="color:var(--dg);font-size:13px;">MUSIC</span>
-      <span id="pause-music-val" style="color:var(--am);font-size:14px;letter-spacing:2px;">ON</span>
-    </div>
-    <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--bdr);margin-bottom:8px;">
-      <span style="color:var(--dg);font-size:13px;">SWAP HINTS</span>
-      <span id="pause-hints-val" style="color:var(--am);font-size:14px;letter-spacing:2px;">ON</span>
-    </div>
-    <div style="color:var(--dg);font-size:11px;line-height:2;margin-top:10px;">
-      M = TOGGLE MUSIC<br>
-      H = TOGGLE HINTS<br>
-      ESC / P = RESUME
-    </div>
+<!-- ══ PAUSE / FIELD GUIDE ══ -->
+<div id="pause-overlay" role="dialog" aria-modal="true" aria-labelledby="pause-title" style="display:none;position:fixed;inset:0;z-index:600;background:rgba(0,0,0,.92);align-items:center;justify-content:center;">
+ <div class="modal-box">
+  <div class="phdr" id="pause-title">II PAUSED · FIELD GUIDE</div>
+  <div class="guide">
+   <p><strong>Explore → fight → improve → descend.</strong> Walk into an enemy to fight. Find <strong>$</strong> vaults for supplies and <strong>§</strong> merchants for permanent upgrades. The Warden and King seal the stairs on floors 5 and 10.</p>
+   <p>Select two neighbouring tiles to make a line of three. Invalid swaps are free. <strong>A straight line of 4+ grants an extra turn</strong>, including cascades; one bonus per move. Against ordinary enemies, a bonus turn cannot earn another bonus turn; bosses can still chain them. Cascades increase match strength.</p>
+   <table><tbody>
+    <tr><td style="color:var(--re)">♠ ATTACK</td><td>Weapon damage. Your attack and skill boost matter; enemy armour reduces it.</td></tr>
+    <tr><td style="color:var(--bl)">◆ DEFENCE</td><td>Gain shield. It absorbs hits and lasts for this fight.</td></tr>
+    <tr><td style="color:var(--mg)">★ MAGIC</td><td>Spend MP for armour-piercing damage. Low MP means a weaker attack.</td></tr>
+    <tr><td style="color:var(--g)">♥ HEALTH</td><td>Restore HP, up to your maximum.</td></tr>
+    <tr><td style="color:var(--ye)">♣ SKILL</td><td>Restore MP and boost weapon damage for this fight. A line of 4+ also prepares a dodge.</td></tr>
+   </tbody></table>
+   <p><strong>Story mode: The Last Account.</strong> Follow ten short chapters to the Forgotten King. Your choices grant supplies or preserve records; collect at least two of the three register pages to unlock the restoration ending. J opens your journal between fights. Story mode autosaves at safe points; Continue appears on the title screen. Death still ends the run and deletes that checkpoint. C starts Classic without story scenes; E starts Endless.</p>
+   <p><strong>Build your run.</strong> Choose a permanent relic on floors 1, 4 and 7. Equip two of four spells; change them between fights with B. In combat, press 1 or 2 to cast instead of matching. Board Shift is the exception: once per fight, it refreshes the board and keeps your turn. Match ♣ to recharge your MP.</p>
+   <p><strong>Relics trigger automatically.</strong> Match effects apply in combat. Poison and burn ignore armour and tick before the enemy acts. Reapplying either refreshes its duration; it does not add extra turns of damage.</p>
+   <p><strong>Read NEXT.</strong> The enemy will use that move. Shields still block piercing attacks; piercing bypasses your passive defence. Dodge avoids a damaging hit and its effects. STUN skips one player turn automatically.</p>
+   <p><strong>Vaults:</strong> ♠ gold · ◆ shield for your next fight · ★ MP · ♥ HP · ♣ +0.5 gold multiplier, capped at ×3. Match 4+ to keep your vault move. Floor 1 vault gold is capped at 70G and floor 2 at 100G; later vaults are uncapped.</p>
+   <p>WASD / arrows to move · Enter / Space to select · Esc cancels a selected tile, otherwise pauses · . to wait in the dungeon · click, tap or swipe on a board. T rerolls shop stock; Esc / Q leaves the shop.</p>
   </div>
+  <div class="actions">
+   <button class="btn" id="music-btn">MUSIC: <span id="pause-music-val">ON</span></button>
+   <button class="btn" id="hints-btn">HINTS: <span id="pause-hints-val">OFF</span></button>
+   <button class="btn btn-am" id="resume-btn">ESC · RESUME</button>
+   <button class="btn btn-re" id="retire-btn">RETIRE RUN</button>
+  </div>
+  <div id="retire-note" class="board-note" role="status"></div>
+ </div>
 </div>
+
 
 <!-- ══ SHOP OVERLAY (lives outside #wrap) ══ -->
-<div id="shop-overlay">
+<div id="shop-overlay" role="dialog" aria-modal="true" aria-label="Wandering merchant">
   <div id="shop-box">
     <div class="phdr" style="font-size:20px;margin-bottom:10px;letter-spacing:3px;">§ WANDERING MERCHANT §</div>
     <div class="sl" style="margin-bottom:10px;">
@@ -328,13 +542,15 @@ body::after{content:'';position:fixed;inset:0;
       <span class="sv-g" id="shop-gold-disp" style="font-size:13px;">0</span>
     </div>
     <div id="shop-items-list"></div>
-    <div style="margin-top:12px;display:flex;justify-content:space-between;align-items:center;">
-      <div style="color:var(--dg);font-size:11px;line-height:1.8;">
-        ↑↓ NAVIGATE &nbsp;·&nbsp; ENTER BUY &nbsp;·&nbsp; ESC REROLL &nbsp;·&nbsp; Q LEAVE
-      </div>
+    <div id="shop-message" role="status"></div>
+    <div class="actions" style="margin-top:12px;">
+      <button id="reroll-btn" class="btn btn-am">T · REROLL</button>
+      <button id="shop-leave-btn" class="btn btn-cy">ESC / Q · LEAVE</button>
     </div>
+    <div class="legend-line">↑↓ choose · Enter buy · 1–6 select</div>
   </div>
 </div>
+
 
 <script>
 'use strict';
@@ -366,6 +582,7 @@ function tone(f,dur,type='square',vol=0.09,delay=0){
     o.type=type;o.frequency.setValueAtTime(f,t);
     g.gain.setValueAtTime(vol,t);
     g.gain.exponentialRampToValueAtTime(0.001,t+dur);
+    o.onended=()=>{o.disconnect();g.disconnect();};
     o.start(t);o.stop(t+dur+0.01);
   }catch(e){}
 }
@@ -450,6 +667,7 @@ const TUNE_CMB={
 
 // Music state
 let _music={playing:false,tune:null,startT:0,handles:[],fadingOut:false};
+let _fadeTimer=null;
 
 function calcTuneDuration(tune){
   // duration = longest channel in beats → seconds
@@ -464,9 +682,10 @@ function calcTuneDuration(tune){
 
 function playTune(tune){
   stopMusic(true); // immediate stop
-  if(!tune)return;
-  const ctx=ac();
+  if(!tune||S.paused)return;
+  let ctx;try{ctx=ac();if(ctx.state==='suspended')void ctx.resume().catch(()=>{});}catch(_){return;}
   const{music}=getMasterGain();
+  music.gain.cancelScheduledValues(ctx.currentTime);music.gain.value=.28;
   _music.playing=true;_music.tune=tune;_music.handles=[];
 
   function scheduleLoop(startT){
@@ -493,6 +712,7 @@ function playTune(tune){
             g.gain.linearRampToValueAtTime(0,t+on);
             o.start(t);o.stop(t+dur+0.05);
             oHandles.push(o);
+            o.onended=()=>{o.disconnect();g.disconnect();const i=_music.handles.indexOf(o);if(i>=0)_music.handles.splice(i,1);};
           }catch(e){}
         }
         t+=dur;
@@ -502,14 +722,19 @@ function playTune(tune){
     _music.handles.push(...oHandles);
     if(tune.loop){
       // Schedule next loop slightly before this one ends
-      const nxtId=setTimeout(()=>scheduleLoop(startT+loopDur),Math.max(100,(loopDur-0.3)*1000));
-      _music.handles.push({_to:nxtId,stop:()=>clearTimeout(nxtId)});
+      const handle={};
+      handle._to=setTimeout(()=>{
+        const i=_music.handles.indexOf(handle);if(i>=0)_music.handles.splice(i,1);
+        scheduleLoop(Math.max(ctx.currentTime+.03,startT+loopDur));
+      },Math.max(100,(startT+loopDur-ctx.currentTime-.3)*1000));
+      _music.handles.push(handle);
     }
   }
   scheduleLoop(ctx.currentTime+0.05);
 }
 
 function stopMusic(immediate=false){
+  if(_fadeTimer!==null){clearTimeout(_fadeTimer);_fadeTimer=null;}
   _music.playing=false;
   for(const h of _music.handles){
     if(h._to!==undefined)clearTimeout(h._to);
@@ -524,11 +749,11 @@ function fadeOutMusic(){
   const ctx=ac();
   music.gain.setValueAtTime(music.gain.value,ctx.currentTime);
   music.gain.linearRampToValueAtTime(0,ctx.currentTime+0.8);
-  setTimeout(()=>{stopMusic(true);music.gain.value=0.28;},900);
+  _fadeTimer=setTimeout(()=>{_fadeTimer=null;stopMusic(true);music.gain.value=0.28;},900);
 }
 
 function setMusic(which){
-  if(!S.musicOn){stopMusic(true);return;}
+  if(!S.musicOn||S.paused){stopMusic(true);return;}
   if(_music.playing&&_music.tune===(which==='cmb'?TUNE_CMB:TUNE_DUN))return;
   if(which==='cmb')playTune(TUNE_CMB);
   else if(which==='dun')playTune(TUNE_DUN);
@@ -562,7 +787,7 @@ const SFX={
 /* ═══════════════════════════════════════
    CONSTANTS
 ═══════════════════════════════════════ */
-const MW=48,MH=20,BS=7;
+const MW=48,MH=20,BS=7,CAM_W=25,CAM_H=13;
 const TILES=['ATK','DEF','MAG','HLT','SKL'];
 const TC={ATK:'♠',DEF:'◆',MAG:'★',HLT:'♥',SKL:'♣'};
 
@@ -644,34 +869,390 @@ const MOVES={
 
 const SHOP_ITEMS=[
   {name:'HEALING DRAUGHT', desc:'Restore HP to full',          icon:'♥',cost:f=>f*16+12, apply:p=>{p.hp=p.maxHp;}},
+  // Early shops always stock this modest, temporary purchase so the merchant
+  // can be useful before the player can afford permanent stat upgrades.
+  {name:'BRASS WARD CHIT', desc:'Bank 12 shield for your next fight', icon:'▣',cost:f=>f*10+12,single:true,apply:(p,s)=>{s.reserveShield+=12;}},
   {name:'STRENGTH TONIC',  desc:'Attack +4',                   icon:'♠',cost:f=>f*20+14, apply:p=>{p.atk+=4;}},
   {name:'IRON BANDING',    desc:'Defense +3',                  icon:'◆',cost:f=>f*16+12, apply:p=>{p.def+=3;}},
   {name:'VITALITY STONE',  desc:'Max HP +25, heal 20',         icon:'★',cost:f=>f*22+18, apply:p=>{p.maxHp+=25;p.hp=Math.min(p.hp+20,p.maxHp);}},
   {name:'ARCANE TOME',     desc:'Max MP +15, restore MP',      icon:'✦',cost:f=>f*18+14, apply:p=>{p.maxMp+=15;p.mp=p.maxMp;}},
   {name:'SPEED SCROLL',    desc:'Heal 20 HP, ATK +2',          icon:'☼',cost:f=>f*18+14, apply:p=>{p.hp=Math.min(p.maxHp,p.hp+20);p.atk+=2;}},
-  {name:'DODGE POTION',    desc:'Next hit dodged + DEF +2',    icon:'💨',cost:f=>f*20+16, apply:(p,s)=>{s.dodgeNext=true;p.def+=2;}},
+  {name:'DODGE POTION',    desc:'Next hit dodged + DEF +2',    icon:'💨',cost:f=>f*20+16, apply:(p,s)=>{s.reserveDodge=true;p.def+=2;}},
   {name:'BERSERKER BREW',  desc:'ATK +6, DEF -2 (min 1)',      icon:'🗡',cost:f=>f*18+12, apply:p=>{p.atk+=6;p.def=Math.max(1,p.def-2);}},
   {name:'ELIXIR OF FOCUS', desc:'MP restore full, ATK +3',     icon:'◈',cost:f=>f*22+16, apply:p=>{p.mp=p.maxMp;p.atk+=3;}},
-  {name:'BLOODSTONE',      desc:'Max HP +15, ATK +3, DEF +1',  icon:'◉',cost:f=>f*26+20, apply:p=>{p.maxHp+=15;p.hp=Math.min(p.hp+10,p.maxHp);p.atk+=3;p.def+=1;}},
+  {name:'BLOODSTONE',      desc:'Max HP +15, heal 10, ATK +3, DEF +1',  icon:'◉',cost:f=>f*26+20, apply:p=>{p.maxHp+=15;p.hp=Math.min(p.hp+10,p.maxHp);p.atk+=3;p.def+=1;}},
 ];
+
+/* ═══════════════════════════════════════
+   RELICS AND SPELLS
+═══════════════════════════════════════ */
+const RELICS=[
+  {id:'thorns',name:'THORN BUCKLER',mark:'[◆]',desc:'When shield blocks a hit, return half the blocked damage to the enemy (rounded up).',tip:'Pair with Iron Ward. Turn defence into an attack.'},
+  {id:'bloom',name:'PLAGUE BLOOM',mark:'[♥]',desc:'Health matches poison the enemy for 3 enemy turns, even at full HP. Poison deals 4 + twice your level each turn.',tip:'Keep healing while poison does the work.'},
+  {id:'coil',name:'STORM COIL',mark:'[♣]',desc:'Each skill match restores 4 extra MP, on top of its normal mana and attack boost.',tip:'Recharge quickly and cast more often.'},
+  {id:'fang',name:'VAMPIRE FANG',mark:'[♠]',desc:'Attack matches heal you for 25% of the damage actually dealt, rounded up.',tip:'Weapon damage becomes a source of healing.'},
+  {id:'lens',name:'ASHEN LENS',mark:'[★]',desc:'Magic matches and equipped spells cost 25% less MP, rounded up. Full damage is unchanged.',tip:'Make your mana last through longer fights.'},
+  {id:'ember',name:'EMBER FLINT',mark:'[*]',desc:'Any straight match of 4+ burns the enemy for 9 damage on each of the next 2 enemy turns.',tip:'Extra turns set up a painful enemy response.'},
+];
+const SPELLS=[
+  {id:'bolt',name:'ARC BOLT',cost:14,desc:'Deal 12 + twice your ATK as piercing damage. Ends your turn.'},
+  {id:'mend',name:'MEND',cost:12,desc:'Heal 16 + twice your level and remove burn. Ends your turn.'},
+  {id:'ward',name:'IRON WARD',cost:10,desc:'Gain 12 + four times your level as shield. Ends your turn.'},
+  {id:'shift',name:'BOARD SHIFT',cost:8,desc:'Refresh the board and keep your turn. Once per fight.'},
+];
+function hasRelic(id){return S.relics.includes(id);}
+function manaCost(base){return Math.max(1,Math.ceil(base*(hasRelic('lens')?.75:1)));}
+function relicLabels(el){
+  el.replaceChildren();
+  if(!S.relics.length){el.textContent='No relics yet.';return;}
+  for(const id of S.relics){
+    const relic=RELICS.find(r=>r.id===id);if(!relic)continue;
+    const chip=document.createElement('span');chip.className='relic-chip';chip.textContent=relic.name;chip.title=relic.desc;el.append(chip);
+  }
+}
+function openBuild(reward=false){
+  if(S.mode!=='dun'||S.paused)return;
+  S.relicChoices=[];S.relicIdx=0;
+  if(reward&&[1,4,7].includes(S.floor)&&!S.relicFloors.includes(S.floor)){
+    const pool=RELICS.filter(r=>!hasRelic(r.id));
+    for(let i=pool.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[pool[i],pool[j]]=[pool[j],pool[i]];}
+    S.relicChoices=pool.slice(0,3).map(r=>r.id);
+  }
+  enterMode('build');showScr('build');renderBuild();ge('s-build').focus({preventScroll:true});checkpointStory();
+}
+function renderBuild(message=''){
+  const reward=S.relicChoices.length>0;
+  ge('build-title').textContent=reward?(S.floor===1?'PACK FOR THE DESCENT':'RELIC CHAMBER'):'YOUR BUILD';
+  ge('build-intro').textContent=reward?`Floor ${S.floor}. Equip two spells, then claim one relic. ${S.floor<7?`Your next relic awaits on floor ${S.floor<4?4:7}.`:'This completes your three-relic build.'}`:'Change your spells before the next fight. Relics are permanent for this run; their effects combine.';
+  relicLabels(ge('build-summary'));
+  ge('spell-choice-title').textContent=`EQUIP TWO SPELLS · ${S.equippedSpells.length}/2`;
+  const spells=ge('spell-choices');spells.replaceChildren();
+  SPELLS.forEach((spell,i)=>{
+    const slot=S.equippedSpells.indexOf(spell.id),selected=slot>=0;
+    const b=document.createElement('button');b.className='choice'+(selected?' equipped':'');b.type='button';
+    b.setAttribute('aria-pressed',String(selected));b.dataset.spell=spell.id;
+    const name=document.createElement('strong');name.textContent=`${i+1}. ${spell.name}`;
+    const cost=document.createElement('span');cost.textContent=`${manaCost(spell.cost)} MP${selected?` · EQUIPPED IN SLOT ${slot+1}`:''}`;
+    const desc=document.createElement('span');desc.textContent=spell.desc;
+    b.append(name,cost,desc);b.addEventListener('click',()=>toggleSpell(spell.id));spells.append(b);
+  });
+  const choices=ge('relic-choices');choices.replaceChildren();ge('relic-choice-title').hidden=!reward;
+  S.relicChoices.forEach((id,i)=>{
+    const relic=RELICS.find(r=>r.id===id),b=document.createElement('button');b.className='choice'+(i===S.relicIdx?' selected':'');b.type='button';
+    b.setAttribute('aria-pressed',String(i===S.relicIdx));b.dataset.relic=id;
+    const name=document.createElement('strong');name.textContent=`${relic.mark} ${relic.name}`;
+    const desc=document.createElement('span');desc.textContent=relic.desc;
+    const tip=document.createElement('span');tip.style.color='var(--cy)';tip.style.marginTop='8px';tip.textContent=relic.tip;
+    b.append(name,desc,tip);b.addEventListener('click',()=>selectRelic(i));choices.append(b);
+  });
+  ge('build-confirm').disabled=S.equippedSpells.length!==2;
+  ge('build-confirm').textContent=reward?'ENTER · CLAIM RELIC & CONTINUE':'ENTER · RETURN TO DUNGEON';
+  ge('build-message').textContent=message||'Choose exactly two spells. Remove an equipped spell to make room for another.';
+}
+function selectRelic(i){
+  if(S.mode!=='build'||S.paused||!S.relicChoices[i])return;
+  S.relicIdx=i;SFX.cursor();renderBuild();ge('s-build').focus({preventScroll:true});
+}
+function toggleSpell(id){
+  if(S.mode!=='build'||S.paused||!SPELLS.some(s=>s.id===id))return;
+  const index=S.equippedSpells.indexOf(id);
+  if(index>=0)S.equippedSpells.splice(index,1);
+  else if(S.equippedSpells.length<2)S.equippedSpells.push(id);
+  else{renderBuild('Two spells are already equipped. Remove one first.');ge('s-build').focus({preventScroll:true});return;}
+  SFX.sel();renderBuild();ge('s-build').focus({preventScroll:true});
+}
+function finishBuild(){
+  if(S.mode!=='build'||S.paused||S.equippedSpells.length!==2)return;
+  const id=S.relicChoices[S.relicIdx];
+  if(id){
+    if(hasRelic(id)||S.relicFloors.includes(S.floor))return;
+    S.relics.push(id);S.relicFloors.push(S.floor);SFX.loot();log(`RELIC: ${RELICS.find(r=>r.id===id).name}`,'l');
+  }
+  S.relicChoices=[];enterMode('dun');showScr('dun');renderMap();updateDUI();setMusic('dun');checkpointStory();
+}
+function spellUnavailable(spell){
+  if(spell.id==='shift'&&S.usedSpells.shift)return 'USED THIS FIGHT';
+  if(spell.id==='mend'&&S.p.hp>=S.p.maxHp&&!(S.pstatus.burn>0))return 'FULL HP';
+  if(S.p.mp<manaCost(spell.cost))return 'NEED MP';
+  return '';
+}
+function spellEffectLabel(id){
+  return id==='bolt'?`${12+S.p.atk*2} piercing damage`:id==='mend'?`Heal ${16+S.p.level*2} HP; cleanse burn`:id==='ward'?`+${12+S.p.level*4} shield`:'Fresh board · once per fight';
+}
+function updateSpells(){
+  const el=ge('spell-bar');if(!el)return;
+  if(el.children.length!==2){
+    el.replaceChildren();
+    for(let i=0;i<2;i++){
+      const b=document.createElement('button');b.type='button';b.className='btn btn-cy spell-btn';b.dataset.slot=i;
+      b.append(document.createElement('strong'),document.createElement('span'));
+      b.addEventListener('click',()=>void castSpell(i));el.append(b);
+    }
+  }
+  for(let i=0;i<2;i++){
+    const spell=SPELLS.find(s=>s.id===S.equippedSpells[i]),b=el.children[i];
+    if(!spell){b.disabled=true;b.firstChild.textContent='NO SPELL';b.lastChild.textContent='';continue;}
+    const reason=spellUnavailable(spell);b.disabled=!liveBoard()||!!reason;
+    b.firstChild.textContent=`${i+1}. ${spell.name} · ${manaCost(spell.cost)} MP`;
+    b.lastChild.textContent=reason||spellEffectLabel(spell.id);b.title=spell.desc;
+  }
+}
+async function castSpell(slot){
+  if(!liveBoard())return;
+  const spell=SPELLS.find(s=>s.id===S.equippedSpells[slot]);if(!spell)return;
+  const reason=spellUnavailable(spell);
+  if(reason){feedback(`${spell.name}: ${reason==='NEED MP'?`need ${manaCost(spell.cost)} MP — match ♣ to recharge`:reason.toLowerCase()}.`);SFX.badswap();return;}
+  const token=sceneToken(),cost=manaCost(spell.cost);S.processing=true;S.bsel=null;S.p.mp-=cost;
+  ge('c-cbo').textContent='';updateCUI();renderBoard();
+  if(!await gameDelay(180,token))return;
+  S.spellCasts++;SFX.m4();
+  if(spell.id==='bolt'){
+    const damage=Math.min(S.enemy.hp,12+S.p.atk*2);S.enemy.hp-=damage;
+    clog(`ARC BOLT: ${damage} piercing damage (−${cost}MP)`,'mag');
+  }else if(spell.id==='mend'){
+    const healed=Math.min(S.p.maxHp-S.p.hp,16+S.p.level*2);S.p.hp+=healed;delete S.pstatus.burn;
+    clog(`MEND: +${healed} HP, burn removed (−${cost}MP)`,'hlt');
+  }else if(spell.id==='ward'){
+    const shield=12+S.p.level*4;S.shield+=shield;clog(`IRON WARD: +${shield} shield (−${cost}MP)`,'def');
+  }else if(spell.id==='shift'){
+    S.usedSpells.shift=true;initBoard('cmb');clog(`BOARD SHIFT: fresh board, same turn (−${cost}MP)`,'skl');
+  }
+  updateCUI();if(checkEnd())return;
+  S.processing=false;
+  if(spell.id==='shift'){feedback('Fresh board. You still have your turn; the enemy intent is unchanged.');setTurn(true);}
+  else{feedback(`${spell.name} cast. The enemy responds next.`);setTurn(false);}
+  renderBoard();updateSpells();
+}
+
+/* ═══════════════════════════════════════
+   THE LAST ACCOUNT — ten short chapters
+═══════════════════════════════════════ */
+const CHAPTERS=['The Door Under the Town','The Names on the Shelves','The Tin Market','The Archive of Small Things',"The Warden's Oath",'Rooms for the Not-Yet-Dead','A Familiar Name',"The King's Engines",'The Last Stair','The Forgotten King'];
+function recoverPage(id){if(!S.story.pages.includes(id))S.story.pages.push(id);}
+function storyHeal(amount){S.p.hp=Math.min(S.p.maxHp,S.p.hp+amount);}
+function storyMana(amount){S.p.mp=Math.min(S.p.maxMp,S.p.mp+amount);}
+function storyScene(id){
+  const freed=S.story.flags.warden==='released',pages=S.story.pages.length;
+  const go={title:'Keep going',consequence:'Continue into the dungeon.'};
+  const scenes={
+    floor1:{title:CHAPTERS[0],body:[
+      'The town of Bellglass has begun forgetting its people. At first it was the dead. Yesterday a woman forgot the man sitting opposite her at breakfast. He took it badly.',
+      'Mara, the town clerk, opens a door beneath the registry. “The records are being taken downstairs. Ten floors. A king nobody remembers. Bring back what you can.”',
+      'She offers you one of the last useful things in her desk. Neither is a sword. “Budget cuts,” she says.'
+    ],choices:[
+      {title:'Take the field dressing',consequence:'+12 maximum HP and +12 HP.',result:'Mara helps you bind it properly. “Try to remain the person named on the form.”',effect:()=>{S.p.maxHp+=12;storyHeal(12);S.story.flags.kit='dressing';}},
+      {title:'Take the arcane battery',consequence:'+8 maximum MP and +8 MP.',result:'The battery hums in your pocket. Mara steps back. “Probably still under warranty.”',effect:()=>{S.p.maxMp+=8;storyMana(8);S.story.flags.kit='battery';}}
+    ]},
+    floor2:{title:CHAPTERS[1],body:[
+      'Wooden shelves hold thousands of little metal boxes. Each has a name. Most are empty. A few knock when you pass.',
+      'Inside a broken box you find a register page wrapped around a handful of silver. Its fading letters steady when you touch them. You can preserve the page, or sell the box and its contents for supplies.'
+    ],choices:[
+      {title:'Preserve the register page',consequence:'Recover page 1. Restore up to 10 MP. Two pages unlock a restoration ending.',result:'The letters settle into ordinary handwriting. For a moment, you remember people you have never met.',effect:()=>{recoverPage('shelves');storyMana(10);}},
+      {title:'Take the salvage',consequence:'+35 gold. This register page is lost.',result:'The page flakes apart as you pull the silver free. The box is easier to carry without it.',effect:()=>{S.p.gold+=35;S.story.flags.shelves='salvaged';}}
+    ]},
+    floor3:{title:CHAPTERS[2],body:[
+      'Someone has built a market out of bent tin and old doors. Ivo the merchant has a kettle, a price list and absolutely no intention of becoming a hero.',
+      '“The King bought a machine to abolish death,” he says. “Then he needed somewhere to put it all. We are standing in the somewhere.”',
+      'He points towards a shop marked §. “I can help with equipment. Large historical mistakes are outside the guarantee.”'
+    ],choices:[go]},
+    floor4:{title:CHAPTERS[3],body:[
+      'Births, debts, lost umbrellas, complaints about dogs. The shelves record a city in all its unremarkable detail. The royal histories occupy one very dusty corner.',
+      'A surviving index page lies inside a brass cabinet. Carefully copying it would preserve another set of names. Breaking up the cabinet would buy better equipment.'
+    ],choices:[
+      {title:'Copy the index page',consequence:'Recover page 2. Bank 10 shield for your next fight.',result:'You copy the names, including the spelling mistakes. The cabinet yields a small ward seal as you close it.',effect:()=>{recoverPage('archive');S.reserveShield+=10;}},
+      {title:'Break up the brass cabinet',consequence:'+60 gold. This register page is lost.',result:'The cabinet comes apart cleanly. Its contents do not. You leave with a heavy bag of brass.',effect:()=>{S.p.gold+=60;S.story.flags.archive='salvaged';}}
+    ]},
+    floor5:{title:CHAPTERS[4],body:[
+      'The Warden stands before the lower stairs. Keys cover his armour. He has been guarding this door so long that the keys have rusted into it.',
+      '“No one leaves while the King still needs them.”',
+      'You ask whether the King needs him. The Warden looks down at his hands. Then he raises his weapon.'
+    ],choices:[{title:'Face the Warden',consequence:'Find and defeat W to unseal the stairs. His next move is shown in combat.'}]},
+    warden:{title:'A Man Without an Order',body:[
+      'The Warden falls to one knee. His keys scatter over the floor. For the first time in centuries, nobody is telling him what to do.',
+      '“I was meant to keep them safe,” he says. Beside him lie a release key and a pouch of wages paid by a city that no longer remembers him.'
+    ],choices:[
+      {title:'Use the key to release him',consequence:'An ally will bring 20 shield and up to 12 HP on floor 9.',result:'You turn the key. He stands slowly, as though learning the weight of his own body. “I will meet you further down.”',effect:()=>{S.story.flags.warden='released';}},
+      {title:'Take the wages and move on',consequence:'+45 gold now. The Warden remains bound to his post.',result:'The pouch is heavy. Behind you, the Warden begins gathering his keys.',effect:()=>{S.p.gold+=45;S.story.flags.warden='left';}}
+    ]},
+    floor6:{title:CHAPTERS[5],body:[
+      'These rooms were prepared for people who had not died yet. Some beds have been made for children not yet born. A royal decree calls this “forward planning”.',
+      'The machine has run out of dead people to keep. Now it is taking the names of the living, making room for them in advance.',
+      freed?'An unlocked service door bears a fresh scratch: W. Someone has gone ahead of you.':'Every service door is locked. Somewhere above, a familiar set of keys is still being counted.'
+    ],choices:[go]},
+    floor7:{title:CHAPTERS[6],body:[
+      'You recognise the handwriting before the name. Mara has pencilled a small correction beneath her brother Tomas’s entry: “Not Thomas. He gets cross.”',
+      'The page is held inside a working seal. You can recover it intact, or break the seal and draw its power into your weapon.'
+    ],choices:[
+      {title:'Recover Tomas’s page',consequence:'Recover page 3. Restore up to 12 HP.',result:'The page warms in your hand. Far above, someone may be remembering an irritating brother.',effect:()=>{recoverPage('tomas');storyHeal(12);}},
+      {title:'Take the seal’s power',consequence:'+3 permanent ATK and up to 10 MP. Tomas’s page is destroyed.',result:'Your weapon brightens. For a second, a name is visible inside the light. Then it is gone.',effect:()=>{S.p.atk+=3;storyMana(10);S.story.flags.tomas='lost';}}
+    ]},
+    floor8:{title:CHAPTERS[7],body:[
+      'The engines turn without fuel. Their wheels are names; their teeth are dates. They keep the King alive by taking everyone else out of the story.',
+      pages>=2?'With two surviving pages you can cross-reference the damaged entries. There is a way to recover the records before shutting the machine down.':'Too few pages remain to reconstruct the register. You can still stop the machine. You cannot recover everything it has taken.',
+      'Ivo has opened another stall by the service lift. “Last chance for supplies,” he says. “I am not extending credit to a possible monarch.”'
+    ],choices:[go]},
+    floor9:{title:CHAPTERS[8],body:freed?[
+      'The Warden waits beside the last stair. He has brought a shield and a bottle from the infirmary. His armour looks smaller without the keys.',
+      '“I cannot undo my watch,” he says. “I can help you end it.”',
+      'For once, he is standing beside the door instead of in front of it.'
+    ]:[
+      'The last stair is quiet. There is no final herald, no army, no reassuring prophecy. Just the noise of the engines below.',
+      'You count your supplies. Somewhere in the town above, Mara is waiting beside an increasingly empty book.'
+    ],choices:[freed?{title:'Accept his help',consequence:'Bank 20 shield for your next fight and restore up to 12 HP.',result:'The Warden holds the service door open. “Go on. I know how to wait.”',effect:()=>{S.reserveShield+=20;storyHeal(12);}}:go]},
+    floor10:{title:CHAPTERS[9],body:[
+      'The throne room is mostly machinery. The King sits in the only chair that has not been turned into a filing cabinet.',
+      '“I saved them from death,” he says. You ask him to name one of them. He cannot. He cannot remember his own name either.',
+      'His crown flickers. “If I stop, what was any of it for?” The engines answer for him, and the doors close.'
+    ],choices:[{title:'Confront the Forgotten King',consequence:'Find K and win the final battle. Then decide what happens to the crown.'}]},
+    ending:{title:'The Last Account',body:[
+      'The King is beaten. Without his hand on the armrest, he seems smaller than his crown. The engines keep turning.',
+      'Beside the throne are a breaker lever, a writing desk and an empty place for a new keeper. Nobody is coming to make this decision for you.'
+    ],choices:[
+      {title:'Break the crown',consequence:'Stop the machinery now. Unrecovered names will be lost.',effect:()=>{S.story.ending='break';}},
+      {title:'Restore the register, then shut it down',consequence:pages>=2?'Use the recovered pages to save many names before ending the machine.':`Requires 2 register pages. You recovered ${pages}/3.`,locked:pages<2,effect:()=>{S.story.ending='restore';}},
+      {title:'Take the crown',consequence:'Keep the machinery running, with you in charge.',effect:()=>{S.story.ending='crown';}}
+    ]}
+  };
+  return scenes[id]||null;
+}
+function storyEnding(){
+  const f=S.story.flags,p=S.story.pages;
+  const endings={
+    break:{title:'THE DOORS OPEN',tagline:'THE WORK OF LIVING RESUMES',body:[
+      'The crown breaks with an ordinary metal crack. All ten floors go quiet. The locked doors open, one after another.',
+      'In Bellglass, people begin remembering one another. Some names do not come back. Mara keeps those spaces in the register instead of pretending the book is complete.',
+      f.warden==='released'?'The former Warden takes a job fixing gates. He insists they should open from both sides.':'The Warden’s keys finally fall from his armour. He has missed a great deal. There is still a street outside.',
+      'There is no declaration of eternal glory. Ivo sends you an invoice. The town has work in the morning.'
+    ]},
+    restore:{title:'THE NAMES RETURN',tagline:'REMEMBERING IS A HUMAN JOB',body:[
+      'You use the surviving pages to reconstruct the damaged register. Then you copy the names onto ordinary paper and pull the breaker. The dead are allowed to be dead. The living are allowed to leave.',
+      p.includes('tomas')?'Mara finds her brother’s entry. “Tomas,” she says, carefully. He complains about the spelling before he thanks anyone.':'Mara helps recover hundreds of names. She leaves a space for Tomas. You have no clever answer for that.',
+      f.warden==='released'?'The Warden carries the boxes upstairs. This time he is helping people leave.':'The released guards come up blinking into daylight. Nobody is quite sure what to do with their uniforms.',
+      'The new archive has no enchantment. Paper tears; ink fades; people make mistakes. The town agrees to look after it anyway.'
+    ]},
+    crown:{title:'THE NEW KEEPER',tagline:'PLEASE PRINT YOUR NAME CLEARLY',body:[
+      'The crown fits. It was never particular about heads.',
+      'You write new rules: fairer ones, sensible ones, rules that will prevent anything like this from happening again. The engines accept them without comment.',
+      f.warden==='released'?'The Warden sees you on the throne. He puts down his keys and leaves before you can give him an order.':'Somewhere upstairs, the Warden receives his first instruction in a new handwriting.',
+      'A blank form slides onto the desk. ADDITIONAL CAPACITY REQUIRED. Underneath is a space for a name. From the town above comes the sound of breakfast.'
+    ]}
+  };
+  return endings[S.story.ending]||endings.break;
+}
+function storyParagraphs(el,paragraphs){
+  el.replaceChildren();
+  for(const text of paragraphs){const p=document.createElement('p');p.textContent=text;el.append(p);}
+}
+function openStory(id,next='dun'){
+  if(!S.storyMode||S.mode!=='dun'||S.paused||S.story.seen.includes(id)||!storyScene(id))return false;
+  S.story.current=id;S.story.next=next;S.story.choiceIdx=0;S.story.resolved=false;
+  enterMode('story');showScr('story');renderStory();ge('s-story').focus({preventScroll:true});checkpointStory();return true;
+}
+function renderStory(message=''){
+  const scene=storyScene(S.story.current);if(!scene)return;
+  ge('story-kicker').textContent=`THE LAST ACCOUNT · ${S.story.current==='ending'?'THE FINAL CHOICE':`FLOOR ${S.floor} / 10`} · PAGES ${S.story.pages.length}/3`;
+  ge('story-title').textContent=scene.title;storyParagraphs(ge('story-body'),scene.body);
+  const list=ge('story-choice-list');list.replaceChildren();
+  if(!S.story.resolved)scene.choices.forEach((choice,i)=>{
+    const button=document.createElement('button');button.type='button';button.className='story-choice'+(S.story.choiceIdx===i?' selected':'');button.disabled=!!choice.locked;
+    const title=document.createElement('strong');title.textContent=`${i+1}. ${choice.title}`;
+    const detail=document.createElement('span');detail.textContent=choice.consequence;
+    button.append(title,detail);button.addEventListener('click',()=>chooseStory(i));list.append(button);
+  });
+  ge('story-result').textContent=S.story.resolved?(S.story.journal.at(-1)?.result||''):'';
+  ge('story-message').textContent=message;
+  ge('story-continue').hidden=!S.story.resolved;
+  ge('story-controls').textContent=S.story.resolved?'Enter continue · J journal · P pause':'↑↓ choose · Enter confirm · 1–3 choose directly · P pause';
+}
+function chooseStory(index){
+  if(S.mode!=='story'||S.paused||S.story.resolved||S.story.seen.includes(S.story.current))return;
+  const scene=storyScene(S.story.current),choice=scene?.choices[index];if(!choice)return;
+  if(choice.locked){renderStory('You need two recovered register pages for this ending.');return;}
+  const id=S.story.current;
+  S.story.seen.push(id);S.story.resolved=true;
+  if(choice.effect)choice.effect();
+  S.story.journal.push({id,title:scene.title,body:[...scene.body],choice:choice.title,consequence:choice.consequence,result:choice.result||''});
+  log(`${scene.title}: ${choice.title}`,'s');updateDUI();SFX.sel();
+  if(id==='ending'||!choice.result){finishStoryScene();return;}
+  renderStory();ge('s-story').focus({preventScroll:true});checkpointStory();
+}
+function finishStoryScene(){
+  if(S.mode!=='story'||S.paused||!S.story.resolved)return;
+  const id=S.story.current,next=S.story.next;S.story.current=null;
+  enterMode('dun');
+  if(id==='ending'){victory();return;}
+  if(next==='build'){openBuild(true);return;}
+  showScr('dun');renderMap();updateDUI();checkpointStory();
+}
+function openJournal(){
+  if(!S.storyMode||S.paused||!['dun','build','story','victory'].includes(S.mode))return;
+  S.story.journalReturn=S.mode;enterMode('journal');showScr('journal');
+  ge('journal-summary').textContent=`Register pages: ${S.story.pages.length}/3. Two are needed to restore the register. Your completed scenes and choices are recorded below.`;
+  const list=ge('journal-entries');list.replaceChildren();
+  if(!S.story.journal.length)list.textContent='Your account begins with your first choice.';
+  for(const entry of S.story.journal){
+    const section=document.createElement('section');section.className='journal-entry';
+    const h=document.createElement('h3');h.textContent=entry.title;
+    const body=document.createElement('div');body.className='story-prose';storyParagraphs(body,entry.body);
+    const choice=document.createElement('div');choice.className='journal-choice';choice.textContent=`Your choice: ${entry.choice}. ${entry.consequence}${entry.result?' '+entry.result:''}`;
+    section.append(h,body,choice);list.append(section);
+  }
+  ge('s-journal').scrollTop=0;ge('s-journal').focus({preventScroll:true});
+}
+function closeJournal(){
+  if(S.mode!=='journal'||S.paused)return;
+  const mode=S.story.journalReturn;enterMode(mode);showScr(mode==='victory'?'vic':mode);
+  if(mode==='story'){renderStory();ge('s-story').focus({preventScroll:true});}
+  if(mode==='build'){renderBuild();ge('s-build').focus({preventScroll:true});}
+}
+function configureStoryFloor(){
+  if(!S.storyMode||!S.map)return;
+  const middle=S.map.rooms.slice(1,-1);
+
+  // Chapters 3 and 8 explicitly promise a merchant, so reserve one real room.
+  if([3,8].includes(S.floor)&&!middle.some(r=>r.type==='shop')){
+    const normals=middle.filter(r=>r.type==='normal');
+    // Keep at least two combat rooms where possible; otherwise trade a vault for the shop.
+    const room=normals.length>2?normals.at(-1):middle.find(r=>r.type==='treasure');
+    if(room){room.type='shop';S.map.grid[room.cy][room.cx]='§';}
+  }
+
+  // Story floors should contain enough actual dungeon to carry the prose. Two encounter
+  // rooms is the minimum; preserve floor 1's teaching vault and the promised shops.
+  let encounters=middle.filter(r=>r.type==='normal'||r.type==='boss').length;
+  const protectedShop=[3,8].includes(S.floor)?middle.find(r=>r.type==='shop'):null;
+  const protectedTreasure=S.floor===1?middle.find(r=>r.type==='treasure'):null;
+  const services=middle.filter(r=>(r.type==='shop'||r.type==='treasure')&&r!==protectedShop&&r!==protectedTreasure);
+  while(encounters<2&&services.length){
+    const room=services.shift();room.type='normal';S.map.grid[room.cy][room.cx]='.';encounters++;
+  }
+}
+function enterStoryFloor(){
+  if(S.storyMode)return openStory(`floor${S.floor}`,[1,4,7].includes(S.floor)?'build':'dun');
+  if([1,4,7].includes(S.floor))openBuild(true);
+  return false;
+}
 
 /* ═══════════════════════════════════════
    STATE
 ═══════════════════════════════════════ */
 let S={};
 function fresh(){return{
-  mode:'title',floor:1,endless:false,
+  mode:'title',scene:0,floor:1,endless:false,storyMode:false,combatEnded:false,enemyActing:false,
+  story:{pages:[],flags:{},seen:[],journal:[],current:null,choiceIdx:0,resolved:false,next:'dun',ending:null,completed:false,journalReturn:'dun'},
+  reserveShield:0,reserveDodge:false,bosses:[],extraTurns:0,bestCombo:0,retireArmed:false,
+  relics:[],relicFloors:[],relicChoices:[],relicIdx:0,equippedSpells:['bolt','mend'],usedSpells:{},spellCasts:0,
   p:{x:2,y:2,hp:80,maxHp:80,mp:30,maxMp:30,atk:8,def:3,level:1,xp:0,xpNext:80,gold:0,kills:0},
   map:null,enemies:[],seen:null,
   enemy:null,
-  board:[],   bc:{r:3,c:3},  bsel:null, processing:false, playerTurn:true,
+  board:[],   bc:{r:3,c:3},  bsel:null, processing:false, playerTurn:true, bonusTurn:false,
   shield:0,atkBuff:1.0,dodgeNext:false,estatus:{},pstatus:{},
   tboard:[],  tc:{r:3,c:3},  tsel:null, tproc:false,
   tTurns:0,tGold:0,tHp:0,tGoldMult:1,
   shopIdx:0,
   shopItems:null,shopRerolls:0,
-  musicOn:true,
-  hintsOn:false,
+  musicOn:loadSettings().musicOn,
+  hintsOn:loadSettings().hintsOn,
   paused:false,
   totalKills:0,
 };}
@@ -679,6 +1260,123 @@ function fresh(){return{
 /* ═══════════════════════════════════════
    DUNGEON GENERATION
 ═══════════════════════════════════════ */
+
+function loadSettings(){
+  try{const v=JSON.parse(localStorage.getItem('adv_settings')||'{}');return {musicOn:v.musicOn!==false,hintsOn:v.hintsOn===true};}
+  catch(_){return {musicOn:true,hintsOn:false};}
+}
+function saveSettings(){try{localStorage.setItem('adv_settings',JSON.stringify({musicOn:S.musicOn,hintsOn:S.hintsOn}));}catch(_){}}
+
+/* ═══════════════════════════════════════
+   STORY CHECKPOINT — safe-state autosave
+═══════════════════════════════════════ */
+const STORY_SAVE_KEY='adv_story_save_v1',STORY_SAVE_VERSION=1;
+function storySaveMode(){
+  const mode=S.mode==='journal'?S.story?.journalReturn:S.mode;
+  return ['dun','story','build','shop'].includes(mode)?mode:null;
+}
+function storySavePayload(){
+  const mode=storySaveMode();
+  if(!mode||!S.storyMode||S.endless||!S.map||S.p?.hp<=0||S.story?.completed)return null;
+  return{
+    version:STORY_SAVE_VERSION,savedAt:Date.now(),mode,
+    floor:S.floor,reserveShield:S.reserveShield,reserveDodge:S.reserveDodge,
+    bosses:[...S.bosses],extraTurns:S.extraTurns,bestCombo:S.bestCombo,
+    relics:[...S.relics],relicFloors:[...S.relicFloors],relicChoices:[...S.relicChoices],relicIdx:S.relicIdx,
+    equippedSpells:[...S.equippedSpells],spellCasts:S.spellCasts,totalKills:S.totalKills,
+    p:JSON.parse(JSON.stringify(S.p)),map:JSON.parse(JSON.stringify(S.map)),
+    enemies:JSON.parse(JSON.stringify(S.enemies)),seen:JSON.parse(JSON.stringify(S.seen)),
+    story:JSON.parse(JSON.stringify(S.story)),
+    shopIdx:S.shopIdx,shopRerolls:S.shopRerolls,
+    shopItemNames:S.shopItems?S.shopItems.map(item=>item.name):null
+  };
+}
+function checkpointStory(){
+  const payload=storySavePayload();if(!payload)return false;
+  try{localStorage.setItem(STORY_SAVE_KEY,JSON.stringify(payload));updateContinueUI();return true;}catch(_){return false;}
+}
+function clearStorySave(){
+  try{localStorage.removeItem(STORY_SAVE_KEY);}catch(_){}
+  updateContinueUI();
+}
+function readStorySave(){
+  try{
+    const d=JSON.parse(localStorage.getItem(STORY_SAVE_KEY)||'null');
+    if(!d||d.version!==STORY_SAVE_VERSION||!['dun','story','build','shop'].includes(d.mode))return null;
+    if(!Number.isInteger(d.floor)||d.floor<1||d.floor>10||!d.p||!Number.isFinite(d.p.hp)||d.p.hp<=0)return null;
+    if(!d.map||!Array.isArray(d.map.grid)||d.map.grid.length!==MH||!d.map.grid.every(r=>Array.isArray(r)&&r.length===MW))return null;
+    if(!Array.isArray(d.seen)||d.seen.length!==MH||!d.seen.every(r=>Array.isArray(r)&&r.length===MW))return null;
+    if(!Array.isArray(d.enemies)||!d.story||!Array.isArray(d.story.pages)||!Array.isArray(d.story.seen)||!Array.isArray(d.story.journal))return null;
+    return d;
+  }catch(_){return null;}
+}
+function updateContinueUI(){
+  const btn=document.getElementById('continue-story-btn'),storyBtn=document.getElementById('story-btn');
+  if(!btn||!storyBtn)return;
+  const d=readStorySave();
+  btn.hidden=!d;
+  if(d){btn.textContent=`ENTER · CONTINUE STORY · F${d.floor}`;storyBtn.textContent='N · NEW STORY';}
+  else storyBtn.textContent='ENTER · STORY';
+}
+function restoreStoryState(d){
+  const next=fresh();
+  next.mode=d.mode;next.floor=d.floor;next.endless=false;next.storyMode=true;
+  next.reserveShield=Number(d.reserveShield)||0;next.reserveDodge=!!d.reserveDodge;
+  next.bosses=Array.isArray(d.bosses)?[...d.bosses]:[];
+  next.extraTurns=Number(d.extraTurns)||0;next.bestCombo=Number(d.bestCombo)||0;
+  next.relics=Array.isArray(d.relics)?[...d.relics]:[];next.relicFloors=Array.isArray(d.relicFloors)?[...d.relicFloors]:[];
+  next.relicChoices=Array.isArray(d.relicChoices)?[...d.relicChoices]:[];next.relicIdx=Number.isInteger(d.relicIdx)?d.relicIdx:0;
+  next.equippedSpells=Array.isArray(d.equippedSpells)&&d.equippedSpells.length===2?[...d.equippedSpells]:['bolt','mend'];
+  next.spellCasts=Number(d.spellCasts)||0;next.totalKills=Number(d.totalKills)||0;
+  next.p={...next.p,...d.p};next.map=JSON.parse(JSON.stringify(d.map));
+  next.enemies=JSON.parse(JSON.stringify(d.enemies));next.seen=JSON.parse(JSON.stringify(d.seen));
+  next.story={...next.story,...JSON.parse(JSON.stringify(d.story))};
+  next.shopIdx=Number.isInteger(d.shopIdx)?d.shopIdx:0;next.shopRerolls=Number(d.shopRerolls)||0;
+  next.shopItems=Array.isArray(d.shopItemNames)?d.shopItemNames.map(name=>SHOP_ITEMS.find(item=>item.name===name)).filter(Boolean):null;
+  // Never restore transient asynchronous combat/board state from a checkpoint.
+  next.enemy=null;next.processing=false;next.enemyActing=false;next.combatEnded=false;next.paused=false;
+  next.board=[];next.tboard=[];next.bsel=null;next.tsel=null;next.playerTurn=true;next.bonusTurn=false;
+  next.shield=0;next.atkBuff=1;next.dodgeNext=false;next.estatus={};next.pstatus={};next.usedSpells={};
+  return next;
+}
+function continueStory(){
+  if(!['title','victory'].includes(S.mode)||S.paused)return;
+  const d=readStorySave();
+  if(!d){clearStorySave();renderScores();return;}
+  document.activeElement?.blur();stopMusic(true);S=restoreStoryState(d);
+  ge('shop-overlay').classList.remove('on');ge('pause-overlay').style.display='none';
+  const dm=ge('death-msg');if(dm)dm.style.display='none';ge('log-inner').innerHTML='';
+  log(`Story restored · Floor ${S.floor}.`,'s');
+  setMusic('dun');
+  if(S.mode==='story'){
+    showScr('story');updateDUI();renderStory('Checkpoint restored.');ge('s-story').focus({preventScroll:true});
+  }else if(S.mode==='build'){
+    showScr('build');updateDUI();renderBuild('Checkpoint restored. Choose your loadout and continue.');ge('s-build').focus({preventScroll:true});
+  }else if(S.mode==='shop'){
+    showScr('dun');renderMap();updateDUI();openShop();ge('shop-message').textContent='Checkpoint restored. Merchant stock preserved.';
+  }else{
+    showScr('dun');renderMap();updateDUI();
+  }
+}
+function sceneToken(){return {state:S,scene:S.scene};}
+function currentScene(token){return S===token.state&&S.scene===token.scene;}
+function enterMode(mode){S.scene++;S.mode=mode;S.processing=false;S.tproc=false;}
+function gameDelay(ms,token=sceneToken()){
+  return new Promise(resolve=>{
+    let left=ms,last=performance.now();
+    function tick(){
+      if(!currentScene(token)){resolve(false);return;}
+      const now=performance.now();
+      if(!S.paused)left-=Math.min(60,now-last);
+      last=now;
+      if(left<=0&&!S.paused){resolve(true);return;}
+      setTimeout(tick,25);
+    }
+    setTimeout(tick,0);
+  });
+}
+function feedback(text,isTrs=false){ge(isTrs?'trs-feedback':'c-feedback').textContent=text;}
+function liveBoard(isTrs=false){return !S.paused&&(isTrs?S.mode==='treasure'&&!S.tproc&&S.tTurns>0:S.mode==='cmb'&&S.playerTurn&&!S.processing&&!S.combatEnded);}
 function genFloor(floor,endless=false){
   let grid,rooms;
   for(let attempt=0;attempt<5;attempt++){
@@ -692,7 +1390,16 @@ function genFloor(floor,endless=false){
       for(let ry=y;ry<y+h;ry++)for(let rx=x;rx<x+w;rx++)grid[ry][rx]='.';
       rooms.push({x,y,w,h,cx:x+Math.floor(w/2),cy:y+Math.floor(h/2),type:'normal'});
     }
-    if(rooms.length>=3)break;
+    // Story mode needs enough rooms to support both encounters and service rooms.
+    // Classic/Endless keep the looser old generation.
+    const minRooms=S.storyMode?Math.min(n,6):4;
+    if(rooms.length>=minRooms)break;
+  }
+  // A deterministic fallback also makes pathological random sources safe.
+  if(rooms.length<4){
+    grid=Array.from({length:MH},()=>Array(MW).fill('#'));
+    rooms=[[2,2],[18,2],[35,2],[35,12],[18,12],[2,12]].map(([x,y])=>({x,y,w:9,h:5,cx:x+4,cy:y+2,type:'normal'}));
+    for(const r of rooms)for(let y=r.y;y<r.y+r.h;y++)for(let x=r.x;x<r.x+r.w;x++)grid[y][x]='.';
   }
   // Corridors
   for(let i=1;i<rooms.length;i++){
@@ -717,11 +1424,22 @@ function genFloor(floor,endless=false){
     if(roll<0.18){r.type='shop';grid[r.cy][r.cx]='§';}
     else if(roll<0.42){r.type='treasure';grid[r.cy][r.cx]='$';}
   }
+  // Keep an encounter on each floor, even when every room rolled a service.
+  const middle=rooms.slice(1,-1);
+  if(!middle.some(r=>r.type==='normal'||r.type==='boss')){
+    middle[0].type='normal';grid[middle[0].cy][middle[0].cx]='.';
+  }
+  // The first floor introduces the supply puzzle as well as combat.
+  if(floor===1&&!middle.some(r=>r.type==='treasure')){
+    const spare=middle.find(r=>r.type==='shop')||middle.filter(r=>r.type==='normal')[1];
+    if(spare){spare.type='treasure';grid[spare.cy][spare.cx]='$';}
+  }
   return{grid,rooms};
 }
 
 function placeEnemies(rooms,floor){
-  const pool=EDEFS.filter(e=>!e.boss&&e.fl<=floor&&e.fl>=Math.max(1,floor-1));
+  const tier=Math.min(floor,8);
+  const pool=EDEFS.filter(e=>!e.boss&&e.fl<=tier&&e.fl>=Math.max(1,tier-2));
   const enemies=[];
   for(let i=1;i<rooms.length;i++){
     const r=rooms[i];
@@ -744,7 +1462,12 @@ function placeEnemies(rooms,floor){
       if(S.map.grid[ty][tx]==='.')  {ex=tx;ey=ty;break;}
     }
     if(['§','$','>','#'].includes(S.map.grid[ey][ex]))continue;
-    enemies.push({x:ex,y:ey,def:JSON.parse(JSON.stringify(def)),hp:def.hp,dead:false,isBoss});
+    const scaled=JSON.parse(JSON.stringify(def));
+    const scale=1+Math.max(0,floor-10)*.09;
+    scaled.hp=Math.round(def.hp*scale);scaled.atk=Math.round(def.atk*scale);
+    scaled.def=Math.round(def.def*scale);scaled.xp=Math.round(def.xp*scale);
+    scaled.gold=def.gold.map(g=>Math.round(g*scale));
+    enemies.push({x:ex,y:ey,def:scaled,hp:scaled.hp,dead:false,isBoss});
   }
   return enemies;
 }
@@ -764,10 +1487,16 @@ function vis(x,y){const dx=x-S.p.x,dy=y-S.p.y;return dx*dx+dy*dy<=36;}
 
 function renderMap(){
   const g=S.map.grid;updateSeen();
+  // Render a compact camera around the player rather than the entire 48×20 map.
+  // Near map edges the camera clamps, so the viewport stays full-sized.
+  const maxX=Math.max(0,MW-CAM_W),maxY=Math.max(0,MH-CAM_H);
+  const x0=Math.max(0,Math.min(maxX,S.p.x-Math.floor(CAM_W/2)));
+  const y0=Math.max(0,Math.min(maxY,S.p.y-Math.floor(CAM_H/2)));
+  const x1=Math.min(MW,x0+CAM_W),y1=Math.min(MH,y0+CAM_H);
   let rows=[];
-  for(let y=0;y<MH;y++){
+  for(let y=y0;y<y1;y++){
     let row='';
-    for(let x=0;x<MW;x++){
+    for(let x=x0;x<x1;x++){
       const isVis=vis(x,y);
       if(!S.seen[y][x]&&!isVis){row+=' ';continue;}
       if(x===S.p.x&&y===S.p.y){row+=`<span class="cp">@</span>`;continue;}
@@ -781,6 +1510,7 @@ function renderMap(){
   }
   ge('map-pre').innerHTML=rows.join('\n');
 }
+
 function tileClass(t){
   if(t==='#')return 'cw';if(t==='>')return 'cs';
   if(t==='$')return 'ct';if(t==='§')return 'co';
@@ -791,54 +1521,42 @@ function tileClass(t){
    ENEMY AI — move toward player
 ═══════════════════════════════════════ */
 function moveEnemies(){
-  if(S.mode!=='dun')return;
-  let combatTriggered=false;
-  for(const en of S.enemies){
-    if(en.dead||combatTriggered)continue;
-    const dx=S.p.x-en.x,dy=S.p.y-en.y;
-    const dist=Math.abs(dx)+Math.abs(dy);
-    if(dist>14)continue; // dormant
-    if(dist===0)continue;
-    // speed: how many steps per player turn
-    const steps=en.def.speed||1;
-    for(let step=0;step<steps&&!combatTriggered;step++){
-      const cdx=S.p.x-en.x,cdy=S.p.y-en.y;
-      if(Math.abs(cdx)+Math.abs(cdy)===0)break;
-      // Build candidate moves toward player
-      const cands=[];
-      if(cdx!==0)cands.push([Math.sign(cdx),0]);
-      if(cdy!==0)cands.push([0,Math.sign(cdy)]);
-      if(cands.length===2&&Math.random()<0.3)cands.reverse(); // vary path
-      // Add diagonal-ish option
-      if(cands.length===2)cands.push(cands[Math.floor(Math.random()*2)]);
-      let moved=false;
-      for(const[mx,my] of cands){
-        const nx=en.x+mx,ny=en.y+my;
-        if(nx<0||nx>=MW||ny<0||ny>=MH)continue;
-        if(S.map.grid[ny][nx]==='#')continue;
-        if(S.enemies.some(e=>!e.dead&&e!==en&&e.x===nx&&e.y===ny))continue;
-        if(nx===S.p.x&&ny===S.p.y){
-          combatTriggered=true;
-          SFX.fight();
-          log(`The ${en.def.name} charges you!`,'d');
-          setTimeout(()=>startCombat(en),60);
-          break;
-        }
-        en.x=nx;en.y=ny;
-        if(step===0)SFX.enMove();
-        moved=true;break;
-      }
-      if(!moved||combatTriggered)break;
+  if(S.mode!=='dun'||S.paused)return;
+  // A distance field lets enemies follow bends in corridors instead of sticking to walls.
+  const dist=Array.from({length:MH},()=>Array(MW).fill(Infinity));
+  const queue=[[S.p.x,S.p.y]];dist[S.p.y][S.p.x]=0;
+  for(let i=0;i<queue.length;i++){
+    const [x,y]=queue[i];if(dist[y][x]>=14)continue;
+    for(const [dx,dy] of [[0,-1],[-1,0],[1,0],[0,1]]){
+      const nx=x+dx,ny=y+dy;
+      if(nx<0||ny<0||nx>=MW||ny>=MH||S.map.grid[ny][nx]==='#'||dist[ny][nx]!==Infinity)continue;
+      dist[ny][nx]=dist[y][x]+1;queue.push([nx,ny]);
     }
   }
-  if(!combatTriggered)renderMap();
+  for(const en of S.enemies){
+    if(en.dead||!Number.isFinite(dist[en.y][en.x]))continue;
+    for(let step=0;step<(en.def.speed||1);step++){
+      const next=[[0,-1],[-1,0],[1,0],[0,1]].map(([dx,dy])=>[en.x+dx,en.y+dy])
+        .filter(([x,y])=>x>=0&&y>=0&&x<MW&&y<MH&&dist[y][x]<dist[en.y][en.x]&&
+          !S.enemies.some(other=>other!==en&&!other.dead&&other.x===x&&other.y===y))
+        .sort((a,b)=>dist[a[1]][a[0]]-dist[b[1]][b[0]])[0];
+      if(!next)break;
+      if(next[0]===S.p.x&&next[1]===S.p.y){
+        log(`The ${en.def.name} charges you!`,'d');SFX.fight();startCombat(en);return;
+      }
+      [en.x,en.y]=next;
+    }
+  }
+  renderMap();
 }
+
 
 /* ═══════════════════════════════════════
    PLAYER MOVEMENT
 ═══════════════════════════════════════ */
 function move(dx,dy){
-  if(S.processing||S.mode!=='dun')return;
+  if(S.paused||S.processing||S.mode!=='dun')return;
+  if(dx===0&&dy===0){SFX.step();moveEnemies();updateDUI();return;}
   const p=S.p;
   const nx=p.x+dx,ny=p.y+dy;
   if(nx<0||nx>=MW||ny<0||ny>=MH)return;
@@ -851,7 +1569,7 @@ function move(dx,dy){
     startCombat(en);return;
   }
   p.x=nx;p.y=ny;
-  if(t==='>'){SFX.stairs();descend();return;}
+  if(t==='>'){descend();return;}
   if(t==='$'){openTreasure();return;}
   if(t==='§'){SFX.shop();log('A merchant lurks in the shadows...','s');openShop();return;}
   SFX.step();
@@ -863,86 +1581,91 @@ function move(dx,dy){
    SHOP
 ═══════════════════════════════════════ */
 function openShop(reroll=false){
-  S.mode='shop';
+  if(S.paused||!['dun','shop'].includes(S.mode))return;
+  if(S.mode!=='shop'){enterMode('shop');renderMap();ge('shop-message').textContent='Choose supplies and upgrades. Permanent upgrades last for the whole run.';}
   if(reroll||!S.shopItems){
     if(reroll){
-      const cost=10*Math.max(1,S.shopRerolls);
-      if(S.p.gold<cost){SFX.badswap();log(`Need ${cost}G to reroll!`,'e');return;}
-      S.p.gold-=cost;S.shopRerolls++;
-      updateDUI();
+      const cost=10*(S.shopRerolls+1);
+      if(S.p.gold<cost){SFX.badswap();ge('shop-message').textContent=`Need ${cost}G to reroll.`;return;}
+      S.p.gold-=cost;S.shopRerolls++;SFX.shop();
+      ge('shop-message').textContent=`Fresh stock. Paid ${cost}G.`;
     }
     const pool=[...SHOP_ITEMS];
     for(let i=pool.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[pool[i],pool[j]]=[pool[j],pool[i]];}
     S.shopItems=pool.slice(0,6);
+    // Healing remains a shop staple. Floors 1–2 also guarantee the affordable
+    // Brass Ward Chit so an early merchant is a decision rather than a display case.
+    if(!S.shopItems.includes(SHOP_ITEMS[0]))S.shopItems[5]=SHOP_ITEMS[0];
+    if(S.floor<=2&&!S.shopItems.includes(SHOP_ITEMS[1])){
+      const slot=S.shopItems.findIndex((item,i)=>i<5&&item!==SHOP_ITEMS[0]);
+      S.shopItems[slot>=0?slot:4]=SHOP_ITEMS[1];
+    }
   }
-  if(S.shopIdx===undefined)S.shopIdx=0;
-  S.shopIdx=Math.max(0,Math.min(S.shopIdx,S.shopItems.length-1));
+  S.shopIdx=Math.max(0,Math.min(S.shopIdx||0,S.shopItems.length-1));
   ge('shop-gold-disp').textContent=S.p.gold;
-  const nextRerollCost=10*Math.max(1,S.shopRerolls);
-  const canReroll=S.p.gold>=nextRerollCost;
-  const c=ge('shop-items-list');c.innerHTML='';
+  const c=ge('shop-items-list');c.replaceChildren();
   S.shopItems.forEach((item,i)=>{
-    const cost=item.cost(S.floor);
-    const ok=S.p.gold>=cost;
-    const isSel=i===S.shopIdx;
-    const div=document.createElement('div');
-    div.className='shop-row'+(isSel?' shop-sel':'');
-    div.innerHTML=`
-      <div class="shop-info">
-        <div class="shop-name">${isSel?'▶ ':'\u00a0\u00a0'}${item.icon} ${item.name}</div>
-        <div class="shop-desc">${item.desc}</div>
-      </div>
-      <span class="shop-cost" style="color:${ok?'var(--am)':'#554400'}">${cost}G</span>
-      <span style="font-size:12px;color:${ok?(isSel?'var(--g)':'var(--dg)'):'#333'}">${ok?'[ENTER]':'X'}</span>
-    `;
-    c.appendChild(div);
+    const cost=item.cost(S.floor),full=item===SHOP_ITEMS[0]&&S.p.hp>=S.p.maxHp;
+    const row=document.createElement('div');row.className='shop-row'+(i===S.shopIdx?' shop-sel':'');
+    const info=document.createElement('div');info.className='shop-info';
+    const name=document.createElement('div');name.className='shop-name';name.textContent=`${i+1}. ${item.icon} ${item.name}`;
+    const desc=document.createElement('div');desc.className='shop-desc';desc.textContent=item.desc;
+    info.append(name,desc);
+    const button=document.createElement('button');button.className='btn btn-am';
+    button.textContent=full?'FULL HP':`${cost}G · BUY`;button.disabled=S.p.gold<cost||full;
+    button.setAttribute('aria-label',`Buy ${item.name} for ${cost} gold`);
+    button.addEventListener('click',()=>{S.shopIdx=i;buyItem(i);});
+    row.append(info,button);c.append(row);
   });
-  // Reroll hint row
-  const rr=document.createElement('div');
-  rr.style.cssText='margin-top:8px;font-size:11px;text-align:right;';
-  rr.innerHTML=`ESC REROLL <span style="color:${canReroll?'var(--am)':'#444'}">${nextRerollCost}G</span>`;
-  c.appendChild(rr);
-  ge('shop-overlay').classList.add('on');
+  ge('reroll-btn').textContent=`T · REROLL ${10*(S.shopRerolls+1)}G`;
+  ge('reroll-btn').disabled=S.p.gold<10*(S.shopRerolls+1);
+  ge('shop-overlay').classList.add('on');updateDUI();
+  ge('shop-box').tabIndex=-1;ge('shop-box').focus({preventScroll:true});checkpointStory();
 }
 function buyItem(i){
-  const item=S.shopItems[i];
-  if(!item)return;
+  if(S.mode!=='shop'||S.paused)return;
+  const item=S.shopItems[i];if(!item)return;
   const cost=item.cost(S.floor);
-  if(S.p.gold<cost){SFX.badswap();return;}
-  S.p.gold-=cost;item.apply(S.p,S);
-  SFX.buy();log(`Bought: ${item.name}`,'l');
-  openShop();updateDUI();
+  if(item===SHOP_ITEMS[0]&&S.p.hp>=S.p.maxHp){ge('shop-message').textContent='You already have full HP.';SFX.badswap();return;}
+  if(S.p.gold<cost){ge('shop-message').textContent=`Need ${cost}G for ${item.name}.`;SFX.badswap();return;}
+  S.p.gold-=cost;item.apply(S.p,S);SFX.buy();log(`Bought: ${item.name}`,'l');
+  ge('shop-message').textContent=`Bought ${item.name}. ${item.desc}.`;
+  // Temporary supply items are one-off purchases; permanent upgrades remain repeatable.
+  if(item.single){S.shopItems.splice(i,1);S.shopIdx=Math.max(0,Math.min(S.shopIdx,S.shopItems.length-1));}
+  openShop();
 }
 function closeShop(){
-  S.mode='dun';
-  ge('shop-overlay').classList.remove('on');
-  renderMap();updateDUI();
+  if(S.mode!=='shop'||S.paused)return;
+  enterMode('dun');ge('shop-overlay').classList.remove('on');renderMap();updateDUI();checkpointStory();
 }
+
 
 /* ═══════════════════════════════════════
    TREASURE MATCH-3
 ═══════════════════════════════════════ */
 function openTreasure(){
+  if(S.mode!=='dun'||S.paused)return;
   S.map.grid[S.p.y][S.p.x]='.'; // consume chest
   SFX.loot();
   log('TREASURE VAULT! Match tiles for loot!','l');
-  S.mode='treasure';
-  S.tTurns=4+Math.floor(S.floor/2);S.tGold=0;S.tHp=0;S.tGoldMult=1;
+  enterMode('treasure');
+  S.tTurns=Math.min(10,5+Math.floor(S.floor/2));S.tGold=0;S.tHp=0;S.tGoldMult=1;
   S.tsel=null;S.tc={r:3,c:3};S.tproc=false;
   initBoard('trs');renderTrsBoard();
   ge('trs-turns').textContent=S.tTurns;
   ge('trs-gold').textContent=0;
   ge('trs-hp').textContent=0;
   ge('trs-log').innerHTML='';
-  ge('trs-cbo').textContent='';
+  ge('trs-cbo').textContent='';ge('trs-mult').textContent='×1.0';
+  ge('loot-btn').disabled=false;feedback('Match 4+ to keep your move. Invalid swaps cost nothing.',true);
   showScr('trs');
 }
 function endTreasure(auto){
-  if(!auto&&S.tproc)return;
+  if(S.paused||S.mode!=='treasure'||(!auto&&S.tproc))return;
   log(`Vault cleared: +${S.tGold}G, +${S.tHp}HP healed`,'l');
-  S.mode='dun';
+  enterMode('dun');
   showScr('dun');
-  renderMap();updateDUI();
+  renderMap();updateDUI();checkpointStory();
 }
 
 /* ═══════════════════════════════════════
@@ -955,11 +1678,53 @@ function rndT(){
   for(let i=0;i<w.length;i++){r-=w[i];if(r<=0)return TILES[i];}
   return TILES[0];
 }
-function initBoard(which){
-  const arr=Array.from({length:BS},()=>Array.from({length:BS},rndT));
-  for(let k=0;k<20;k++){const ms=findM(arr);if(!ms.length)break;ms.forEach(([r,c])=>arr[r][c]=rndT());}
-  if(which==='trs')S.tboard=arr;else S.board=arr;
+function makeBoard(){
+  for(let attempt=0;attempt<80;attempt++){
+    const b=Array.from({length:BS},()=>Array(BS));
+    for(let r=0;r<BS;r++)for(let c=0;c<BS;c++){
+      const allowed=TILES.filter(t=>!(c>1&&b[r][c-1]===t&&b[r][c-2]===t)&&!(r>1&&b[r-1][c]===t&&b[r-2][c]===t));
+      let t=rndT();if(!allowed.includes(t))t=allowed[Math.floor(Math.random()*allowed.length)];
+      b[r][c]=t;
+    }
+    if(validSwaps(b).length)return b;
+  }
+  // Match-free fallback, with a guaranteed swap at (1,2) -> (0,2).
+  const b=Array.from({length:BS},(_,r)=>Array.from({length:BS},(_,c)=>TILES[(r+c)%5]));
+  b[0][0]=b[0][1]='ATK';b[0][2]='DEF';b[1][2]='ATK';return b;
 }
+function initBoard(which){if(which==='trs')S.tboard=makeBoard();else S.board=makeBoard();}
+function validSwaps(board){
+  if(board.length!==BS)return [];
+  const out=[];
+  for(let r=0;r<BS;r++)for(let c=0;c<BS;c++)for(const [dr,dc] of [[0,1],[1,0]]){
+    const nr=r+dr,nc=c+dc;
+    if(nr>=BS||nc>=BS||!board[r][c]||!board[nr][nc]||board[r][c]===board[nr][nc])continue;
+    [board[r][c],board[nr][nc]]=[board[nr][nc],board[r][c]];
+    const hits=findM(board);
+    if(hits.some(([y,x])=>(y===r&&x===c)||(y===nr&&x===nc)))out.push({a:[r,c],b:[nr,nc],count:hits.length});
+    [board[r][c],board[nr][nc]]=[board[nr][nc],board[r][c]];
+  }
+  return out;
+}
+function longestRun(board,type=null){
+  let best=0;
+  for(let r=0;r<BS;r++)for(let c=0;c<BS;c++){
+    const t=board[r][c];if(!t||(type&&type!==t))continue;
+    for(const [dr,dc] of [[0,1],[1,0]]){
+      let n=1;while(r+n*dr<BS&&c+n*dc<BS&&board[r+n*dr][c+n*dc]===t)n++;
+      best=Math.max(best,n);
+    }
+  }
+  return best;
+}
+function ensurePlayable(isTrs=false){
+  const board=isTrs?S.tboard:S.board;
+  if(validSwaps(board).length)return false;
+  initBoard(isTrs?'trs':'cmb');S.bsel=null;S.tsel=null;
+  feedback('No legal moves: board refreshed. No turn lost.',isTrs);
+  (isTrs?trsLog:clog)('No legal moves — free board refresh.','win');return true;
+}
+
 function findM(board){
   const hit=new Set();
   for(let r=0;r<BS;r++)for(let c=0;c<=BS-3;c++){
@@ -973,212 +1738,215 @@ function findM(board){
   return[...hit].map(s=>s.split(',').map(Number));
 }
 
+const TILE_HELP={ATK:'Attack: weapon damage',DEF:'Defence: gain shield',MAG:'Magic: spend MP for piercing damage',HLT:'Health: restore HP',SKL:'Skill: restore MP and boost attack'};
 function _renderBoard(elId,board,cursor,sel){
-  const el=ge(elId);el.innerHTML='';
-  // Pre-compute which tiles have a valid swap that creates a match (only for combat board)
-  const hints=new Set();
-  if(elId==='board'&&!S.bsel&&S.hintsOn){
-    const dirs=[[0,1],[1,0],[0,-1],[-1,0]];
+  const el=ge(elId);if(board.length!==BS)return;
+  const isTrs=elId==='trs-board';
+  if(el.children.length!==BS*BS){
+    el.replaceChildren();
     for(let r=0;r<BS;r++)for(let c=0;c<BS;c++){
-      for(const[dr,dc] of dirs){
-        const nr=r+dr,nc=c+dc;
-        if(nr<0||nr>=BS||nc<0||nc>=BS)continue;
-        // Temporarily swap
-        [board[r][c],board[nr][nc]]=[board[nr][nc],board[r][c]];
-        const hasMatch=findM(board).length>0;
-        [board[r][c],board[nr][nc]]=[board[nr][nc],board[r][c]];
-        if(hasMatch){hints.add(r*BS+c);hints.add(nr*BS+nc);}
-      }
+      const cell=document.createElement('button');cell.type='button';cell.className='bt';
+      cell.dataset.r=r;cell.dataset.c=c;el.appendChild(cell);
     }
+  }
+  const hints=new Set();
+  if(S.hintsOn&&!sel&&liveBoard(isTrs)){
+    // One useful pair, rather than a wall of highlighted cells.
+    const hint=validSwaps(board).sort((a,b)=>b.count-a.count)[0];
+    if(hint){hints.add(hint.a.join(','));hints.add(hint.b.join(','));}
   }
   for(let r=0;r<BS;r++)for(let c=0;c<BS;c++){
-    const t=board[r][c];
-    const d=document.createElement('div');
-    d.className='bt';
-    if(t){d.dataset.t=t;d.textContent=TC[t];}
-    const isCur=cursor&&cursor.r===r&&cursor.c===c;
-    const isSel=sel&&sel[0]===r&&sel[1]===c;
-    if(isSel)d.classList.add('sel');
-    else if(isCur)d.classList.add('cur');
-    if(hints.has(r*BS+c)&&!isSel&&!isCur)d.classList.add('hint');
-    el.appendChild(d);
+    const t=board[r][c],cell=el.children[r*BS+c];cell.className='bt';
+    cell.dataset.t=t||'';cell.textContent=TC[t]||'';
+    const isCur=cursor&&cursor.r===r&&cursor.c===c,isSel=sel&&sel[0]===r&&sel[1]===c;
+    if(isSel)cell.classList.add('sel');else if(isCur)cell.classList.add('cur');
+    if(hints.has(`${r},${c}`))cell.classList.add('hint');
+    cell.tabIndex=isCur?0:-1;
+    cell.setAttribute('aria-pressed',String(!!isSel));
+    cell.setAttribute('aria-disabled',String(!liveBoard(isTrs)));
+    cell.setAttribute('aria-label',`Row ${r+1}, column ${c+1}: ${t||'empty'}${isSel?', selected':''}`);
+    cell.title=isTrs?`${t||''} · Vault: attack=gold, defence=next-fight shield, magic=MP, health=HP, skill=gold multiplier`:TILE_HELP[t]||'';
   }
 }
-function renderBoard(){_renderBoard('board',S.board,S.bc,S.bsel);}
+function renderBoard(){_renderBoard('board',S.board,S.bc,S.bsel);updateSpells();}
 function renderTrsBoard(){_renderBoard('trs-board',S.tboard,S.tc,S.tsel);}
-
-async function gravity(board){
+function gravity(board){
   for(let c=0;c<BS;c++){
-    let empty=BS-1;
-    for(let r=BS-1;r>=0;r--){
-      if(board[r][c]!==null){board[empty][c]=board[r][c];if(empty!==r)board[r][c]=null;empty--;}
-    }
-    for(let r=empty;r>=0;r--)board[r][c]=rndT();
+    const column=board.map(row=>row[c]).filter(t=>t!==null);
+    while(column.length<BS)column.unshift(rndT());
+    for(let r=0;r<BS;r++)board[r][c]=column[r];
   }
 }
 
 /* ──── COMBAT BOARD ──── */
 function onTile(r,c){
-  if(!S.playerTurn||S.processing)return;
-  if(!S.board[r][c])return;
+  if(!liveBoard()||!S.board[r]?.[c])return;
   S.bc={r,c};
-  if(!S.bsel){S.bsel=[r,c];SFX.sel();renderBoard();return;}
-  const[sr,sc]=S.bsel;
+  if(!S.bsel){S.bsel=[r,c];SFX.sel();feedback(TILE_HELP[S.board[r][c]]+'. Choose an adjacent tile.');renderBoard();return;}
+  const [sr,sc]=S.bsel;
   if(sr===r&&sc===c){S.bsel=null;SFX.desel();renderBoard();return;}
-  const dr=Math.abs(r-sr),dc=Math.abs(c-sc);
-  if((dr===1&&dc===0)||(dr===0&&dc===1)){S.bsel=null;doSwap(sr,sc,r,c);}
+  if(Math.abs(r-sr)+Math.abs(c-sc)===1){S.bsel=null;void doSwap(sr,sc,r,c);}
   else{S.bsel=[r,c];SFX.sel();renderBoard();}
 }
 async function doSwap(r1,c1,r2,c2){
-  // Stunned: lose your action
-  if(S.pstatus.stunned){
-    delete S.pstatus.stunned;
-    S.bsel=null;
-    clog(`⚡ You are STUNNED — turn lost!`,'atk');
-    S.processing=true;await sl(400);
-    setTurn(false);S.processing=false;renderBoard();return;
+  if(!liveBoard()||Math.abs(r1-r2)+Math.abs(c1-c2)!==1)return;
+  const token=sceneToken(),board=S.board;S.processing=true;S.bsel=null;
+  ge('c-cbo').textContent='';
+  [board[r1][c1],board[r2][c2]]=[board[r2][c2],board[r1][c1]];
+  renderBoard();if(!await gameDelay(100,token))return;
+  if(!findM(board).length){
+    [board[r1][c1],board[r2][c2]]=[board[r2][c2],board[r1][c1]];
+    S.processing=false;SFX.badswap();feedback('No match. Choose another pair — your turn is safe.');renderBoard();return;
   }
-  S.processing=true;
-  [S.board[r1][c1],S.board[r2][c2]]=[S.board[r2][c2],S.board[r1][c1]];
-  renderBoard();await sl(90);
-  if(!findM(S.board).length){
-    [S.board[r1][c1],S.board[r2][c2]]=[S.board[r2][c2],S.board[r1][c1]];
-    renderBoard();SFX.badswap();S.processing=false;return;
+  const wasBonusTurn=S.bonusTurn;
+  const extra=await procCombatMatches(token);
+  if(!currentScene(token)||S.combatEnded)return;
+  ensurePlayable();S.processing=false;
+  const bossCanChain=!!S.enemy?.def?.boss;
+  const awardExtra=extra&&(!wasBonusTurn||bossCanChain);
+  if(awardExtra){
+    S.bonusTurn=true;S.extraTurns++;SFX.m4();ge('c-cbo').textContent='4+ MATCH · EXTRA TURN';
+    clog('4+ MATCH — extra turn!','win');feedback(bossCanChain&&wasBonusTurn?'Boss fight: bonus turns can chain!':'Extra turn! The enemy still has the same move prepared.');setTurn(true);
+  }else{
+    S.bonusTurn=false;
+    if(extra&&wasBonusTurn&&!bossCanChain){
+      ge('c-cbo').textContent='4+ MATCH · CHAIN CAPPED';
+      clog('4+ MATCH — bonus chain capped against ordinary enemies.','n');
+      feedback('Great match — but ordinary enemies get their turn after one bonus.');
+    }else feedback('Enemy is acting. Read NEXT to plan your response.');
+    setTurn(false);
   }
-  await procCombatMatches();
-  if(S.enemy&&S.enemy.hp>0&&S.p.hp>0)setTurn(false);
-  S.processing=false;renderBoard();
+  renderBoard();
 }
-async function procCombatMatches(){
-  let combo=0;
-  while(true){
+async function procCombatMatches(token=sceneToken()){
+  let combo=0,extra=false;
+  while(currentScene(token)){
     const ms=findM(S.board);if(!ms.length)break;
-    combo++;
-    ms.forEach(([r,c])=>{const el=ge('board').children[r*BS+c];if(el)el.classList.add('flash');});
-    if(combo===1)SFX.m3();else if(combo===2)SFX.m4();else SFX.combo();
-    await sl(270);
+    combo++;extra=extra||longestRun(S.board)>=4;
+    const skillRun=longestRun(S.board,'SKL');
+    const ignite=hasRelic('ember')&&longestRun(S.board)>=4;
+    ms.forEach(([r,c])=>ge('board').children[r*BS+c]?.classList.add('flash'));
+    if(combo===1)SFX.m3();else SFX.combo();
+    if(!await gameDelay(220,token))return false;
     const cnts={};ms.forEach(([r,c])=>{const t=S.board[r][c];cnts[t]=(cnts[t]||0)+1;});
     const mult=1+(combo-1)*.3;
-    for(const[type,cnt]of Object.entries(cnts))applyCombatEffect(type,cnt,mult);
-    ms.forEach(([r,c])=>S.board[r][c]=null);
-    await gravity(S.board);
-    renderBoard();updateCUI();
-    if(combo>1)ge('c-cbo').textContent=`COMBO x${combo}!`;
-    await sl(160);
-    if(!S.enemy||S.enemy.hp<=0||S.p.hp<=0)break;
+    if(ignite){S.estatus.burn=Math.max(S.estatus.burn||0,2);clog('EMBER FLINT: burn for 2 enemy turns.','mag');}
+    for(const [type,cnt] of Object.entries(cnts))applyCombatEffect(type,cnt,mult,skillRun>=4);
+    ms.forEach(([r,c])=>S.board[r][c]=null);gravity(S.board);
+    renderBoard();updateCUI();S.bestCombo=Math.max(S.bestCombo,combo);
+    ge('c-cbo').textContent=combo>1?`CASCADE ×${combo}`:'';
+    if(checkEnd())return extra;
+    if(!await gameDelay(130,token))return false;
+    if(combo>=40){initBoard('cmb');clog('Cascade limit reached — fresh board.','n');break;}
   }
-  setTimeout(()=>ge('c-cbo').textContent='',700);
-  checkEnd();
+  return extra;
 }
-function applyCombatEffect(type,cnt,mult){
+function applyCombatEffect(type,cnt,mult,skillFour=false){
   const p=S.p,e=S.enemy;if(!e)return;
   if(type==='ATK'){
-    let raw=Math.floor(cnt*p.atk*0.45*mult*S.atkBuff);
-    const reduction=Math.min(0.65, e.edef/40);
-    let dmg=Math.max(1,Math.floor(raw*(1-reduction)));
-    e.hp=Math.max(0,e.hp-dmg);SFX.bump();
-    clog(`♠ ${cnt}×ATK → ${dmg} dmg (${e.edef}def)`,'atk');
+    const raw=Math.floor(cnt*p.atk*.45*mult*S.atkBuff);
+    const dmg=Math.max(1,Math.floor(raw*(1-Math.min(.65,e.edef/40))));
+    const dealt=Math.min(e.hp,dmg);e.hp-=dealt;SFX.bump();clog(`♠ ${cnt} ATK → ${dealt} damage`,'atk');
+    if(hasRelic('fang')&&dealt>0){
+      const heal=Math.min(p.maxHp-p.hp,Math.ceil(dealt*.25));p.hp+=heal;
+      if(heal)clog(`VAMPIRE FANG: +${heal} HP`,'hlt');
+    }
   }else if(type==='DEF'){
-    const b=Math.floor(cnt*4*mult);S.shield+=b;
-    clog(`◆ ${cnt}×DEF → +${b} shield`,'def');
+    const b=Math.floor(cnt*4*mult);S.shield+=b;clog(`◆ ${cnt} DEF → +${b} shield`,'def');
   }else if(type==='MAG'){
-    const mpCost=Math.floor(cnt*4*mult);
-    if(p.mp>=mpCost){
-      p.mp-=mpCost;
-      const dmg=Math.max(1,Math.floor(cnt*(p.atk*0.5+3)*mult));
-      e.hp=Math.max(0,e.hp-dmg);
-      clog(`★ ${cnt}×MAG(-${mpCost}MP) → ${dmg} pierce`,'mag');
-    } else {
-      // Partial: use available MP for reduced damage
-      const ratio=p.mp/Math.max(1,mpCost);
-      const dmg=Math.max(1,Math.floor(cnt*(p.atk*0.5+3)*mult*ratio));
-      e.hp=Math.max(0,e.hp-dmg);p.mp=0;
-      clog(`★ LOW MP! → ${dmg} weak pierce`,'mag');
-    }
+    const cost=manaCost(Math.floor(cnt*4*mult)),spent=Math.min(p.mp,cost),ratio=spent/Math.max(1,cost);
+    const dmg=Math.max(1,Math.floor(cnt*(p.atk*.5+3)*mult*ratio));
+    p.mp-=spent;e.hp=Math.max(0,e.hp-dmg);
+    clog(`★ ${cnt} MAG → ${dmg} piercing damage, −${spent}MP${spent<cost?' (low MP)':''}`,'mag');
+    if(spent<cost)feedback('Low MP: match ♣ SKILL to recharge.');
   }else if(type==='HLT'){
-    const h=Math.floor(cnt*6*mult);p.hp=Math.min(p.maxHp,p.hp+h);
-    SFX.heal();clog(`♥ ${cnt}×HLT → +${h} HP`,'hlt');
-  }else if(type==='SKL'){
-    if(cnt>=4){
-      // 4+ SKL: dodge next enemy attack
-      S.dodgeNext=true;
-      S.atkBuff=Math.min(2.5,S.atkBuff+.4);
-      clog(`♣ ${cnt}×SKL → ATK×${S.atkBuff.toFixed(1)} + DODGE!`,'skl');
-    } else if(cnt>=3){
-      S.atkBuff=Math.min(2.5,S.atkBuff+.4);clog(`♣ ${cnt}×SKL → ATK×${S.atkBuff.toFixed(1)}`,'skl');
-    } else {
-      const d=Math.floor(cnt*p.atk*0.28*mult);e.hp=Math.max(0,e.hp-d);clog(`♣ ${cnt}×SKL → ${d} dmg`,'skl');
+    const h=Math.min(p.maxHp-p.hp,Math.floor(cnt*6*mult));p.hp+=h;
+    SFX.heal();clog(`♥ ${cnt} HLT → +${h} HP`,'hlt');
+    if(hasRelic('bloom')){
+      S.estatus.poison=Math.max(S.estatus.poison||0,3);S.estatus.poisonPower=Math.max(S.estatus.poisonPower||0,4+p.level*2);
+      clog(`PLAGUE BLOOM: poison ${S.estatus.poisonPower} damage for 3 enemy turns.`,'hlt');
     }
+  }else if(type==='SKL'){
+    const mp=Math.min(p.maxMp-p.mp,Math.floor(cnt*3*mult)+(hasRelic('coil')?4:0));p.mp+=mp;
+    S.atkBuff=Math.min(2.5,S.atkBuff+.4);
+    if(skillFour)S.dodgeNext=true;
+    clog(`♣ ${cnt} SKL → +${mp}MP, ATK×${S.atkBuff.toFixed(1)}${skillFour?', DODGE READY':''}${hasRelic('coil')?' [STORM COIL]':''}`,'skl');
   }
 }
 
+
 /* ──── TREASURE BOARD ──── */
 function onTrsTile(r,c){
-  if(S.tproc||S.tTurns<=0)return;
-  if(!S.tboard[r][c])return;
+  if(!liveBoard(true)||!S.tboard[r]?.[c])return;
   S.tc={r,c};
   if(!S.tsel){S.tsel=[r,c];SFX.sel();renderTrsBoard();return;}
-  const[sr,sc]=S.tsel;
+  const [sr,sc]=S.tsel;
   if(sr===r&&sc===c){S.tsel=null;SFX.desel();renderTrsBoard();return;}
-  const dr=Math.abs(r-sr),dc=Math.abs(c-sc);
-  if((dr===1&&dc===0)||(dr===0&&dc===1)){S.tsel=null;doTrsSwap(sr,sc,r,c);}
+  if(Math.abs(r-sr)+Math.abs(c-sc)===1){S.tsel=null;void doTrsSwap(sr,sc,r,c);}
   else{S.tsel=[r,c];SFX.sel();renderTrsBoard();}
 }
 async function doTrsSwap(r1,c1,r2,c2){
-  S.tproc=true;
-  const b=S.tboard;
+  if(!liveBoard(true)||Math.abs(r1-r2)+Math.abs(c1-c2)!==1)return;
+  const token=sceneToken(),b=S.tboard;S.tproc=true;S.tsel=null;
+  ge('loot-btn').disabled=true;ge('trs-cbo').textContent='';
   [b[r1][c1],b[r2][c2]]=[b[r2][c2],b[r1][c1]];
-  renderTrsBoard();await sl(90);
+  renderTrsBoard();if(!await gameDelay(100,token))return;
   if(!findM(b).length){
     [b[r1][c1],b[r2][c2]]=[b[r2][c2],b[r1][c1]];
-    renderTrsBoard();SFX.badswap();S.tproc=false;return;
+    S.tproc=false;ge('loot-btn').disabled=false;SFX.badswap();
+    feedback('No match. You keep your vault move.',true);renderTrsBoard();return;
   }
-  await procTrsMatches();
-  S.tTurns--;ge('trs-turns').textContent=S.tTurns;
-  if(S.tTurns<=0){await sl(400);endTreasure(true);}
-  S.tproc=false;renderTrsBoard();
+  const extra=await procTrsMatches(token);if(!currentScene(token))return;
+  if(extra){S.extraTurns++;ge('trs-cbo').textContent='4+ MATCH · FREE MOVE';feedback('Extra turn! No vault move spent.',true);}
+  else{S.tTurns--;feedback('Loot banked. Choose another match or take your loot.',true);}
+  ge('trs-turns').textContent=S.tTurns;
+  if(S.tTurns<=0){if(!await gameDelay(400,token))return;endTreasure(true);return;}
+  ensurePlayable(true);S.tproc=false;ge('loot-btn').disabled=false;renderTrsBoard();
 }
-async function procTrsMatches(){
-  let combo=0;
-  while(true){
+function applyTreasureEffect(type,cnt,mult){
+  if(type==='ATK'){
+    const raw=Math.floor(cnt*2*S.floor*mult*S.tGoldMult);
+    const cap=S.floor===1?70:S.floor===2?100:Infinity;
+    const g=Math.min(raw,Math.max(0,cap-S.tGold));
+    S.tGold+=g;S.p.gold+=g;
+    if(g>0)trsLog(`♠ ${cnt} ATK → +${g} GOLD`,'win');
+    if(g<raw)trsLog(`Early-vault gold limit reached (${cap}G).`,'n');
+  }else if(type==='DEF'){
+    const sh=Math.floor(cnt*2*mult);S.reserveShield+=sh;
+    trsLog(`◆ ${cnt} DEF → +${sh} shield for your next fight`,'def');
+  }else if(type==='MAG'){
+    const mp=Math.min(S.p.maxMp-S.p.mp,Math.floor(cnt*8*mult));S.p.mp+=mp;
+    trsLog(`★ ${cnt} MAG → +${mp} MP`,'mag');
+  }else if(type==='HLT'){
+    const h=Math.min(S.p.maxHp-S.p.hp,Math.floor(cnt*6*mult));S.p.hp+=h;S.tHp+=h;
+    SFX.heal();trsLog(`♥ ${cnt} HLT → +${h} HP`,'hlt');
+  }else if(type==='SKL'){
+    S.tGoldMult=Math.min(3,S.tGoldMult+.5);trsLog(`♣ ${cnt} SKL → GOLD×${S.tGoldMult.toFixed(1)}`,'skl');
+  }
+}
+async function procTrsMatches(token=sceneToken()){
+  let combo=0,extra=false;
+  while(currentScene(token)){
     const ms=findM(S.tboard);if(!ms.length)break;
-    combo++;
-    ms.forEach(([r,c])=>{const el=ge('trs-board').children[r*BS+c];if(el)el.classList.add('flash');});
+    combo++;extra=extra||longestRun(S.tboard)>=4;
+    ms.forEach(([r,c])=>ge('trs-board').children[r*BS+c]?.classList.add('flash'));
     if(combo===1)SFX.m3();else SFX.combo();
-    await sl(270);
+    if(!await gameDelay(220,token))return false;
     const cnts={};ms.forEach(([r,c])=>{const t=S.tboard[r][c];cnts[t]=(cnts[t]||0)+1;});
     const mult=1+(combo-1)*.3;
-    for(const[type,cnt]of Object.entries(cnts)){
-      if(type==='ATK'){
-        const g=Math.floor(cnt*2*S.floor*mult*S.tGoldMult);
-        S.tGold+=g;S.p.gold+=g;
-        trsLog(`♠ ${cnt}×ATK → +${g} GOLD`,'win');
-      }else if(type==='DEF'){
-        const sh=Math.floor(cnt*3*mult);S.shield+=sh;
-        trsLog(`◆ ${cnt}×DEF → +${sh} shield`,'def');
-      }else if(type==='MAG'){
-        // MAG in treasure = MP restore only, no free ATK boosts
-        S.p.mp=Math.min(S.p.maxMp,S.p.mp+cnt*8);
-        trsLog(`★ ${cnt}×MAG → MP+${cnt*8}`,'mag');
-      }else if(type==='HLT'){
-        const h=Math.floor(cnt*6*mult);S.p.hp=Math.min(S.p.maxHp,S.p.hp+h);
-        S.tHp+=h;SFX.heal();
-        trsLog(`♥ ${cnt}×HLT → +${h} HP`,'hlt');
-      }else if(type==='SKL'){
-        S.tGoldMult=Math.min(3,S.tGoldMult+0.5);
-        trsLog(`♣ ${cnt}×SKL → GOLD×${S.tGoldMult.toFixed(1)}`,'skl');
-      }
-    }
-    ms.forEach(([r,c])=>S.tboard[r][c]=null);
-    await gravity(S.tboard);
-    renderTrsBoard();
-    ge('trs-gold').textContent=S.tGold;
-    ge('trs-hp').textContent=S.tHp;
-    if(combo>1)ge('trs-cbo').textContent=`COMBO x${combo}!`;
-    await sl(160);
+    // Skill's new multiplier applies to every gold match in the same cascade.
+    if(cnts.SKL)applyTreasureEffect('SKL',cnts.SKL,mult);
+    for(const [type,cnt] of Object.entries(cnts))if(type!=='SKL')applyTreasureEffect(type,cnt,mult);
+    ms.forEach(([r,c])=>S.tboard[r][c]=null);gravity(S.tboard);
+    renderTrsBoard();S.bestCombo=Math.max(S.bestCombo,combo);
+    ge('trs-gold').textContent=S.tGold;ge('trs-hp').textContent=S.tHp;ge('trs-mult').textContent=`×${S.tGoldMult.toFixed(1)}`;
+    ge('trs-cbo').textContent=combo>1?`CASCADE ×${combo}`:'';
+    if(!await gameDelay(130,token))return false;
+    if(combo>=40){initBoard('trs');trsLog('Cascade limit reached — fresh board.','n');break;}
   }
-  setTimeout(()=>ge('trs-cbo').textContent='',700);
+  return extra;
 }
+
 function trsLog(msg,type){
   const c=ge('trs-log');
   const d=document.createElement('div');
@@ -1190,154 +1958,174 @@ function trsLog(msg,type){
    COMBAT
 ═══════════════════════════════════════ */
 function startCombat(mapEn){
-  const def=mapEn.def;
-  S.mode='cmb';
-  setMusic('cmb');
-  // Enemy edef scales up slowly each floor so it doesn't become impenetrable
-  S.enemy={ref:mapEn,def,hp:mapEn.hp,maxHp:def.hp,atk:def.atk,
-           edef:Math.floor(def.def*(1+(S.floor-1)*0.08))};
-  S.shield=0;S.atkBuff=1.0;S.dodgeNext=false;S.estatus={};S.pstatus={};
-  S.playerTurn=true;S.bsel=null;S.bc={r:3,c:3};S.processing=false;
-  showScr('cmb');
-  ge('c-ename').textContent=def.name+(def.boss?' [BOSS]':'');
-  ge('e-art').textContent=def.art;
-  ge('c-eatk').textContent=def.atk;ge('c-edef').textContent=def.def;
-  ge('c-log').innerHTML='';
-  initBoard('cmb');renderBoard();updateCUI();setIntent();setTurn(true);
-  clog(`⚔ ${def.boss?'★BOSS★ ':''}${def.name}`,'c');
-  clog(`HP:${def.hp} ATK:${def.atk} DEF:${def.def}`,'n');
+  if(S.mode!=='dun'||S.paused||!mapEn||mapEn.dead)return;
+  enterMode('cmb');setMusic('cmb');const def=mapEn.def;
+  S.enemy={ref:mapEn,def,hp:mapEn.hp,maxHp:def.hp,atk:def.atk,edef:Math.floor(def.def*(1+(S.floor-1)*.08)),intent:null};
+  S.shield=S.reserveShield;S.reserveShield=0;S.dodgeNext=S.reserveDodge;S.reserveDodge=false;
+  S.atkBuff=1;S.estatus={};S.pstatus={};S.combatEnded=false;S.enemyActing=false;S.usedSpells={};
+  S.playerTurn=true;S.bonusTurn=false;S.bsel=null;S.bc={r:3,c:3};
+  relicLabels(ge('c-relics'));showScr('cmb');ge('c-ename').textContent=def.name+(def.boss?' [BOSS]':'');ge('e-art').textContent=def.art;
+  ge('c-log').replaceChildren();ge('c-cbo').textContent='';
+  initBoard('cmb');updateCUI();setIntent();setTurn(true);renderBoard();
+  clog(`⚔ ${def.boss?'BOSS: ':''}${def.name}`,'win');
+  if(S.shield||S.dodgeNext)clog(`Prepared: ${S.shield} shield${S.dodgeNext?' + dodge':''}`,'def');
+  feedback('Select two neighbouring tiles. A line of 4+ earns an extra turn.');
 }
 function setTurn(isPlayer){
+  if(S.mode!=='cmb'||S.combatEnded)return;
   S.playerTurn=isPlayer;
+  // Any action that hands control to the enemy consumes the current bonus turn.
+  // Board Shift calls setTurn(true), so it correctly preserves bonus-turn status.
+  if(!isPlayer)S.bonusTurn=false;
   ge('turn-ind').textContent=isPlayer?'YOUR TURN':'ENEMY TURN';
-  ge('turn-ind').className=isPlayer?'ti-p':'ti-e';
-  if(!isPlayer)setTimeout(doEnemyTurn,680);
+  ge('turn-ind').className=isPlayer?'ti-p':'ti-e';updateSpells();
+  if(!isPlayer){const token=sceneToken();gameDelay(620,token).then(ok=>{if(ok)void doEnemyTurn();});}
 }
-function setIntent(){
+function enemyDamage(mv,enemy=S.enemy){
+  // Buffs and endless scaling affect the same value used by the telegraph.
+  const base=EDEFS.find(e=>e.id===enemy.def.id)?.atk||enemy.def.atk||1;
+  return Math.floor((mv.d||0)*(1+(S.floor-1)*.13)*(enemy.atk/base));
+}
+function setIntent(choose=true){
   if(!S.enemy)return;
-  const mvs=MOVES[S.enemy.def.name]||[{n:'ATTACK',d:5}];
-  const m=mvs[Math.floor(Math.random()*mvs.length)];
-  const sd=Math.floor((m.d||0)*(1+(S.floor-1)*.13));
-  let txt=`NEXT: ${m.n}`;
-  if(m.d)txt+=` (~${sd})`;
-  if(m.s==='burn')txt+=' [BURN]';if(m.s==='stun')txt+=' [STUN]';if(m.s==='pierce')txt+=' [PIERCE]';
-  ge('c-int').textContent=txt;
+  if(choose||!S.enemy.intent){
+    const mvs=MOVES[S.enemy.def.name]||[{n:'ATTACK',d:5}];
+    S.enemy.intent={...mvs[Math.floor(Math.random()*mvs.length)]};
+  }
+  const m=S.enemy.intent;
+  const tags={burn:'BURN',stun:'STUN',pierce:'IGNORES DEF',regen:'HEAL 12%',buff:'ATK +30%',drain:'LIFE DRAIN',weaken:'WEAKEN'};
+  ge('c-int').textContent=`NEXT: ${m.n}${m.d?` · ${enemyDamage(m)} raw damage`:''}${m.s?` · ${tags[m.s]||m.s}`:''}`;
 }
 async function doEnemyTurn(){
-  if(!S.enemy||S.enemy.hp<=0)return;
-  // burn tick
-  if((S.estatus.burn||0)>0){
-    S.estatus.burn--;const bd=9;
-    S.enemy.hp=Math.max(0,S.enemy.hp-bd);
-    clog(`🔥 BURN: ${bd} dmg to ${S.enemy.def.name}`,'mag');
-    updateCUI();await sl(280);
-    if(S.enemy.hp<=0){checkEnd();return;}
+  if(S.mode!=='cmb'||S.paused||S.playerTurn||S.enemyActing||S.combatEnded||!S.enemy)return;
+  const token=sceneToken();S.enemyActing=true;S.processing=true;updateSpells();
+  if((S.estatus.poison||0)>0){
+    S.estatus.poison--;const damage=Math.min(S.enemy.hp,S.estatus.poisonPower||6);S.enemy.hp-=damage;
+    clog(`POISON: ${damage} damage.`,'hlt');updateCUI();if(checkEnd())return;
+    if(!await gameDelay(200,token))return;
   }
-  if((S.estatus.stun||0)>0){
-    S.estatus.stun--;clog(`⚡ ${S.enemy.def.name} STUNNED`,'skl');updateCUI();
-  }else{
-    const mvs=MOVES[S.enemy.def.name]||[{n:'ATTACK',d:5}];
-    const mv=mvs[Math.floor(Math.random()*mvs.length)];
-    let dmg=Math.floor((mv.d||0)*(1+(S.floor-1)*.13));
+  if((S.estatus.burn||0)>0){
+    S.estatus.burn--;S.enemy.hp=Math.max(0,S.enemy.hp-9);clog('Enemy burns: 9 damage.','mag');
+    updateCUI();if(checkEnd())return;
+    if(!await gameDelay(240,token))return;
+  }
+  if((S.estatus.stun||0)>0){S.estatus.stun--;clog('Enemy is stunned — action skipped.','skl');}
+  else{
+    if(!S.enemy.intent)setIntent();
+    const mv=S.enemy.intent;
     if(mv.s==='regen'){
-      const rg=Math.floor(S.enemy.maxHp*.12);
-      S.enemy.hp=Math.min(S.enemy.maxHp,S.enemy.hp+rg);
-      clog(`💚 ${mv.n}: +${rg}HP`,'hlt');
+      const heal=Math.min(S.enemy.maxHp-S.enemy.hp,Math.floor(S.enemy.maxHp*.12));S.enemy.hp+=heal;
+      clog(`${mv.n}: +${heal} HP`,'hlt');
     }else if(mv.s==='buff'){
-      S.enemy.atk=Math.floor(S.enemy.atk*1.3);
-      clog(`💢 ${mv.n}: ATK→${S.enemy.atk}`,'atk');
+      S.enemy.atk=Math.max(S.enemy.atk+1,Math.floor(S.enemy.atk*1.3));clog(`${mv.n}: enemy ATK → ${S.enemy.atk}`,'atk');
+    }else if(S.dodgeNext&&mv.d>0){
+      S.dodgeNext=false;clog(`DODGE! ${mv.n} avoided.`,'skl');SFX.cursor();
     }else{
-      // Dodge check (from 4×SKL)
-      if(S.dodgeNext&&mv.d>0){
-        S.dodgeNext=false;
-        clog(`💨 DODGE! ${mv.n} avoided!`,'skl');
-        SFX.cursor();
-      }else{
-        S.dodgeNext=false;
-        const blk=Math.min(S.shield,dmg);dmg-=blk;S.shield=Math.max(0,S.shield-blk);
-        const fd=mv.s==='pierce'?Math.max(0,dmg):Math.max(0,dmg-Math.floor(S.p.def*.35));
-        S.p.hp=Math.max(0,S.p.hp-fd);SFX.dmg();
-        const sfx=mv.s==='burn'?'🔥':mv.s==='stun'?'⚡':mv.s==='drain'?'🩸':'🗡';
-        clog(`${sfx} ${mv.n}: ${fd}dmg`+(blk?` (${blk}blkd)`:''),'atk');
-        if(mv.s==='burn')S.pstatus.burn=(S.pstatus.burn||0)+3;
-        if(mv.s==='weaken')S.atkBuff=Math.max(.3,S.atkBuff-.5);
-        if(mv.s==='drain')S.enemy.hp=Math.min(S.enemy.maxHp,S.enemy.hp+Math.floor(fd*.6));
-        if(mv.s==='stun')S.pstatus.stunned=1;
+      let dmg=enemyDamage(mv);const blocked=Math.min(S.shield,dmg);S.shield-=blocked;dmg-=blocked;
+      const damage=mv.s==='pierce'?dmg:Math.max(0,dmg-Math.floor(S.p.def*.35));
+      S.p.hp=Math.max(0,S.p.hp-damage);if(damage)SFX.dmg();
+      clog(`${mv.n}: ${damage} damage${blocked?` (${blocked} blocked)`:''}`,'atk');
+      if(mv.s==='burn')S.pstatus.burn=(S.pstatus.burn||0)+3;
+      if(mv.s==='weaken')S.atkBuff=Math.max(.3,S.atkBuff-.5);
+      if(mv.s==='drain')S.enemy.hp=Math.min(S.enemy.maxHp,S.enemy.hp+Math.floor(damage*.6));
+      if(mv.s==='stun')S.pstatus.stunned=1;
+      if(hasRelic('thorns')&&blocked>0){
+        const returned=Math.min(S.enemy.hp,Math.ceil(blocked*.5));S.enemy.hp-=returned;
+        clog(`THORN BUCKLER: ${returned} reflected damage.`,'def');
       }
     }
   }
-  if((S.pstatus.burn||0)>0){S.pstatus.burn--;const bd=3;S.p.hp=Math.max(0,S.p.hp-bd);clog(`🔥 You burn: ${bd}`,'atk');}
-  updateCUI();setIntent();await sl(300);
-  if(S.p.hp<=0){checkEnd();return;}
-  setTurn(true);renderBoard();
+  if((S.pstatus.burn||0)>0){S.pstatus.burn--;S.p.hp=Math.max(0,S.p.hp-3);clog('You burn: 3 damage.','atk');}
+  updateCUI();if(checkEnd())return;
+  setIntent();if(!await gameDelay(300,token))return;
+  S.enemyActing=false;S.processing=false;
+  if(S.pstatus.stunned){
+    // Do not ask the player to solve a move which will then be discarded.
+    delete S.pstatus.stunned;clog('STUN — your turn is skipped.','atk');
+    feedback('Stunned: one turn skipped. The next enemy move is shown.');
+    updateCUI();setTurn(false);ge('turn-ind').textContent='STUNNED · TURN SKIPPED';
+  }else{setTurn(true);feedback('Your turn. Watch NEXT; match ♣ to recharge MP.');}
+  renderBoard();
 }
 function checkEnd(){
-  if(S.enemy&&S.enemy.hp<=0)winCombat();
-  else if(S.p.hp<=0)loseCombat();
+  if(S.combatEnded)return true;
+  if(S.p.hp<=0){void loseCombat();return true;}
+  if(S.enemy&&S.enemy.hp<=0){void winCombat();return true;}
+  return false;
 }
-function winCombat(){
-  SFX.kill();
-  const def=S.enemy.def;
-  const xp=def.xp,gold=def.gold[0]+Math.floor(Math.random()*(def.gold[1]-def.gold[0]));
-  S.p.xp+=xp;S.p.gold+=gold;S.p.kills++;S.totalKills++;
+async function winCombat(){
+  if(S.mode!=='cmb'||S.combatEnded||!S.enemy)return;
+  S.combatEnded=true;S.processing=true;S.playerTurn=false;const token=sceneToken();SFX.kill();
+  const def=S.enemy.def,xp=def.xp,gold=def.gold[0]+Math.floor(Math.random()*(def.gold[1]-def.gold[0]+1));
+  S.p.xp+=xp;S.p.gold+=gold;S.p.kills++;S.totalKills++;S.enemy.ref.dead=true;
+  if(def.boss&&!S.bosses.includes(def.id))S.bosses.push(def.id);
+  ge('turn-ind').textContent='VICTORY';ge('turn-ind').className='ti-p';
   clog(`VICTORY! +${xp}XP +${gold}G`,'win');
   while(S.p.xp>=S.p.xpNext){
-    S.p.xp-=S.p.xpNext;S.p.xpNext=Math.floor(S.p.xpNext*2.0); // steep curve
+    S.p.xp-=S.p.xpNext;S.p.xpNext=Math.floor(S.p.xpNext*1.65);
     S.p.level++;S.p.maxHp+=15;S.p.hp=Math.min(S.p.maxHp,S.p.hp+15);
-    S.p.maxMp+=5;S.p.atk+=2;S.p.def+=1;
-    SFX.lvlup();clog(`LEVEL ${S.p.level}! ATK+2 MaxHP+15`,'win');
-    log(`⬆ LEVEL ${S.p.level}! ATK+2, MaxHP+15`,'l');
+    S.p.maxMp+=5;S.p.mp=Math.min(S.p.maxMp,S.p.mp+10);S.p.atk+=2;S.p.def++;
+    SFX.lvlup();clog(`LEVEL ${S.p.level}! ATK+2, DEF+1, MaxHP+15, MaxMP+5`,'win');
+    log(`LEVEL ${S.p.level}! ATK+2, DEF+1, MaxHP+15, MaxMP+5`,'l');
   }
-  S.enemy.ref.dead=true;
-  setTimeout(()=>{
-    S.mode='dun';
-    setMusic('dun');
-    log(`Defeated ${def.name}. +${xp}XP +${gold}G`,'l');
-    showScr('dun');renderMap();updateDUI();
-  },700);
+  updateCUI();if(!await gameDelay(800,token))return;
+  if(def.id==='king'&&!S.endless){victory();return;}
+  enterMode('dun');S.enemy=null;S.shield=0;S.dodgeNext=false;setMusic('dun');
+  log(`Defeated ${def.name}. +${xp}XP +${gold}G`,'l');
+  if(def.id==='warden')log('The Warden falls. The stairs are unsealed.','l');
+  showScr('dun');renderMap();updateDUI();
+  if(S.storyMode&&def.id==='warden')openStory('warden');
+  else checkpointStory();
 }
-function loseCombat(){
-  saveScore({floor:S.floor,level:S.p.level,kills:S.totalKills,gold:S.p.gold,slainBy:S.enemy?S.enemy.def.name:'?'});
-  stopMusic(false);
-  SFX.gameover();
-  setTimeout(()=>{
-    S.mode='title';
-    const dm=ge('death-msg');
-    dm.style.display='block';
-    dm.innerHTML=
-      `<div style="color:var(--re);font-size:16px;letter-spacing:2px;margin-bottom:4px">☠ YOU HAVE DIED ☠</div>`+
-      `<div>Slain by: <span style="color:#ff8888">${S.enemy?S.enemy.def.name:'the dungeon'}</span></div>`+
-      `<div style="color:var(--dg);margin-top:2px">Floor ${S.floor} &nbsp;·&nbsp; Level ${S.p.level} &nbsp;·&nbsp; ${S.totalKills} kills &nbsp;·&nbsp; ${S.p.gold}G</div>`;
-    showScr('title');
-    renderScores();
-    // Start dungeon music softly on title
-    setTimeout(()=>setMusic('dun'),600);
-  },1800);
+function runScore(slainBy){return {floor:S.floor,level:S.p.level,kills:S.totalKills,gold:S.p.gold,slainBy,endless:S.endless,bestCombo:S.bestCombo,extraTurns:S.extraTurns,relics:[...S.relics],spells:[...S.equippedSpells],spellCasts:S.spellCasts,storyMode:S.storyMode,storyEnding:S.story.ending,registerPages:S.story.pages.length};}
+async function loseCombat(){
+  if(S.mode!=='cmb'||S.combatEnded)return;
+  S.combatEnded=true;S.processing=true;S.playerTurn=false;const token=sceneToken();
+  const killer=S.enemy?.def.name||'the dungeon';saveScore(runScore(killer));if(S.storyMode)clearStorySave();stopMusic(true);SFX.gameover();
+  ge('turn-ind').textContent='YOU HAVE FALLEN';
+  if(!await gameDelay(1400,token))return;
+  enterMode('title');S.enemy=null;
+  showRunResult('YOU HAVE DIED',`Slain by ${killer}.`);showScr('title');renderScores();
+}
+function victory(){
+  if(S.mode==='victory'||(S.storyMode&&S.story.completed))return;
+  if(S.storyMode&&!S.story.ending){
+    enterMode('dun');S.enemy=null;S.shield=0;S.dodgeNext=false;setMusic('dun');openStory('ending');return;
+  }
+  if(S.storyMode){S.story.completed=true;clearStorySave();}
+  saveScore(runScore('VICTORY!'));enterMode('victory');S.enemy=null;stopMusic(true);SFX.lvlup();
+  const ending=S.storyMode?storyEnding():null;
+  ge('vic-title').textContent=ending?ending.title:'THE KING IS SLAIN';
+  ge('vic-tagline').textContent=ending?ending.tagline:'*** GLORY ETERNAL ***';
+  ge('vic-story').hidden=!ending;ge('vic-journal-btn').hidden=!ending;
+  storyParagraphs(ge('vic-story'),ending?ending.body:[]);
+  ge('vic-st').textContent=`${S.storyMode?'The Last Account complete.':'The Forgotten King is defeated.'} Floor ${S.floor} · Level ${S.p.level} · ${S.totalKills} kills · ${S.p.gold}G · Best cascade ×${S.bestCombo}`;
+  showScr('vic');
 }
 
 /* ═══════════════════════════════════════
    FLOOR / DESCENT
 ═══════════════════════════════════════ */
+function requiredBoss(){return !S.endless?(S.floor===5?'warden':S.floor===10?'king':null):null;}
 function descend(){
-  S.floor++;
-  if(!S.endless && S.floor>10){
-    saveScore({floor:10,level:S.p.level,kills:S.totalKills,gold:S.p.gold,slainBy:'VICTORY!'});
-    ge('vic-st').innerHTML=`All 10 floors conquered!<br>The Forgotten King is dust.<br>Kills: ${S.totalKills} · Gold: ${S.p.gold} · Level: ${S.p.level}`;
-    showScr('vic');S.mode='victory';return;
+  if(S.mode!=='dun'||S.paused)return;
+  const boss=requiredBoss();
+  if(boss&&!S.bosses.includes(boss)){
+    log(`STAIRS SEALED. Defeat ${boss==='warden'?'the Warden (W)':'the Forgotten King (K)'} first.`,'d');
+    SFX.bump();renderMap();updateDUI();return;
   }
-  // Dungeon drain — descending costs HP. Encourages spending gold at shops.
-  const drain=Math.floor(S.floor*1.6 + S.p.maxHp*0.025);
-  S.p.hp=Math.max(1,S.p.hp-drain);
-  const{grid,rooms}=genFloor(S.floor,S.endless);
-  S.map={grid,rooms};S.enemies=placeEnemies(rooms,S.floor);
-  S.seen=Array.from({length:MH},()=>Array(MW).fill(false));
-  S.p.x=rooms[0].cx;S.p.y=rooms[0].cy;
-  S.mode='dun';
-  log(`⬇ FLOOR ${S.floor} — the descent costs ${drain}HP.`,'d');
-  if(S.floor===5)  log(`★ A warden guards this floor...`,'d');
-  if(S.floor===10) log(`★★★ THE FORGOTTEN KING AWAITS ★★★`,'d');
+  if(!S.endless&&S.floor>=10){victory();return;}
+  S.floor++;SFX.stairs();
+  const drain=Math.min(Math.max(0,S.p.hp-1),Math.floor(S.floor*1.6+S.p.maxHp*.025));S.p.hp-=drain;
+  const {grid,rooms}=genFloor(S.floor,S.endless);S.map={grid,rooms};configureStoryFloor();S.enemies=placeEnemies(rooms,S.floor);
+  S.seen=Array.from({length:MH},()=>Array(MW).fill(false));S.p.x=rooms[0].cx;S.p.y=rooms[0].cy;
+  S.shopItems=null;S.shopIdx=0;S.shopRerolls=0;enterMode('dun');
+  log(`FLOOR ${S.floor} — the descent costs ${drain}HP.`,'d');
+  if(requiredBoss())log(requiredBoss()==='warden'?'The Warden seals the stairs.':'THE FORGOTTEN KING AWAITS.','d');
   renderMap();updateDUI();
+  enterStoryFloor();checkpointStory();
 }
+
 
 /* ═══════════════════════════════════════
    UI
@@ -1355,7 +2143,12 @@ function updateDUI(){
   ge('d-atk').textContent=p.atk;
   ge('d-def').textContent=p.def;
   ge('d-gld').textContent=p.gold;
-  ge('d-kls').textContent=p.kills;
+  ge('d-kls').textContent=p.kills;relicLabels(ge('d-relics'));
+  ge('d-story').hidden=!S.storyMode;
+  if(S.storyMode){ge('d-chapter').textContent=CHAPTERS[S.floor-1]||'The Last Account';ge('d-pages').textContent=`REGISTER ${S.story.pages.length}/3 · ${S.story.pages.length>=2?'Restoration possible':'2 pages unlock restoration'}`;}
+  ge('d-reserve').textContent=S.reserveShield;ge('d-dodge').textContent=S.reserveDodge?'READY':'—';
+  const boss=requiredBoss();
+  ge('d-objective').textContent=boss&&!S.bosses.includes(boss)?`STAIRS SEALED: defeat ${boss==='warden'?'W · Warden':'K · Forgotten King'}.`:`${S.endless?'ENDLESS':`FLOOR ${S.floor} / 10`} · Find > to descend. $ supplies · § upgrades.`;
 }
 function updateCUI(){
   const p=S.p,e=S.enemy;if(!e)return;
@@ -1375,10 +2168,13 @@ function updateCUI(){
   const dd=ge('c-dodge');if(dd)dd.textContent=S.dodgeNext?'READY':'—';
   ge('c-ehp').textContent=`${Math.max(0,e.hp)}/${e.maxHp}`;
   ge('c-ehp-b').style.width=`${Math.max(0,e.hp/e.maxHp*100)}%`;
-  ge('c-eatk').textContent=e.atk;
+  ge('c-eatk').textContent=e.atk;ge('c-edef').textContent=e.edef;
+  ge('c-pstatus').textContent=[S.pstatus.burn>0?`BURN ${S.pstatus.burn}`:'',S.pstatus.stunned?'STUNNED':''].filter(Boolean).join(' · ');
   const se=ge('c-ests');se.innerHTML='';
   if(S.estatus.burn>0)se.innerHTML+=`<span class="sts sts-burn">BURN(${S.estatus.burn})</span>`;
   if(S.estatus.stun>0)se.innerHTML+=`<span class="sts sts-stun">STUN(${S.estatus.stun})</span>`;
+  if(S.estatus.poison>0)se.innerHTML+=`<span class="sts sts-poison">POISON ${S.estatus.poisonPower} × ${S.estatus.poison}</span>`;
+  updateSpells();
 }
 
 /* ═══════════════════════════════════════
@@ -1405,6 +2201,7 @@ function clog(msg,type='n'){
 function showScr(id){
   document.querySelectorAll('.scr').forEach(s=>s.classList.remove('on'));
   ge('s-'+id).classList.add('on');
+  if(document.activeElement?.closest('.scr:not(.on)'))document.activeElement.blur();
 }
 
 /* ═══════════════════════════════════════
@@ -1413,203 +2210,193 @@ function showScr(id){
 /* ═══════════════════════════════════════
    PAUSE
 ═══════════════════════════════════════ */
+let focusBeforePause=null;
 function openPause(){
-  if(S.mode==='title'||S.mode==='victory')return;
-  S.paused=true;
-  ge('pause-music-val').textContent=S.musicOn?'ON':'OFF';
-  ge('pause-hints-val').textContent=S.hintsOn?'ON':'OFF';
-  ge('pause-overlay').style.display='flex';
+  if(S.paused)return;
+  S.paused=true;S.retireArmed=false;focusBeforePause=document.activeElement;stopMusic(true);
+  ge('pause-title').textContent=['title','victory'].includes(S.mode)?'FIELD GUIDE':'II PAUSED · FIELD GUIDE';
+  ge('pause-music-val').textContent=S.musicOn?'ON':'OFF';ge('pause-hints-val').textContent=S.hintsOn?'ON':'OFF';
+  ge('retire-btn').hidden=!canRetireRun();
+  ge('retire-btn').textContent='RETIRE RUN';ge('retire-note').textContent='';
+  ge('resume-btn').textContent=['title','victory'].includes(S.mode)?'ESC · CLOSE':'ESC · RESUME';
+  const overlay=ge('pause-overlay'),box=overlay.querySelector('.modal-box'),title=ge('pause-title');
+  overlay.style.display='flex';
+  if(box)box.scrollTop=0;
+  title.tabIndex=-1;title.focus({preventScroll:true});checkpointStory();
 }
 function closePause(){
-  S.paused=false;
-  ge('pause-overlay').style.display='none';
+  document.activeElement?.blur();
+  S.paused=false;S.retireArmed=false;ge('pause-overlay').style.display='none';
+  if(focusBeforePause?.isConnected)focusBeforePause.focus({preventScroll:true});
+  if(liveBoard())renderBoard();else if(liveBoard(true))renderTrsBoard();
+  if(['dun','treasure','shop','cmb','build','story','journal'].includes(S.mode)&&!S.combatEnded)setMusic(S.mode==='cmb'?'cmb':'dun');
+  else if(['dun','treasure','shop','build','story','journal'].includes(S.mode))setMusic('dun');
 }
 function toggleMusic(){
-  S.musicOn=!S.musicOn;
-  ge('pause-music-val').textContent=S.musicOn?'ON':'OFF';
-  if(S.musicOn){
-    if(S.mode==='cmb')setMusic('cmb');
-    else setMusic('dun');
-  } else {
-    stopMusic(true);
-    try{getMasterGain().music.gain.value=0.28;}catch(e){}
-  }
+  S.musicOn=!S.musicOn;saveSettings();ge('pause-music-val').textContent=S.musicOn?'ON':'OFF';
+  if(S.musicOn&&!S.paused&&['dun','treasure','shop','cmb','build','story','journal'].includes(S.mode))setMusic(S.mode==='cmb'?'cmb':'dun');
+  else stopMusic(true);
 }
 function toggleHints(){
-  S.hintsOn=!S.hintsOn;
-  const el=ge('pause-hints-val');if(el)el.textContent=S.hintsOn?'ON':'OFF';
-  renderBoard();
+  S.hintsOn=!S.hintsOn;saveSettings();ge('pause-hints-val').textContent=S.hintsOn?'ON':'OFF';
+  if(S.mode==='cmb')renderBoard();if(S.mode==='treasure')renderTrsBoard();
 }
-
-
+function canRetireRun(){
+  return ['dun','cmb','treasure','shop','build','story','journal'].includes(S.mode)&&
+    !(S.mode==='cmb'&&S.combatEnded)&&!(S.storyMode&&(S.story.completed||S.story.current==='ending'));
+}
+function requestRetire(){
+  if(!canRetireRun())return;
+  if(S.paused&&S.retireArmed){closePause();retireRun();return;}
+  if(!S.paused)openPause();S.retireArmed=true;
+  ge('retire-btn').textContent='CONFIRM RETIRE';
+  ge('retire-note').textContent='End this run and record your score? Press R again or Confirm retire. Esc resumes your game.';
+}
+function trapFocus(e,root){
+  if(e.key!=='Tab')return false;
+  const buttons=[...root.querySelectorAll('button')].filter(b=>!b.disabled&&!b.hidden);
+  if(!buttons.length)return false;
+  const first=buttons[0],last=buttons[buttons.length-1],active=document.activeElement;
+  if(e.shiftKey&&(active===first||!root.contains(active))){e.preventDefault();last.focus();}
+  else if(!e.shiftKey&&(active===last||!root.contains(active))){e.preventDefault();first.focus();}
+  return true;
+}
 document.addEventListener('keydown',e=>{
-  const m=S.mode;
-
-  // ── PAUSE OVERLAY ──
+  if(e.ctrlKey||e.metaKey||e.altKey)return;
+  const key=e.key.toLowerCase(),m=S.mode;
+  if(e.repeat&&['enter',' ','escape','p','m','h','r','e','t','q','b','j','c','n','1','2','3','4'].includes(key)){e.preventDefault();return;}
   if(S.paused){
-    if(e.key==='Escape'||e.key==='p'||e.key==='P'){e.preventDefault();closePause();}
-    if(e.key==='m'||e.key==='M'){e.preventDefault();toggleMusic();}
-    if(e.key==='h'||e.key==='H'){e.preventDefault();toggleHints();}
+    if(trapFocus(e,ge('pause-overlay')))return;
+    if(key==='escape'||key==='p'){e.preventDefault();closePause();}
+    else if(key==='m'){e.preventDefault();toggleMusic();}
+    else if(key==='h'){e.preventDefault();toggleHints();}
+    else if(key==='r'){e.preventDefault();requestRetire();}
     return;
   }
-  if((e.key==='Escape'||e.key==='p'||e.key==='P')&&(m==='dun'||m==='cmb'||m==='treasure')){
-    e.preventDefault();openPause();return;
+  // Native buttons retain Enter/Space activation; board cells use boardKey below.
+  if(e.target instanceof Element&&e.target.closest('button:not(.bt)')&&['enter',' '].includes(key))return;
+  if(key==='?'||key==='p'){e.preventDefault();openPause();return;}
+  if(key==='m'){e.preventDefault();toggleMusic();return;}
+  if(key==='h'){e.preventDefault();toggleHints();return;}
+  if(key==='r'&&['dun','cmb','treasure','shop','build','story','journal'].includes(m)){e.preventDefault();requestRetire();return;}
+  if(m==='journal'){
+    if(['escape','j','enter',' '].includes(key)){e.preventDefault();closeJournal();}return;
   }
-  if((e.key==='m'||e.key==='M')&&m!=='title'&&m!=='victory'){
-    e.preventDefault();toggleMusic();return;
+  if(key==='j'&&S.storyMode){e.preventDefault();openJournal();return;}
+  if(m==='story'){
+    if(key==='escape'){e.preventDefault();openPause();return;}
+    if(S.story.resolved){if(key==='enter'||key===' '){e.preventDefault();finishStoryScene();}return;}
+    const scene=storyScene(S.story.current);
+    if(['arrowup','arrowdown','arrowleft','arrowright'].includes(key)){
+      e.preventDefault();const delta=['arrowup','arrowleft'].includes(key)?-1:1;
+      S.story.choiceIdx=(S.story.choiceIdx+delta+scene.choices.length)%scene.choices.length;
+      renderStory();ge('s-story').focus({preventScroll:true});return;
+    }
+    if(/^[1-3]$/.test(key)){e.preventDefault();chooseStory(Number(key)-1);return;}
+    if(key==='enter'||key===' '){e.preventDefault();chooseStory(S.story.choiceIdx);}return;
   }
-  if((e.key==='h'||e.key==='H')&&m!=='title'&&m!=='victory'){
-    e.preventDefault();toggleHints();return;
-  }
-
-  // ── RETIRE ──
-  if((e.key==='r'||e.key==='R')&&(m==='dun'||m==='cmb'||m==='treasure'||m==='shop')){
-    e.preventDefault();
-    if(S.paused)closePause();
-    ge('shop-overlay').classList.remove('on');
-    retireRun();
+  if(m==='build'){
+    if(/^[1-4]$/.test(key)){e.preventDefault();toggleSpell(SPELLS[Number(key)-1].id);return;}
+    if(['arrowleft','arrowright','arrowup','arrowdown'].includes(key)&&S.relicChoices.length){
+      e.preventDefault();const delta=['arrowleft','arrowup'].includes(key)?-1:1;
+      selectRelic((S.relicIdx+delta+S.relicChoices.length)%S.relicChoices.length);return;
+    }
+    if(key==='enter'||key===' '){e.preventDefault();finishBuild();return;}
+    if(key==='escape'||key==='b'){
+      e.preventDefault();
+      if(!S.relicChoices.length&&S.equippedSpells.length===2)finishBuild();else openPause();
+    }
     return;
   }
-
-  // ── TITLE ──
-  if(m==='title'){
-    if(e.key==='Enter'||e.key===' '){e.preventDefault();startGame(false);}
-    if(e.key==='e'||e.key==='E'){e.preventDefault();startGame(true);}
-    return;
-  }
-
-  // ── VICTORY ──
-  if(m==='victory'){
-    if(e.key==='Enter'||e.key===' '){e.preventDefault();startGame();}
-    return;
-  }
-
-  // ── DUNGEON ──
-  if(m==='dun'){
-    const dirs={ArrowUp:[0,-1],ArrowDown:[0,1],ArrowLeft:[-1,0],ArrowRight:[1,0],
-                w:[0,-1],s:[0,1],a:[-1,0],d:[1,0],
-                W:[0,-1],S:[0,1],A:[-1,0],D:[1,0]};
-    const dir=dirs[e.key];
-    if(dir){e.preventDefault();move(dir[0],dir[1]);}
-    return;
-  }
-
-  // ── COMBAT ──
-  if(m==='cmb'){
-    if(S.processing||!S.playerTurn)return;
-    boardKey(e,false);
-    return;
-  }
-
-  // ── TREASURE ──
-  if(m==='treasure'){
-    if(e.key==='q'||e.key==='Q'){e.preventDefault();endTreasure(false);return;}
-    if(S.tproc)return;
-    boardKey(e,true);
-    return;
-  }
-
-  // ── SHOP ──
+  if(m==='dun'&&key==='b'){e.preventDefault();openBuild();return;}
+  if(m==='cmb'&&/^[12]$/.test(key)){e.preventDefault();void castSpell(Number(key)-1);return;}
   if(m==='shop'){
-    if(e.key==='Escape'){e.preventDefault();openShop(true);SFX.shop();return;} // ESC = reroll
-    if(e.key==='ArrowUp'||e.key==='w'||e.key==='W'){
-      e.preventDefault();
-      S.shopIdx=Math.max(0,S.shopIdx-1);SFX.cursor();openShop();return;
+    if(trapFocus(e,ge('shop-overlay')))return;
+    if(key==='escape'||key==='q'){e.preventDefault();closeShop();return;}
+    if(key==='t'){e.preventDefault();openShop(true);return;}
+    if(['arrowup','w','arrowdown','s'].includes(key)){
+      e.preventDefault();S.shopIdx=Math.max(0,Math.min(S.shopItems.length-1,S.shopIdx+(['arrowup','w'].includes(key)?-1:1)));SFX.cursor();openShop();return;
     }
-    if(e.key==='ArrowDown'||e.key==='s'||e.key==='S'){
-      e.preventDefault();
-      S.shopIdx=Math.min((S.shopItems||SHOP_ITEMS).length-1,S.shopIdx+1);SFX.cursor();openShop();return;
-    }
-    if(e.key==='Enter'||e.key===' '){
-      e.preventDefault();buyItem(S.shopIdx);return;
-    }
-    if(e.key==='q'||e.key==='Q'){e.preventDefault();closeShop();return;}
-    // Number shortcuts 1-6
-    const n=parseInt(e.key);
-    if(n>=1&&n<=6){e.preventDefault();S.shopIdx=n-1;SFX.cursor();openShop();}
-    return;
+    if(key==='enter'||key===' '){e.preventDefault();buyItem(S.shopIdx);return;}
+    if(/^[1-6]$/.test(key)){e.preventDefault();S.shopIdx=Number(key)-1;openShop();}return;
+  }
+  if(key==='escape'){
+    e.preventDefault();
+    if(m==='cmb'&&S.bsel){S.bsel=null;renderBoard();}
+    else if(m==='treasure'&&S.tsel){S.tsel=null;renderTrsBoard();}
+    else openPause();return;
+  }
+  if(m==='title'){
+    if(key==='enter'||key===' '){e.preventDefault();readStorySave()?continueStory():startGame(false,true);}
+    else if(key==='n'){e.preventDefault();startGame(false,true);}
+    else if(key==='e'){e.preventDefault();startGame(true);}
+    else if(key==='c'){e.preventDefault();startGame(false);}return;
+  }
+  if(m==='victory'){
+    if(key==='enter'||key===' '){e.preventDefault();startGame(false,S.storyMode);}
+    else if(key==='e'){e.preventDefault();startGame(true);}
+    else if(key==='c'){e.preventDefault();startGame(false);}return;
+  }
+  if(m==='dun'){
+    const dirs={arrowup:[0,-1],arrowdown:[0,1],arrowleft:[-1,0],arrowright:[1,0],w:[0,-1],s:[0,1],a:[-1,0],d:[1,0],'.':[0,0],'5':[0,0]};
+    if(dirs[key]){e.preventDefault();move(...dirs[key]);}return;
+  }
+  if(m==='treasure'&&key==='q'){e.preventDefault();endTreasure(false);return;}
+  if(m==='cmb'||m==='treasure'){
+    if(['arrowup','arrowdown','arrowleft','arrowright',' ','enter'].includes(key))e.preventDefault();
+    if(liveBoard(m==='treasure'))boardKey(e,m==='treasure');
   }
 });
-
 function boardKey(e,isTrs){
-  const bc=isTrs?S.tc:S.bc;
-  const arrow={ArrowUp:[-1,0],ArrowDown:[1,0],ArrowLeft:[0,-1],ArrowRight:[0,1]};
-  const dir=arrow[e.key];
+  const bc=isTrs?S.tc:S.bc,key=e.key.toLowerCase();
+  const dir={arrowup:[-1,0],arrowdown:[1,0],arrowleft:[0,-1],arrowright:[0,1],w:[-1,0],s:[1,0],a:[0,-1],d:[0,1]}[key];
   if(dir){
-    e.preventDefault();
-    const nr=bc.r+dir[0],nc=bc.c+dir[1];
-    if(nr>=0&&nr<BS&&nc>=0&&nc<BS){bc.r=nr;bc.c=nc;SFX.cursor();}
-    if(isTrs)renderTrsBoard();else renderBoard();
-    return;
+    e.preventDefault();bc.r=Math.max(0,Math.min(BS-1,bc.r+dir[0]));bc.c=Math.max(0,Math.min(BS-1,bc.c+dir[1]));
+    SFX.cursor();(isTrs?renderTrsBoard:renderBoard)();
+    ge(isTrs?'trs-board':'board').children[bc.r*BS+bc.c].focus({preventScroll:true});return;
   }
-  if(e.key===' '||e.key==='Enter'){
-    e.preventDefault();
-    if(isTrs)onTrsTile(bc.r,bc.c);else onTile(bc.r,bc.c);
-  }
-  if(e.key==='Escape'){
-    e.preventDefault();
-    if(isTrs){S.tsel=null;renderTrsBoard();}
-    else{S.bsel=null;renderBoard();}
-  }
+  if(key==='enter'||key===' '){e.preventDefault();(isTrs?onTrsTile:onTile)(bc.r,bc.c);}
 }
 
-/* ═══════════════════════════════════════
-   MOBILE TOUCH
-═══════════════════════════════════════ */
-let _touchStartTile=null;
-function _tilePos(el){
-  // Walk up to find the board grid cell index
-  const board=el.closest('#board,#trs-board');
-  if(!board)return null;
-  const cells=Array.from(board.children);
-  const idx=cells.indexOf(el);
-  if(idx<0)return null;
-  return{r:Math.floor(idx/BS),c:idx%BS,isTrs:board.id==='trs-board'};
+// Pointer events cover mouse, pen and touch; the synthetic click after a swipe is ignored.
+let pointerStart=null,ignoreClickUntil=0;
+function tilePosition(el){
+  const cell=el instanceof Element?el.closest('.bt'):null;
+  if(!cell)return null;const board=cell.closest('#board,#trs-board');
+  return board?{r:Number(cell.dataset.r),c:Number(cell.dataset.c),isTrs:board.id==='trs-board',cell}:null;
 }
-document.addEventListener('touchstart',e=>{
-  const t=e.target;
-  if(!t.classList.contains('bt'))return;
-  const pos=_tilePos(t);
-  if(!pos)return;
-  _touchStartTile=pos;
-  // Also move cursor to this tile
-  if(pos.isTrs)S.tc={r:pos.r,c:pos.c};
-  else S.bc={r:pos.r,c:pos.c};
-  if(pos.isTrs)renderTrsBoard();else renderBoard();
-},{passive:true});
+document.addEventListener('pointerdown',e=>{
+  const pos=tilePosition(e.target);if(!pos||!liveBoard(pos.isTrs)||e.button!==0||e.isPrimary===false)return;
+  pointerStart={...pos,id:e.pointerId};
+});
+document.addEventListener('pointercancel',()=>pointerStart=null);
+document.addEventListener('pointerup',e=>{
+  const start=pointerStart;pointerStart=null;
+  if(!start||start.id!==e.pointerId)return;
+  const end=tilePosition(document.elementFromPoint(e.clientX,e.clientY));
+  if(!end||end.isTrs!==start.isTrs||!liveBoard(end.isTrs))return;
+  if(Math.abs(end.r-start.r)+Math.abs(end.c-start.c)!==1)return;
+  if(end.isTrs)S.tsel=[start.r,start.c];else S.bsel=[start.r,start.c];
+  ignoreClickUntil=performance.now()+500;e.preventDefault();
+  (end.isTrs?onTrsTile:onTile)(end.r,end.c);
+});
+document.addEventListener('click',e=>{
+  const pos=tilePosition(e.target);if(!pos||!liveBoard(pos.isTrs))return;
+  if(e.detail!==0&&performance.now()<ignoreClickUntil)return;
+  (pos.isTrs?onTrsTile:onTile)(pos.r,pos.c);
+});
+document.addEventListener('visibilitychange',()=>{
+  if(document.hidden&&['dun','cmb','treasure','shop','build','story','journal'].includes(S.mode)&&!S.paused)openPause();
+});
 
-document.addEventListener('touchend',e=>{
-  const t=document.elementFromPoint(
-    e.changedTouches[0].clientX,e.changedTouches[0].clientY);
-  if(!t||!t.classList.contains('bt')){_touchStartTile=null;return;}
-  const end=_tilePos(t);
-  if(!end||!_touchStartTile)return;
-  const start=_touchStartTile;_touchStartTile=null;
-  if(start.r===end.r&&start.c===end.c){
-    // Tap = select/deselect
-    if(end.isTrs)onTrsTile(end.r,end.c);else onTile(end.r,end.c);
-    return;
-  }
-  const dr=Math.abs(end.r-start.r),dc=Math.abs(end.c-start.c);
-  if((dr===1&&dc===0)||(dr===0&&dc===1)){
-    // Adjacent drag = direct swap attempt
-    if(end.isTrs){
-      S.tc={r:start.r,c:start.c};
-      if(!S.tsel)S.tsel=[start.r,start.c];
-      onTrsTile(end.r,end.c);
-    }else{
-      S.bc={r:start.r,c:start.c};
-      if(!S.bsel)S.bsel=[start.r,start.c];
-      onTile(end.r,end.c);
-    }
-  }
-},{passive:true});
+
 // Init: set mode so keydown works from page load
 S=fresh();
 const ge=id=>document.getElementById(id);
-const sl=ms=>new Promise(r=>setTimeout(r,ms));
+
 // Render scores on initial title
-window.addEventListener('DOMContentLoaded',()=>renderScores());
+window.addEventListener('DOMContentLoaded',()=>{renderScores();updateContinueUI();});
+window.addEventListener('pagehide',()=>checkpointStory());
 
 /* ═══════════════════════════════════════
    START
@@ -1618,58 +2405,71 @@ window.addEventListener('DOMContentLoaded',()=>renderScores());
    HIGH SCORE
 ═══════════════════════════════════════ */
 function loadScores(){
-  try{return JSON.parse(localStorage.getItem('adv_scores')||'[]');}catch(e){return[];}
+  try{
+    const raw=JSON.parse(localStorage.getItem('adv_scores')||'[]');if(!Array.isArray(raw))return [];
+    return raw.slice(0,1000).filter(s=>s&&['floor','level','kills','gold'].every(k=>Number.isFinite(s[k])&&s[k]>=0))
+      .map(s=>({...s,slainBy:typeof s.slainBy==='string'?s.slainBy.slice(0,70):'?'})).slice(0,5);
+  }catch(_){return [];}
 }
 function saveScore(entry){
-  try{
-    const scores=loadScores();
-    scores.push(entry);
-    scores.sort((a,b)=>b.floor-a.floor||b.kills-a.kills||b.gold-a.gold);
-    localStorage.setItem('adv_scores',JSON.stringify(scores.slice(0,5)));
-  }catch(e){}
+  try{const scores=loadScores();scores.push(entry);scores.sort((a,b)=>b.floor-a.floor||b.kills-a.kills||b.gold-a.gold);localStorage.setItem('adv_scores',JSON.stringify(scores.slice(0,5)));}catch(_){}
 }
-
+function showRunResult(title,detail=''){
+  const dm=ge('death-msg');dm.style.display='block';dm.replaceChildren();
+  const heading=document.createElement('div');heading.style.color='var(--am)';heading.textContent=title;
+  const text=document.createElement('div');text.textContent=detail;
+  const stats=document.createElement('div');stats.style.color='var(--dg)';
+  stats.textContent=`${S.storyMode?'Story · ':S.endless?'Endless · ':''}Floor ${S.floor} · Level ${S.p.level} · ${S.totalKills} kills · ${S.p.gold}G · Best cascade ×${S.bestCombo}`;
+  dm.append(heading,text,stats);
+}
 function retireRun(){
-  // Save a “retired” score and go back to title
-  try{
-    saveScore({floor:S.floor,level:S.p.level,kills:S.totalKills,gold:S.p.gold,slainBy:'RETIRED'});
-  }catch(e){}
-
-  stopMusic(false);
-
-  const dm=ge('death-msg');
-  if(dm){
-    dm.style.display='block';
-    dm.innerHTML=
-      `<div style="color:var(--am);font-size:16px;letter-spacing:2px;margin-bottom:4px">⌁ YOU RETIRED ⌁</div>`+
-      `<div style="color:var(--dg);margin-top:2px">Floor ${S.floor} · Level ${S.p.level} · ${S.totalKills} kills · ${S.p.gold}G</div>`;
-  }
-
-  S.mode='title';
-  showScr('title');
-  renderScores();
-  setTimeout(()=>setMusic('dun'),600);
+  if(!canRetireRun())return;
+  saveScore(runScore('RETIRED'));if(S.storyMode)clearStorySave();enterMode('title');S.paused=false;S.enemy=null;S.bsel=null;S.tsel=null;
+  ge('pause-overlay').style.display='none';ge('shop-overlay').classList.remove('on');
+  stopMusic(true);showRunResult('YOU RETIRED');showScr('title');renderScores();
 }
-
 function renderScores(){
-  const scores=loadScores();
-  const el=ge('score-table');if(!el)return;
-  if(!scores.length){el.textContent='No runs yet.';return;}
-  el.innerHTML='<div style="color:var(--dg);font-size:10px;margin-bottom:4px">─── HALL OF THE FALLEN ───</div>'+
-    scores.map((s,i)=>`<div style="font-size:11px;line-height:1.8;color:${i===0?'var(--am)':'var(--dg)'}">` +
-      `${i===0?'☠ ':'  '}FL${s.floor} LV${s.level} ${s.kills}kills ${s.gold}G` +
-      `<span style="color:#333;margin-left:6px">${s.slainBy||'?'}</span></div>`
-    ).join('');
+  const el=ge('score-table');if(!el)return;const scores=loadScores();el.replaceChildren();
+  if(!scores.length){el.textContent='No runs yet. The dungeon is accepting applications.';return;}
+  const h=document.createElement('div');h.className='phdr';h.textContent='HALL OF THE FALLEN';el.append(h);
+  const endingNames={restore:'REGISTER RESTORED',break:'CROWN BROKEN',crown:'CROWN TAKEN'};
+  for(const [i,s] of scores.entries()){
+    const row=document.createElement('div');row.className='score-row';
+    const main=document.createElement('div');main.className='score-main';
+    main.style.color=i===0?'var(--am)':'var(--dg)';
+    main.textContent=`${s.storyMode?'STORY':s.endless?'∞':'10F'} · FL${s.floor} LV${s.level} · ${s.kills} kills · ${s.gold}G · ${s.slainBy}`;
+    row.append(main);
+
+    const details=[];
+    const relics=Array.isArray(s.relics)?s.relics.map(id=>RELICS.find(r=>r.id===id)?.name||String(id).toUpperCase()).filter(Boolean):[];
+    const spells=Array.isArray(s.spells)?s.spells.map(id=>SPELLS.find(sp=>sp.id===id)?.name||String(id).toUpperCase()).filter(Boolean):[];
+    if(relics.length)details.push(`RELICS ${relics.join(' / ')}`);
+    if(spells.length)details.push(`SPELLS ${spells.join(' + ')}`);
+    if(s.storyMode){
+      const pages=Number.isFinite(s.registerPages)?s.registerPages:0;
+      details.push(`REGISTER ${pages}/3`);
+      details.push(s.storyEnding?`ENDING ${endingNames[s.storyEnding]||String(s.storyEnding).toUpperCase()}`:'ACCOUNT UNFINISHED');
+    }
+    if(Number.isFinite(s.bestCombo)&&s.bestCombo>0)details.push(`BEST CASCADE ×${s.bestCombo}`);
+    if(Number.isFinite(s.extraTurns)&&s.extraTurns>0)details.push(`${s.extraTurns} BONUS TURNS`);
+    if(Number.isFinite(s.spellCasts)&&s.spellCasts>0)details.push(`${s.spellCasts} SPELLS CAST`);
+    if(details.length){const meta=document.createElement('div');meta.className='score-meta';meta.textContent='↳ '+details.join(' · ');row.append(meta);}
+    el.append(row);
+  }
 }
-function startGame(endless=false){
-  S=fresh();
-  S.endless=!!endless;
+
+function startGame(endless=false,storyMode=false){
+  if(!['title','victory'].includes(S.mode)||S.paused)return;
+  document.activeElement?.blur();stopMusic(true);S=fresh();
+  ge('shop-overlay').classList.remove('on');ge('pause-overlay').style.display='none';
+  S.endless=!!endless;S.storyMode=!!storyMode&&!S.endless;
+  if(S.storyMode)clearStorySave();
   S.mode='dun';
 
   const el=ge('death-msg');if(el)el.style.display='none';
 
   const{grid,rooms}=genFloor(1,S.endless);
-  S.map={grid,rooms};
+  S.map={grid,rooms};configureStoryFloor();
   S.enemies=placeEnemies(rooms,1);
   S.seen=Array.from({length:MH},()=>Array(MW).fill(false));
   S.p.x=rooms[0].cx;S.p.y=rooms[0].cy;
@@ -1680,8 +2480,29 @@ function startGame(endless=false){
 
   log(S.endless?'ENDLESS DESCENT. No king. No glory.':'The dungeon breathes. Death waits.','e');
   log('WASD/ARROWS to move. Bump enemies.','n');
-  log('P/ESC pause · H toggles hints · R retire','n');
+  log('B builds · J journal · P / ? guide · H hints · . wait','n');
+  enterStoryFloor();checkpointStory();
 }
+
+ge('continue-story-btn').addEventListener('click',continueStory);
+ge('story-btn').addEventListener('click',()=>startGame(false,true));
+ge('story-continue').addEventListener('click',finishStoryScene);
+for(const id of ['journal-btn','story-journal-btn','vic-journal-btn'])ge(id).addEventListener('click',openJournal);
+ge('journal-close').addEventListener('click',closeJournal);
+ge('build-btn').addEventListener('click',()=>openBuild());
+ge('build-confirm').addEventListener('click',finishBuild);
+ge('begin-btn').addEventListener('click',()=>startGame(false));
+ge('endless-btn').addEventListener('click',()=>startGame(true));
+ge('again-btn').addEventListener('click',()=>startGame(false,S.storyMode));
+ge('guide-btn').addEventListener('click',()=>S.paused?closePause():openPause());
+ge('resume-btn').addEventListener('click',closePause);
+ge('music-btn').addEventListener('click',toggleMusic);
+ge('hints-btn').addEventListener('click',toggleHints);
+ge('retire-btn').addEventListener('click',requestRetire);
+ge('loot-btn').addEventListener('click',()=>endTreasure(false));
+ge('reroll-btn').addEventListener('click',()=>openShop(true));
+ge('shop-leave-btn').addEventListener('click',closeShop);
+for(const b of document.querySelectorAll('[data-move]'))b.addEventListener('click',()=>move(...b.dataset.move.split(',').map(Number)));
 </script>
 </body>
 </html>
