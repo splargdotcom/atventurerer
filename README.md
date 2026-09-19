@@ -9,6 +9,13 @@
 </p>
 <!-- splarg-storefront:end -->
 
+<!-- splarg-itch-media:start -->
+<p align="center">
+  <a href="https://splarg.itch.io/atventurerer"><img src="docs/itch/cover.png" alt="@venturerer cover art" width="640"></a>
+</p>
+<!-- splarg-itch-media:end -->
+
+
 
 **The Last Account · 1.4**
 
