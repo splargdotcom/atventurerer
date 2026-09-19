@@ -1,0 +1,1687 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>@venturerer</title>
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=VT323&display=swap" rel="stylesheet">
+<style>
+:root{
+  --g:#33ff33;--dg:#1a5c1a;--bg:#010601;--am:#ffcc00;
+  --re:#ff3333;--cy:#33ffff;--mg:#ff33ff;--ye:#ffff33;--bl:#4488ff;
+  --bdr:#0b2b0b;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html,body{height:100%;}
+body{
+  background:var(--bg);color:var(--g);
+  font-family:'Share Tech Mono',monospace;font-size:13px;
+  display:flex;flex-direction:column;align-items:center;
+  justify-content:flex-start;overflow:hidden;height:100vh;
+}
+body::before{content:'';position:fixed;inset:0;
+  background:repeating-linear-gradient(0deg,transparent 0,transparent 1px,rgba(0,0,0,0.13)1px,rgba(0,0,0,0.13)2px);
+  pointer-events:none;z-index:9999;}
+body::after{content:'';position:fixed;inset:0;
+  background:radial-gradient(ellipse at center,transparent 50%,rgba(0,0,0,.7));
+  pointer-events:none;z-index:9998;}
+
+/* ── WRAPPER ── */
+#wrap{width:min(980px,calc(100vw - 8px));display:flex;flex-direction:column;height:100vh;}
+
+/* ── HEADER ── */
+#hdr{
+  font-family:'VT323',monospace;font-size:20px;color:var(--am);
+  letter-spacing:3px;text-shadow:0 0 8px var(--am);text-align:center;
+  padding:3px 0 3px;flex-shrink:0;
+  animation:flicker 9s infinite;
+}
+@keyframes flicker{0%,94%,100%{opacity:1}96%{opacity:.6}97.5%{opacity:1}99%{opacity:.75}}
+
+/* ── SCREENS (mutually exclusive, fill remaining height) ── */
+.scr{display:none;flex:1;min-height:0;}
+
+/* TITLE */
+#s-title{flex-direction:column;align-items:center;justify-content:center;gap:14px;text-align:center;}
+#s-title.on{display:flex;}
+#t-art{font-family:'VT323',monospace;font-size:48px;letter-spacing:6px;color:var(--am);
+  text-shadow:0 0 12px var(--am),0 0 30px rgba(255,204,0,.3);
+  animation:flicker 9s infinite;}
+.t-sub{font-size:12px;color:var(--dg);line-height:2;}
+
+/* DUNGEON */
+#s-dun.on{display:grid;grid-template-columns:1fr 178px;grid-template-rows:1fr 72px;gap:4px;padding:0 0 4px;}
+#map-wrap{grid-column:1;grid-row:1;border:1px solid var(--bdr);background:#000;overflow:hidden;}
+#map-pre{font-family:'Share Tech Mono',monospace;font-size:13px;line-height:1.28;white-space:pre;padding:3px 5px;}
+#stat-col{grid-column:2;grid-row:1/3;border:1px solid var(--bdr);background:#000;padding:6px;overflow:hidden;display:flex;flex-direction:column;gap:1px;}
+#log-wrap{grid-column:1;grid-row:2;border:1px solid var(--bdr);background:#000;padding:3px 6px;overflow:hidden;}
+#log-inner{font-size:11px;line-height:1.45;overflow-y:auto;height:100%;}
+
+/* COMBAT — fixed pixel rows so nothing overflows */
+#s-cmb.on{display:grid;grid-template-columns:242px 1fr;grid-template-rows:1fr 108px;gap:4px;padding:0 0 4px;}
+#e-panel{grid-column:1;grid-row:1;border:1px solid var(--bdr);background:#000;padding:7px;overflow:hidden;display:flex;flex-direction:column;gap:2px;}
+#e-art{font-size:12px;white-space:pre;color:var(--re);line-height:1.25;flex-shrink:0;}
+#b-panel{grid-column:2;grid-row:1;border:1px solid var(--bdr);background:#000;padding:7px;overflow:hidden;display:flex;flex-direction:column;}
+#cmb-bot{grid-column:1/3;grid-row:2;border:1px solid var(--bdr);background:#000;display:grid;grid-template-columns:1fr 1fr;overflow:hidden;}
+#p-stats-wrap{padding:5px 8px;border-right:1px solid var(--bdr);overflow:hidden;}
+#c-log-wrap{padding:5px 8px;overflow:hidden;display:flex;flex-direction:column;}
+#c-log{font-size:11px;line-height:1.38;overflow-y:auto;flex:1;min-height:0;}
+
+/* TREASURE */
+#s-trs.on{display:grid;grid-template-columns:172px 1fr;grid-template-rows:1fr 72px;gap:4px;padding:0 0 4px;}
+#trs-info{grid-column:1;grid-row:1;border:1px solid var(--bdr);background:#000;padding:7px;overflow:hidden;display:flex;flex-direction:column;gap:2px;}
+#trs-bwrap{grid-column:2;grid-row:1;border:1px solid var(--bdr);background:#000;padding:7px;display:flex;flex-direction:column;overflow:hidden;}
+#trs-bot{grid-column:1/3;grid-row:2;border:1px solid var(--bdr);background:#000;padding:3px 8px;display:flex;align-items:center;gap:12px;overflow:hidden;}
+#trs-log{font-size:11px;line-height:1.4;overflow-y:auto;flex:1;max-height:62px;}
+
+/* GAMEOVER / VICTORY */
+#s-vic.on{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;text-align:center;padding:20px;}
+
+/* ── SHOP OVERLAY (fixed, over dungeon) ── */
+#shop-overlay{
+  display:none;position:fixed;inset:0;z-index:500;
+  background:rgba(0,0,0,.88);align-items:center;justify-content:center;
+}
+#shop-overlay.on{display:flex;}
+#shop-box{border:1px solid var(--am);background:#000;padding:14px 18px;min-width:340px;max-width:460px;max-height:90vh;overflow-y:auto;}
+.shop-row{display:flex;align-items:center;gap:8px;padding:5px 0;border-bottom:1px solid var(--bdr);}
+.shop-info{flex:1;min-width:0;}
+.shop-name{color:var(--am);font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.shop-desc{color:var(--dg);font-size:10px;}
+.shop-cost{color:var(--am);font-size:12px;white-space:nowrap;flex-shrink:0;}
+
+/* ── BOARD ── */
+#board,#trs-board{touch-action:none;
+  display:inline-grid;
+  grid-template-columns:repeat(7,38px);
+  grid-template-rows:repeat(7,38px);
+  gap:2px;border:1px solid var(--bdr);padding:3px;background:#000;flex-shrink:0;
+}
+.bt{
+  width:38px;height:38px;display:flex;align-items:center;justify-content:center;
+  font-family:'Share Tech Mono',monospace;font-size:21px;
+  background:#000;border:1px solid #060e06;cursor:default;user-select:none;
+}
+.bt[data-t=ATK]{color:var(--re);border-color:#190000;}
+.bt[data-t=DEF]{color:var(--bl);border-color:#00081a;}
+.bt[data-t=MAG]{color:var(--mg);border-color:#190019;}
+.bt[data-t=HLT]{color:var(--g); border-color:#001900;}
+.bt[data-t=SKL]{color:var(--ye);border-color:#191900;}
+.bt.cur{border:2px solid var(--am)!important;z-index:1;}
+.bt.sel{background:var(--am)!important;color:#000!important;border-color:var(--am)!important;}
+.bt.hint{border-color:#665500!important;box-shadow:0 0 5px #aa8800;}
+.bt.flash{background:#fff!important;color:#000!important;border-color:#fff!important;}
+
+/* ── SHARED COMPONENTS ── */
+.phdr{font-family:'VT323',monospace;font-size:15px;color:var(--am);letter-spacing:2px;
+  border-bottom:1px solid var(--bdr);margin-bottom:3px;padding-bottom:1px;
+  white-space:nowrap;overflow:hidden;flex-shrink:0;}
+.sl{display:flex;justify-content:space-between;margin:1px 0;font-size:11px;
+  white-space:nowrap;overflow:hidden;gap:4px;}
+.sk{color:var(--dg);flex-shrink:0;}
+.sv{color:var(--g);overflow:hidden;text-overflow:ellipsis;}
+.sv-hp{color:var(--re)}.sv-mp{color:var(--bl)}.sv-xp{color:var(--mg)}.sv-g{color:var(--am)}.sv-sh{color:var(--cy)}
+.bar{background:#000;border:1px solid var(--bdr);height:6px;margin:1px 0 3px;overflow:hidden;flex-shrink:0;}
+.bf{height:100%;transition:width .3s;}
+.bf-hp{background:var(--re)}.bf-mp{background:var(--bl)}.bf-xp{background:var(--mg)}.bf-am{background:var(--am)}
+.bf-mp.low-mp{background:var(--re)!important;animation:mpflash .35s 3;}
+@keyframes mpflash{0%,100%{opacity:1}50%{opacity:.15}}
+.btn{font-family:'VT323',monospace;font-size:17px;background:#000;border:1px solid var(--bdr);
+  color:var(--g);padding:3px 12px;letter-spacing:1px;white-space:nowrap;}
+.btn-am{border-color:#665500;color:var(--am);}
+.btn-re{border-color:#550000;color:var(--re);}
+.btn-cy{border-color:#005555;color:var(--cy);}
+.btn-mg{border-color:#550055;color:var(--mg);}
+/* Shop keyboard selection */
+.shop-row{display:flex;align-items:center;gap:8px;padding:5px 0;border-bottom:1px solid var(--bdr);border-left:3px solid transparent;}
+.shop-row.shop-sel{border-left-color:var(--am);background:#0a0800;}
+
+#turn-ind{font-family:'VT323',monospace;font-size:17px;letter-spacing:2px;text-align:center;
+  white-space:nowrap;flex-shrink:0;}
+.ti-p{color:var(--g)}.ti-e{color:var(--re);animation:pulsered .7s infinite alternate;}
+@keyframes pulsered{from{text-shadow:none}to{text-shadow:0 0 10px var(--re)}}
+
+/* Map char colours */
+.cw{color:#274027}.cf{color:#0b160b}.cp{color:var(--am);text-shadow:0 0 4px var(--am)}
+.ce{color:var(--re)}.cb{color:#ff8800}.cs{color:var(--cy)}.ct{color:var(--am)}.co{color:#aa88ff}.cx{color:#030803}
+
+/* Log colours */
+.l-n{color:var(--dg)}.l-e{color:var(--g)}.l-c{color:var(--am)}.l-d{color:var(--re)}
+.l-l{color:var(--am)}.l-s{color:var(--cy)}.l-w{color:var(--mg)}
+.l-atk{color:var(--re)}.l-def{color:var(--bl)}.l-mag{color:var(--mg)}.l-hlt{color:var(--g)}
+.l-skl{color:var(--ye)}.l-win{color:#ffcc00}
+
+.sts{font-size:10px;padding:0 3px;margin:1px;display:inline-block;border:1px solid;}
+.sts-burn{color:#ff6600;border-color:#ff6600}.sts-stun{color:var(--ye);border-color:var(--ye)}
+@keyframes blink{50%{opacity:0}}.blink{animation:blink 1s step-end infinite;color:var(--am);}
+</style>
+</head>
+<body>
+<div id="wrap">
+  <div id="hdr">⚔  @venturerer  ⚔</div>
+
+  <!-- ══ TITLE ══ -->
+  <div id="s-title" class="scr on">
+    <div id="t-art">@venturerer</div>
+    <div id="death-msg" style="display:none;color:var(--re);font-size:13px;line-height:2;border:1px solid #330000;background:#0a0000;padding:8px 18px;font-family:'Share Tech Mono',monospace;"></div>
+    <div class="t-sub">
+      WASD / ARROWS = MOVE &nbsp;·&nbsp; BUMP ENEMIES TO FIGHT<br>
+      IN COMBAT: ARROWS = CURSOR &nbsp;·&nbsp; ENTER / SPACE = SELECT<br>
+      SHOP: ↑↓ = NAVIGATE &nbsp;·&nbsp; ENTER = BUY &nbsp;·&nbsp; ESC = LEAVE<br>
+      &gt; = DESCEND &nbsp;&nbsp; $ = TREASURE VAULT &nbsp;&nbsp; § = SHOP
+    </div>
+    <div class="blink" style="font-size:24px;letter-spacing:3px;">ENTER = BEGIN &nbsp;·&nbsp; E = ENDLESS</div>
+    <div id="score-table" style="margin-top:6px;text-align:left;min-width:290px;"></div>
+  </div>
+
+  <!-- ══ DUNGEON ══ -->
+  <div id="s-dun" class="scr">
+    <div id="map-wrap"><pre id="map-pre"></pre></div>
+    <div id="stat-col">
+      <div class="phdr">@venturerer</div>
+      <div class="sl"><span class="sk">FLOOR</span><span class="sv" id="d-fl">1</span></div>
+      <div class="sl"><span class="sk">LEVEL</span><span class="sv" id="d-lv">1</span></div>
+      <div class="sl"><span class="sk">EXP</span><span class="sv-xp" id="d-xp">0/100</span></div>
+      <div class="bar"><div class="bf bf-xp" id="d-xp-b" style="width:0%"></div></div>
+      <div class="sl"><span class="sk">HP</span><span class="sv-hp" id="d-hp">80/80</span></div>
+      <div class="bar"><div class="bf bf-hp" id="d-hp-b" style="width:100%"></div></div>
+      <div class="sl"><span class="sk">MP</span><span class="sv-mp" id="d-mp">30/30</span></div>
+      <div class="bar"><div class="bf bf-mp" id="d-mp-b" style="width:100%"></div></div>
+      <div class="sl"><span class="sk">ATK</span><span class="sv" id="d-atk">8</span></div>
+      <div class="sl"><span class="sk">DEF</span><span class="sv" id="d-def">3</span></div>
+      <div class="sl"><span class="sk">GOLD</span><span class="sv-g" id="d-gld">0</span></div>
+      <div class="sl"><span class="sk">KILLS</span><span class="sv" id="d-kls">0</span></div>
+      <hr style="border-color:var(--bdr);margin:4px 0">
+      <div style="color:var(--dg);font-size:10px;line-height:1.8">
+        MOVE: WASD/ARROWS<br>
+        BUMP @: FIGHT<br>
+        &gt; : DESCEND<br>
+        $ : TREASURE<br>
+        § : SHOP<br>
+        P/ESC : PAUSE<br>
+        M : MUSIC
+      </div>
+    </div>
+    <div id="log-wrap"><div id="log-inner"></div></div>
+  </div>
+
+  <!-- ══ COMBAT ══ -->
+  <div id="s-cmb" class="scr">
+    <div id="e-panel">
+      <div class="phdr" id="c-ename">GOBLIN</div>
+      <pre id="e-art"></pre>
+      <div class="sl"><span class="sk">HP</span><span class="sv-hp" id="c-ehp">30/30</span></div>
+      <div class="bar"><div class="bf bf-hp" id="c-ehp-b" style="width:100%"></div></div>
+      <div class="sl"><span class="sk">ATK</span><span class="sv" id="c-eatk">6</span></div>
+      <div class="sl"><span class="sk">DEF</span><span class="sv" id="c-edef">1</span></div>
+      <div id="c-ests" style="min-height:14px;"></div>
+      <div id="c-int" style="font-size:10px;color:#ff7777;min-height:13px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;"></div>
+      <div id="turn-ind" class="ti-p">YOUR TURN</div>
+    </div>
+    <div id="b-panel">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:2px;flex-shrink:0">
+        <div class="phdr" style="margin:0;border:none;">MATCH TILES</div>
+        <span id="c-cbo" style="color:var(--ye);font-size:16px;font-family:'VT323',monospace;"></span>
+      </div>
+      <div style="font-size:10px;color:var(--dg);margin-bottom:4px;flex-shrink:0;">
+        <span style="color:var(--re)">♠ATK</span>&nbsp;
+        <span style="color:var(--bl)">◆DEF</span>&nbsp;
+        <span style="color:var(--mg)">★MAG</span>&nbsp;
+        <span style="color:var(--g)">♥HLT</span>&nbsp;
+        <span style="color:var(--ye)">♣SKL</span>
+        &nbsp;<span style="color:var(--dg)">ARROWS + ENTER</span>
+      </div>
+      <div id="board"></div>
+    </div>
+    <div id="cmb-bot">
+      <div id="p-stats-wrap">
+        <div class="phdr" style="font-size:13px;">YOU</div>
+        <div class="sl"><span class="sk">HP</span><span class="sv-hp" id="c-php">80/80</span></div>
+        <div class="bar"><div class="bf bf-hp" id="c-php-b" style="width:100%"></div></div>
+        <div class="sl"><span class="sk">MP</span><span class="sv-mp" id="c-pmp">30/30</span></div>
+        <div class="bar"><div class="bf bf-mp" id="c-pmp-b" style="width:100%"></div></div>
+        <div class="sl"><span class="sk">SHIELD</span><span class="sv-sh" id="c-shld">0</span></div>
+        <div class="sl"><span class="sk">ATK×</span><span id="c-abuf" style="color:#ff8888;">1.0</span></div>
+        <div class="sl"><span class="sk">DODGE</span><span id="c-dodge" style="color:var(--cy);">—</span></div>
+      </div>
+      <div id="c-log-wrap">
+        <div class="phdr" style="font-size:13px;">COMBAT LOG</div>
+        <div id="c-log"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ TREASURE MATCH-3 ══ -->
+  <div id="s-trs" class="scr">
+    <div id="trs-info">
+      <div class="phdr">TREASURE VAULT</div>
+      <div class="sl"><span class="sk">TURNS LEFT</span><span class="sv-g" id="trs-turns">8</span></div>
+      <div class="sl"><span class="sk">GOLD FOUND</span><span class="sv-g" id="trs-gold">0</span></div>
+      <div class="sl"><span class="sk">HP HEALED</span><span class="sv-hp" id="trs-hp">0</span></div>
+      <hr style="border-color:var(--bdr);margin:5px 0">
+      <div style="color:var(--dg);font-size:10px;line-height:1.85">
+        <span style="color:var(--re)">♠</span> ATK = GOLD<br>
+        <span style="color:var(--bl)">◆</span> DEF = SHIELD<br>
+        <span style="color:var(--mg)">★</span> MAG = MP restore<br>
+        <span style="color:var(--g)">♥</span> HLT = HEAL<br>
+        <span style="color:var(--ye)">♣</span> SKL = GOLD x2
+      </div>
+      <div style="margin-top:auto;padding-top:6px;">
+        <div style="color:var(--cy);font-size:12px;text-align:center;letter-spacing:1px;">[ Q ] TAKE LOOT &amp; LEAVE</div>
+      </div>
+    </div>
+    <div id="trs-bwrap">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:3px;flex-shrink:0;">
+        <div class="phdr" style="margin:0;border:none;">MATCH FOR LOOT</div>
+        <span id="trs-cbo" style="color:var(--am);font-size:16px;font-family:'VT323',monospace;"></span>
+      </div>
+      <div style="font-size:10px;color:var(--dg);margin-bottom:4px;flex-shrink:0;">
+        <span style="color:var(--re)">♠ATK</span>&nbsp;
+        <span style="color:var(--bl)">◆DEF</span>&nbsp;
+        <span style="color:var(--mg)">★MAG</span>&nbsp;
+        <span style="color:var(--g)">♥HLT</span>&nbsp;
+        <span style="color:var(--ye)">♣SKL</span>
+        &nbsp;<span style="color:var(--dg)">ARROWS + ENTER</span>
+      </div>
+      <div id="trs-board"></div>
+    </div>
+    <div id="trs-bot">
+      <div id="trs-log"></div>
+    </div>
+  </div>
+
+  <!-- ══ VICTORY ══ -->
+  <div id="s-vic" class="scr">
+    <div style="color:var(--am);font-family:'VT323',monospace;font-size:44px;letter-spacing:3px;text-shadow:0 0 14px var(--am);">THE KING IS SLAIN</div>
+    <div id="vic-st" style="color:var(--dg);font-size:13px;line-height:2.1;"></div>
+    <div class="blink" style="font-size:22px;">*** GLORY ETERNAL ***</div>
+    <div style="color:var(--dg);font-size:13px;letter-spacing:2px;margin-top:8px;">PRESS ENTER TO PLAY AGAIN</div>
+  </div>
+</div>
+
+<!-- ══ PAUSE OVERLAY ══ -->
+<div id="pause-overlay" style="display:none;position:fixed;inset:0;z-index:600;background:rgba(0,0,0,.92);align-items:center;justify-content:center;">
+  <div style="border:1px solid var(--am);background:#000;padding:20px 28px;min-width:260px;text-align:center;">
+    <div class="phdr" style="font-size:22px;letter-spacing:4px;margin-bottom:14px;">II PAUSED</div>
+    <div id="pause-music-row" style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--bdr);">
+      <span style="color:var(--dg);font-size:13px;">MUSIC</span>
+      <span id="pause-music-val" style="color:var(--am);font-size:14px;letter-spacing:2px;">ON</span>
+    </div>
+    <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--bdr);margin-bottom:8px;">
+      <span style="color:var(--dg);font-size:13px;">SWAP HINTS</span>
+      <span id="pause-hints-val" style="color:var(--am);font-size:14px;letter-spacing:2px;">ON</span>
+    </div>
+    <div style="color:var(--dg);font-size:11px;line-height:2;margin-top:10px;">
+      M = TOGGLE MUSIC<br>
+      H = TOGGLE HINTS<br>
+      ESC / P = RESUME
+    </div>
+  </div>
+</div>
+
+<!-- ══ SHOP OVERLAY (lives outside #wrap) ══ -->
+<div id="shop-overlay">
+  <div id="shop-box">
+    <div class="phdr" style="font-size:20px;margin-bottom:10px;letter-spacing:3px;">§ WANDERING MERCHANT §</div>
+    <div class="sl" style="margin-bottom:10px;">
+      <span style="color:var(--dg);font-size:12px;">YOUR GOLD:</span>
+      <span class="sv-g" id="shop-gold-disp" style="font-size:13px;">0</span>
+    </div>
+    <div id="shop-items-list"></div>
+    <div style="margin-top:12px;display:flex;justify-content:space-between;align-items:center;">
+      <div style="color:var(--dg);font-size:11px;line-height:1.8;">
+        ↑↓ NAVIGATE &nbsp;·&nbsp; ENTER BUY &nbsp;·&nbsp; ESC REROLL &nbsp;·&nbsp; Q LEAVE
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+'use strict';
+
+/* ═══════════════════════════════════════
+   AUDIO ENGINE + CHIPTUNE
+═══════════════════════════════════════ */
+let _ac=null;
+const ac=()=>{if(!_ac)_ac=new(window.AudioContext||window.webkitAudioContext)();return _ac;};
+
+// Master gain for music (separate from SFX)
+let _masterGain=null, _musicGain=null;
+function getMasterGain(){
+  if(!_masterGain){
+    const ctx=ac();
+    _masterGain=ctx.createGain();_masterGain.gain.value=1.0;
+    _masterGain.connect(ctx.destination);
+    _musicGain=ctx.createGain();_musicGain.gain.value=0.28;
+    _musicGain.connect(_masterGain);
+  }
+  return{master:_masterGain,music:_musicGain};
+}
+
+function tone(f,dur,type='square',vol=0.09,delay=0){
+  try{
+    const ctx=ac(),t=ctx.currentTime+delay;
+    const o=ctx.createOscillator(),g=ctx.createGain();
+    o.connect(g);g.connect(getMasterGain().master);
+    o.type=type;o.frequency.setValueAtTime(f,t);
+    g.gain.setValueAtTime(vol,t);
+    g.gain.exponentialRampToValueAtTime(0.001,t+dur);
+    o.start(t);o.stop(t+dur+0.01);
+  }catch(e){}
+}
+
+// ── CHIPTUNE SEQUENCER ──
+// Notes: frequency in Hz. 0 = rest.
+const N={
+  C3:131,D3:147,E3:165,F3:175,G3:196,A3:220,B3:247,
+  C4:262,D4:294,E4:330,F4:349,G4:392,A4:440,B4:494,
+  C5:523,D5:587,E5:659,F5:698,G5:784,A5:880,B5:988,C6:1047,
+  _:0
+};
+
+// Dungeon theme — chirpy minor-key exploration tune, 2 voices
+const TUNE_DUN={
+  bpm:112,
+  loop:true,
+  ch:[
+    // Melody (lead square)
+    {type:'square',vol:0.13,oct:0,notes:[
+      N.E5,.25, N.D5,.25, N.C5,.5,  N.E5,.25, N.D5,.25, N.A4,.5,
+      N.C5,.25, N.B4,.25, N.A4,.5,  N.G4,.5,  N._,.5,
+      N.A4,.25, N.G4,.25, N.F4,.5,  N.A4,.25, N.G4,.25, N.E4,.5,
+      N.G4,.25, N.F4,.25, N.E4,.5,  N.C4,.5,  N._,.5,
+      N.E5,.5,  N.F5,.5,  N.G5,.5,  N.E5,.5,
+      N.D5,.5,  N.C5,.5,  N.B4,.25, N.C5,.25, N.D5,.5,
+      N.E5,.5,  N.G5,.5,  N.A5,.5,  N._,.5,
+      N.G5,.25, N.F5,.25, N.E5,.5,  N.C5,.75, N._,.25,
+    ]},
+    // Bass (pulse low)
+    {type:'square',vol:0.09,oct:-1,notes:[
+      N.A3,.5, N._,.5, N.A3,.5, N._,.5,
+      N.F3,.5, N._,.5, N.C4,.5, N._,.5,
+      N.E3,.5, N._,.5, N.E3,.5, N._,.5,
+      N.C3,.5, N._,.5, N.G3,.5, N._,.5,
+      N.A3,.5, N._,.5, N.C4,.5, N._,.5,
+      N.F3,.5, N._,.5, N.G3,.5, N._,.5,
+      N.A3,.5, N._,.5, N.E4,.5, N._,.5,
+      N.A3,.75,N._,.5, N.A3,.25,N._,.5,
+    ]},
+    // Arp (triangle shimmer)
+    {type:'triangle',vol:0.06,oct:0,notes:[
+      N.A4,.25,N.C5,.25,N.E5,.25,N.A5,.25, N.A4,.25,N.C5,.25,N.E5,.25,N.A5,.25,
+      N.F4,.25,N.A4,.25,N.C5,.25,N.F5,.25, N.F4,.25,N.A4,.25,N.C5,.25,N.F5,.25,
+      N.E4,.25,N.G4,.25,N.B4,.25,N.E5,.25, N.E4,.25,N.G4,.25,N.B4,.25,N.E5,.25,
+      N.C4,.25,N.E4,.25,N.G4,.25,N.C5,.25, N.C4,.25,N.E4,.25,N.G4,.25,N.C5,.25,
+      N.A4,.25,N.C5,.25,N.E5,.25,N.A5,.25, N.A4,.25,N.C5,.25,N.E5,.25,N.A5,.25,
+      N.F4,.25,N.A4,.25,N.C5,.25,N.F5,.25, N.G4,.25,N.B4,.25,N.D5,.25,N.G5,.25,
+      N.A4,.25,N.E5,.25,N.A5,.25,N.E5,.25, N.C5,.25,N.E5,.25,N.G5,.25,N.E5,.25,
+      N.D5,.25,N.A4,.25,N.F5,.25,N.A4,.25, N.A4,.5, N._,.25, N.A4,.25,
+    ]},
+  ]
+};
+
+// Combat theme — faster, aggressive, urgent
+const TUNE_CMB={
+  bpm:160,
+  loop:true,
+  ch:[
+    {type:'square',vol:0.13,oct:0,notes:[
+      N.E5,.25,N.E5,.25,N.E5,.25,N._,.25, N.E5,.25,N._,.25,N.E5,.25,N._,.25,
+      N.D5,.25,N.D5,.25,N.D5,.25,N._,.25, N.D5,.25,N._,.25,N.C5,.5,
+      N.B4,.25,N.B4,.25,N.B4,.25,N._,.25, N.C5,.25,N.D5,.25,N.E5,.5,
+      N.A4,.5, N.E5,.5, N.D5,.25,N.C5,.25,N.B4,.5,
+      N.E5,.25,N.G5,.25,N.A5,.5, N.G5,.25,N.E5,.25,N.D5,.5,
+      N.C5,.5, N.E5,.5, N.G5,.25,N.A5,.25,N.B5,.5,
+      N.A5,.25,N.G5,.25,N.E5,.5, N.D5,.25,N.C5,.25,N.B4,.5,
+      N.A4,.5, N._,.25, N.E5,.25,N.A5,.5,
+    ]},
+    {type:'sawtooth',vol:0.07,oct:-1,notes:[
+      N.A3,.25,N._,.25,N.A3,.25,N._,.25, N.A3,.25,N._,.25,N.E3,.25,N._,.25,
+      N.D3,.25,N._,.25,N.D3,.25,N._,.25, N.D3,.25,N._,.25,N.A3,.25,N._,.25,
+      N.E3,.25,N._,.25,N.E3,.25,N._,.25, N.E3,.25,N._,.25,N.B3,.25,N._,.25,
+      N.A3,.25,N._,.25,N.A3,.25,N._,.25, N.E4,.25,N._,.25,N.A3,.25,N._,.25,
+      N.A3,.25,N._,.25,N.C4,.25,N._,.25, N.D4,.25,N._,.25,N.A3,.25,N._,.25,
+      N.C4,.25,N._,.25,N.E4,.25,N._,.25, N.G4,.25,N._,.25,N.E4,.25,N._,.25,
+      N.A3,.5, N.E4,.5, N.D4,.25,N.C4,.25,N.B3,.5,
+      N.A3,.5, N._,.5, N.E4,.5, N._,.5,
+    ]},
+  ]
+};
+
+// Music state
+let _music={playing:false,tune:null,startT:0,handles:[],fadingOut:false};
+
+function calcTuneDuration(tune){
+  // duration = longest channel in beats → seconds
+  let maxBeats=0;
+  for(const ch of tune.ch){
+    let b=0;
+    for(let i=1;i<ch.notes.length;i+=2) b+=ch.notes[i];
+    maxBeats=Math.max(maxBeats,b);
+  }
+  return maxBeats*(60/tune.bpm);
+}
+
+function playTune(tune){
+  stopMusic(true); // immediate stop
+  if(!tune)return;
+  const ctx=ac();
+  const{music}=getMasterGain();
+  _music.playing=true;_music.tune=tune;_music.handles=[];
+
+  function scheduleLoop(startT){
+    if(!_music.playing||_music.tune!==tune)return;
+    const bps=tune.bpm/60;
+    const oHandles=[];
+    let loopDur=0;
+
+    for(const ch of tune.ch){
+      let t=startT;
+      const ns=ch.notes;
+      for(let i=0;i<ns.length-1;i+=2){
+        const freq=ns[i],beats=ns[i+1];
+        const dur=beats/bps;
+        if(freq>0){
+          try{
+            const o=ctx.createOscillator(),g=ctx.createGain();
+            o.connect(g);g.connect(music);
+            o.type=ch.type;o.frequency.value=freq;
+            const on=Math.max(0.001,dur*0.82);
+            g.gain.setValueAtTime(0,t);
+            g.gain.linearRampToValueAtTime(ch.vol,t+0.01);
+            g.gain.setValueAtTime(ch.vol,t+on-0.01);
+            g.gain.linearRampToValueAtTime(0,t+on);
+            o.start(t);o.stop(t+dur+0.05);
+            oHandles.push(o);
+          }catch(e){}
+        }
+        t+=dur;
+      }
+      loopDur=Math.max(loopDur,t-startT);
+    }
+    _music.handles.push(...oHandles);
+    if(tune.loop){
+      // Schedule next loop slightly before this one ends
+      const nxtId=setTimeout(()=>scheduleLoop(startT+loopDur),Math.max(100,(loopDur-0.3)*1000));
+      _music.handles.push({_to:nxtId,stop:()=>clearTimeout(nxtId)});
+    }
+  }
+  scheduleLoop(ctx.currentTime+0.05);
+}
+
+function stopMusic(immediate=false){
+  _music.playing=false;
+  for(const h of _music.handles){
+    if(h._to!==undefined)clearTimeout(h._to);
+    else try{h.stop();}catch(e){}
+  }
+  _music.handles=[];
+}
+
+function fadeOutMusic(){
+  if(!_music.playing)return;
+  const{music}=getMasterGain();
+  const ctx=ac();
+  music.gain.setValueAtTime(music.gain.value,ctx.currentTime);
+  music.gain.linearRampToValueAtTime(0,ctx.currentTime+0.8);
+  setTimeout(()=>{stopMusic(true);music.gain.value=0.28;},900);
+}
+
+function setMusic(which){
+  if(!S.musicOn){stopMusic(true);return;}
+  if(_music.playing&&_music.tune===(which==='cmb'?TUNE_CMB:TUNE_DUN))return;
+  if(which==='cmb')playTune(TUNE_CMB);
+  else if(which==='dun')playTune(TUNE_DUN);
+  else{fadeOutMusic();}
+}
+
+const SFX={
+  step:    ()=>tone(180,.025,'square',.04),
+  bump:    ()=>tone(80,.09,'sawtooth',.11),
+  fight:   ()=>{tone(440,.06,'square',.10);tone(660,.06,'square',.09,.07);},
+  boss:    ()=>[220,196,165,220,175,130].forEach((f,i)=>tone(f,.2,'sawtooth',.13,i*.18)),
+  cursor:  ()=>tone(320,.018,'square',.04),
+  sel:     ()=>tone(480,.04,'square',.07),
+  desel:   ()=>tone(320,.04,'square',.05),
+  badswap: ()=>tone(110,.09,'sawtooth',.09),
+  m3:      ()=>[523,659,784].forEach((f,i)=>tone(f,.10,'square',.09,i*.06)),
+  m4:      ()=>[523,659,784,1047].forEach((f,i)=>tone(f,.10,'square',.10,i*.055)),
+  combo:   ()=>[784,988,1047,1319].forEach((f,i)=>tone(f,.09,'square',.11,i*.05)),
+  dmg:     ()=>{tone(110,.12,'sawtooth',.13);tone(88,.07,'sawtooth',.08,.08);},
+  heal:    ()=>{tone(880,.08,'square',.07);tone(1047,.08,'square',.07,.09);},
+  kill:    ()=>[523,659,784,988,1047].forEach((f,i)=>tone(f,.12,'square',.10,i*.07)),
+  loot:    ()=>{tone(1047,.07,'square',.09);tone(1319,.07,'square',.09,.09);},
+  stairs:  ()=>[440,330,220,165].forEach((f,i)=>tone(f,.13,'square',.09,i*.10)),
+  lvlup:   ()=>[523,659,784,1047,784,1047,1319].forEach((f,i)=>tone(f,.13,'triangle',.10,i*.07)),
+  shop:    ()=>{tone(660,.07,'square',.08);tone(880,.07,'square',.07,.09);},
+  buy:     ()=>[523,784,1047].forEach((f,i)=>tone(f,.10,'square',.10,i*.07)),
+  gameover:()=>[220,196,175,155,130,110].forEach((f,i)=>tone(f,.28,'sawtooth',.14,i*.28)),
+  enMove:  ()=>tone(140,.02,'square',.03),
+};
+
+/* ═══════════════════════════════════════
+   CONSTANTS
+═══════════════════════════════════════ */
+const MW=48,MH=20,BS=7;
+const TILES=['ATK','DEF','MAG','HLT','SKL'];
+const TC={ATK:'♠',DEF:'◆',MAG:'★',HLT:'♥',SKL:'♣'};
+
+const EDEFS=[
+  {id:'rats',    name:'RAT SWARM',    ch:'r',fl:1, hp:28,  atk:4,  def:0,  xp:15,  gold:[1,5],  speed:1,
+   art:`  (>°_°<)(>°_°<)
+  r  r  r  r  r`},
+  {id:'gob',     name:'GOBLIN',       ch:'g',fl:1, hp:40,  atk:6,  def:1,  xp:25,  gold:[2,8],  speed:1,
+   art:`  /\\ /\\
+ ( o  o )
+  \\-w-/
+  /GOB\\`},
+  {id:'skel',    name:'SKELETON',     ch:'s',fl:2, hp:55,  atk:11, def:3,  xp:35,  gold:[3,10], speed:1,
+   art:`  _.--._
+ /o    o\\
+ |BONES |
+  |    |`},
+  {id:'orc',     name:'ORC BRUTE',    ch:'o',fl:3, hp:80,  atk:14, def:5,  xp:50,  gold:[5,15], speed:1,
+   art:`  ,---.
+ ( O O )
+  | ORC |
+  |___|`},
+  {id:'troll',   name:'CAVE TROLL',   ch:'t',fl:3, hp:100, atk:12, def:8,  xp:60,  gold:[6,18], speed:2,
+   art:` _______
+(O     O)
+|TROLL  |
+|_______|`},
+  {id:'mage',    name:'DARK MAGE',    ch:'m',fl:4, hp:70,  atk:18, def:3,  xp:70,  gold:[8,20], speed:1,
+   art:`  ,^.^,
+ (o   o)
+  \\___/
+   |*|`},
+  {id:'vamp',    name:'VAMPIRE',      ch:'v',fl:5, hp:90,  atk:16, def:6,  xp:80,  gold:[10,25],speed:2,
+   art:`  /^  ^\\
+ ( ;  ; )
+  \\ vv /
+   \\__/`},
+  {id:'warden',  name:'DUNGEON WARDEN',ch:'W',fl:5,hp:170, atk:18, def:11, xp:160, gold:[20,35],speed:1,boss:true,
+   art:` [WARDEN]
+ ( X  X )
+ /|BOSS|\\
+(_|___|_)`},
+  {id:'dknight', name:'DEATH KNIGHT', ch:'D',fl:6, hp:120, atk:20, def:9,  xp:100, gold:[12,30],speed:1,
+   art:` [HELMET]
+ (X   X)
+  | | |
+  |___|`},
+  {id:'basilisk',name:'BASILISK',     ch:'B',fl:7, hp:140, atk:18, def:10, xp:110, gold:[15,35],speed:1,
+   art:` ~~~~~~~
+(O     O)
+ BSLISK
+ ~~~~~~~`},
+  {id:'lich',    name:'LICH',         ch:'L',fl:8, hp:170, atk:24, def:12, xp:140, gold:[18,40],speed:1,
+   art:`  * * *
+ /LICH \\
+( x   x )
+ \\_____/`},
+  {id:'king',    name:'THE FORGOTTEN KING',ch:'K',fl:10,hp:320,atk:30,def:16,xp:500,gold:[50,100],speed:1,boss:true,
+   art:` [*CROWN*]
+(☠     ☠)
+| KING  |
+|_______|`},
+];
+
+const MOVES={
+  'RAT SWARM':         [{n:'GNAW',d:4},{n:'SWARM',d:7}],
+  'GOBLIN':            [{n:'SLASH',d:6},{n:'BITE',d:4},{n:'ROCK',d:9}],
+  'SKELETON':          [{n:'BONE STRIKE',d:8},{n:'RATTLE',d:5},{n:'THROW BONE',d:11}],
+  'ORC BRUTE':         [{n:'SMASH',d:11},{n:'CLEAVE',d:14,s:'pierce'},{n:'WARCRY',d:5,s:'buff'}],
+  'CAVE TROLL':        [{n:'CLUB',d:9},{n:'STOMP',d:12},{n:'REGEN',d:0,s:'regen'}],
+  'DARK MAGE':         [{n:'FIREBALL',d:14,s:'burn'},{n:'FROST BOLT',d:10,s:'stun'},{n:'DRAIN',d:8,s:'drain'}],
+  'VAMPIRE':           [{n:'BITE',d:12,s:'drain'},{n:'BATS',d:8},{n:'MESMERIZE',d:0,s:'stun'}],
+  'DUNGEON WARDEN':    [{n:'SHIELD BASH',d:14},{n:'WARDEN STRIKE',d:18,s:'pierce'},{n:'FORTIFY',d:0,s:'buff'},{n:'SMASH',d:20}],
+  'DEATH KNIGHT':      [{n:'SOUL SLASH',d:16},{n:'DEATH GRIP',d:12,s:'weaken'},{n:'UNHOLY AURA',d:8}],
+  'BASILISK':          [{n:'PETRIFY',d:10,s:'stun'},{n:'TAIL SWEEP',d:13},{n:'VENOM SPIT',d:15,s:'burn'}],
+  'LICH':              [{n:'DEATH BOLT',d:18},{n:'SOUL SHATTER',d:14,s:'drain'},{n:'BONE STORM',d:22,s:'pierce'},{n:'ANIMATE DEAD',d:0,s:'regen'}],
+  'THE FORGOTTEN KING':[{n:'ROYAL DECREE',d:22},{n:'CROWN OF THORNS',d:18,s:'burn'},{n:'REGAL SMITE',d:25,s:'pierce'},{n:'JUDGE',d:30,s:'pierce'},{n:'UNDYING WILL',d:0,s:'regen'}],
+};
+
+const SHOP_ITEMS=[
+  {name:'HEALING DRAUGHT', desc:'Restore HP to full',          icon:'♥',cost:f=>f*16+12, apply:p=>{p.hp=p.maxHp;}},
+  {name:'STRENGTH TONIC',  desc:'Attack +4',                   icon:'♠',cost:f=>f*20+14, apply:p=>{p.atk+=4;}},
+  {name:'IRON BANDING',    desc:'Defense +3',                  icon:'◆',cost:f=>f*16+12, apply:p=>{p.def+=3;}},
+  {name:'VITALITY STONE',  desc:'Max HP +25, heal 20',         icon:'★',cost:f=>f*22+18, apply:p=>{p.maxHp+=25;p.hp=Math.min(p.hp+20,p.maxHp);}},
+  {name:'ARCANE TOME',     desc:'Max MP +15, restore MP',      icon:'✦',cost:f=>f*18+14, apply:p=>{p.maxMp+=15;p.mp=p.maxMp;}},
+  {name:'SPEED SCROLL',    desc:'Heal 20 HP, ATK +2',          icon:'☼',cost:f=>f*18+14, apply:p=>{p.hp=Math.min(p.maxHp,p.hp+20);p.atk+=2;}},
+  {name:'DODGE POTION',    desc:'Next hit dodged + DEF +2',    icon:'💨',cost:f=>f*20+16, apply:(p,s)=>{s.dodgeNext=true;p.def+=2;}},
+  {name:'BERSERKER BREW',  desc:'ATK +6, DEF -2 (min 1)',      icon:'🗡',cost:f=>f*18+12, apply:p=>{p.atk+=6;p.def=Math.max(1,p.def-2);}},
+  {name:'ELIXIR OF FOCUS', desc:'MP restore full, ATK +3',     icon:'◈',cost:f=>f*22+16, apply:p=>{p.mp=p.maxMp;p.atk+=3;}},
+  {name:'BLOODSTONE',      desc:'Max HP +15, ATK +3, DEF +1',  icon:'◉',cost:f=>f*26+20, apply:p=>{p.maxHp+=15;p.hp=Math.min(p.hp+10,p.maxHp);p.atk+=3;p.def+=1;}},
+];
+
+/* ═══════════════════════════════════════
+   STATE
+═══════════════════════════════════════ */
+let S={};
+function fresh(){return{
+  mode:'title',floor:1,endless:false,
+  p:{x:2,y:2,hp:80,maxHp:80,mp:30,maxMp:30,atk:8,def:3,level:1,xp:0,xpNext:80,gold:0,kills:0},
+  map:null,enemies:[],seen:null,
+  enemy:null,
+  board:[],   bc:{r:3,c:3},  bsel:null, processing:false, playerTurn:true,
+  shield:0,atkBuff:1.0,dodgeNext:false,estatus:{},pstatus:{},
+  tboard:[],  tc:{r:3,c:3},  tsel:null, tproc:false,
+  tTurns:0,tGold:0,tHp:0,tGoldMult:1,
+  shopIdx:0,
+  shopItems:null,shopRerolls:0,
+  musicOn:true,
+  hintsOn:false,
+  paused:false,
+  totalKills:0,
+};}
+
+/* ═══════════════════════════════════════
+   DUNGEON GENERATION
+═══════════════════════════════════════ */
+function genFloor(floor,endless=false){
+  let grid,rooms;
+  for(let attempt=0;attempt<5;attempt++){
+    grid=Array.from({length:MH},()=>Array(MW).fill('#'));
+    rooms=[];
+    const n=4+Math.min(floor,5);
+    for(let a=0;a<120&&rooms.length<n;a++){
+      const w=5+Math.floor(Math.random()*7),h=3+Math.floor(Math.random()*4);
+      const x=1+Math.floor(Math.random()*(MW-w-2)),y=1+Math.floor(Math.random()*(MH-h-2));
+      if(rooms.some(r=>x<r.x+r.w+2&&x+w>r.x-1&&y<r.y+r.h+2&&y+h>r.y-1))continue;
+      for(let ry=y;ry<y+h;ry++)for(let rx=x;rx<x+w;rx++)grid[ry][rx]='.';
+      rooms.push({x,y,w,h,cx:x+Math.floor(w/2),cy:y+Math.floor(h/2),type:'normal'});
+    }
+    if(rooms.length>=3)break;
+  }
+  // Corridors
+  for(let i=1;i<rooms.length;i++){
+    const a=rooms[i-1],b=rooms[i];
+    const x1=Math.min(a.cx,b.cx),x2=Math.max(a.cx,b.cx);
+    const y1=Math.min(a.cy,b.cy),y2=Math.max(a.cy,b.cy);
+    for(let x=x1;x<=x2;x++)grid[a.cy][x]='.';
+    for(let y=y1;y<=y2;y++)grid[y][b.cx]='.';
+  }
+  // Last room = stairs
+  const lr=rooms[rooms.length-1];
+  grid[lr.cy][lr.cx]='>';
+  lr.type='stairs';
+  // Boss room: second-to-last on boss floors
+  const isBossFloor=(!endless && (floor===5||floor===10));
+  if(isBossFloor&&rooms.length>=2){rooms[rooms.length-2].type='boss';}
+  // Shops and treasures in middle rooms
+  for(let i=1;i<rooms.length-1;i++){
+    const r=rooms[i];
+    if(r.type==='boss')continue;
+    const roll=Math.random();
+    if(roll<0.18){r.type='shop';grid[r.cy][r.cx]='§';}
+    else if(roll<0.42){r.type='treasure';grid[r.cy][r.cx]='$';}
+  }
+  return{grid,rooms};
+}
+
+function placeEnemies(rooms,floor){
+  const pool=EDEFS.filter(e=>!e.boss&&e.fl<=floor&&e.fl>=Math.max(1,floor-1));
+  const enemies=[];
+  for(let i=1;i<rooms.length;i++){
+    const r=rooms[i];
+    if(r.type==='stairs'||r.type==='shop')continue;
+    if(r.type==='treasure')continue; // treasure rooms have no enemies
+    const isBoss=r.type==='boss';
+    let def;
+    if(isBoss){
+      def=floor===5?EDEFS.find(e=>e.id==='warden'):EDEFS.find(e=>e.id==='king');
+    } else {
+      if(!pool.length)continue;
+      def=pool[Math.floor(Math.random()*pool.length)];
+    }
+    if(!def)continue;
+    // Find free tile in room
+    let ex=r.cx,ey=r.cy;
+    for(let t=0;t<20;t++){
+      const tx=r.x+1+Math.floor(Math.random()*(r.w-2));
+      const ty=r.y+1+Math.floor(Math.random()*(r.h-2));
+      if(S.map.grid[ty][tx]==='.')  {ex=tx;ey=ty;break;}
+    }
+    if(['§','$','>','#'].includes(S.map.grid[ey][ex]))continue;
+    enemies.push({x:ex,y:ey,def:JSON.parse(JSON.stringify(def)),hp:def.hp,dead:false,isBoss});
+  }
+  return enemies;
+}
+
+/* ═══════════════════════════════════════
+   MAP RENDERING
+═══════════════════════════════════════ */
+function updateSeen(){
+  const R=6;
+  for(let dy=-R;dy<=R;dy++)for(let dx=-R;dx<=R;dx++){
+    if(dx*dx+dy*dy>R*R)continue;
+    const nx=S.p.x+dx,ny=S.p.y+dy;
+    if(nx>=0&&nx<MW&&ny>=0&&ny<MH)S.seen[ny][nx]=true;
+  }
+}
+function vis(x,y){const dx=x-S.p.x,dy=y-S.p.y;return dx*dx+dy*dy<=36;}
+
+function renderMap(){
+  const g=S.map.grid;updateSeen();
+  let rows=[];
+  for(let y=0;y<MH;y++){
+    let row='';
+    for(let x=0;x<MW;x++){
+      const isVis=vis(x,y);
+      if(!S.seen[y][x]&&!isVis){row+=' ';continue;}
+      if(x===S.p.x&&y===S.p.y){row+=`<span class="cp">@</span>`;continue;}
+      const en=S.enemies.find(e=>!e.dead&&e.x===x&&e.y===y);
+      if(en&&isVis){row+=`<span class="${en.isBoss?'cb':'ce'}">${en.def.ch}</span>`;continue;}
+      const t=g[y][x];
+      const cls=isVis?tileClass(t):'cx';
+      row+=`<span class="${cls}">${t==='>'?'&gt;':t}</span>`;
+    }
+    rows.push(row);
+  }
+  ge('map-pre').innerHTML=rows.join('\n');
+}
+function tileClass(t){
+  if(t==='#')return 'cw';if(t==='>')return 'cs';
+  if(t==='$')return 'ct';if(t==='§')return 'co';
+  return 'cf';
+}
+
+/* ═══════════════════════════════════════
+   ENEMY AI — move toward player
+═══════════════════════════════════════ */
+function moveEnemies(){
+  if(S.mode!=='dun')return;
+  let combatTriggered=false;
+  for(const en of S.enemies){
+    if(en.dead||combatTriggered)continue;
+    const dx=S.p.x-en.x,dy=S.p.y-en.y;
+    const dist=Math.abs(dx)+Math.abs(dy);
+    if(dist>14)continue; // dormant
+    if(dist===0)continue;
+    // speed: how many steps per player turn
+    const steps=en.def.speed||1;
+    for(let step=0;step<steps&&!combatTriggered;step++){
+      const cdx=S.p.x-en.x,cdy=S.p.y-en.y;
+      if(Math.abs(cdx)+Math.abs(cdy)===0)break;
+      // Build candidate moves toward player
+      const cands=[];
+      if(cdx!==0)cands.push([Math.sign(cdx),0]);
+      if(cdy!==0)cands.push([0,Math.sign(cdy)]);
+      if(cands.length===2&&Math.random()<0.3)cands.reverse(); // vary path
+      // Add diagonal-ish option
+      if(cands.length===2)cands.push(cands[Math.floor(Math.random()*2)]);
+      let moved=false;
+      for(const[mx,my] of cands){
+        const nx=en.x+mx,ny=en.y+my;
+        if(nx<0||nx>=MW||ny<0||ny>=MH)continue;
+        if(S.map.grid[ny][nx]==='#')continue;
+        if(S.enemies.some(e=>!e.dead&&e!==en&&e.x===nx&&e.y===ny))continue;
+        if(nx===S.p.x&&ny===S.p.y){
+          combatTriggered=true;
+          SFX.fight();
+          log(`The ${en.def.name} charges you!`,'d');
+          setTimeout(()=>startCombat(en),60);
+          break;
+        }
+        en.x=nx;en.y=ny;
+        if(step===0)SFX.enMove();
+        moved=true;break;
+      }
+      if(!moved||combatTriggered)break;
+    }
+  }
+  if(!combatTriggered)renderMap();
+}
+
+/* ═══════════════════════════════════════
+   PLAYER MOVEMENT
+═══════════════════════════════════════ */
+function move(dx,dy){
+  if(S.processing||S.mode!=='dun')return;
+  const p=S.p;
+  const nx=p.x+dx,ny=p.y+dy;
+  if(nx<0||nx>=MW||ny<0||ny>=MH)return;
+  const t=S.map.grid[ny][nx];
+  if(t==='#'){SFX.bump();return;}
+  const en=S.enemies.find(e=>!e.dead&&e.x===nx&&e.y===ny);
+  if(en){
+    if(en.isBoss){SFX.boss();log(`★ BOSS: ${en.def.name} blocks your path! ★`,'d');}
+    else{SFX.fight();log(`You attack the ${en.def.name}!`,'c');}
+    startCombat(en);return;
+  }
+  p.x=nx;p.y=ny;
+  if(t==='>'){SFX.stairs();descend();return;}
+  if(t==='$'){openTreasure();return;}
+  if(t==='§'){SFX.shop();log('A merchant lurks in the shadows...','s');openShop();return;}
+  SFX.step();
+  moveEnemies();
+  updateDUI();
+}
+
+/* ═══════════════════════════════════════
+   SHOP
+═══════════════════════════════════════ */
+function openShop(reroll=false){
+  S.mode='shop';
+  if(reroll||!S.shopItems){
+    if(reroll){
+      const cost=10*Math.max(1,S.shopRerolls);
+      if(S.p.gold<cost){SFX.badswap();log(`Need ${cost}G to reroll!`,'e');return;}
+      S.p.gold-=cost;S.shopRerolls++;
+      updateDUI();
+    }
+    const pool=[...SHOP_ITEMS];
+    for(let i=pool.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[pool[i],pool[j]]=[pool[j],pool[i]];}
+    S.shopItems=pool.slice(0,6);
+  }
+  if(S.shopIdx===undefined)S.shopIdx=0;
+  S.shopIdx=Math.max(0,Math.min(S.shopIdx,S.shopItems.length-1));
+  ge('shop-gold-disp').textContent=S.p.gold;
+  const nextRerollCost=10*Math.max(1,S.shopRerolls);
+  const canReroll=S.p.gold>=nextRerollCost;
+  const c=ge('shop-items-list');c.innerHTML='';
+  S.shopItems.forEach((item,i)=>{
+    const cost=item.cost(S.floor);
+    const ok=S.p.gold>=cost;
+    const isSel=i===S.shopIdx;
+    const div=document.createElement('div');
+    div.className='shop-row'+(isSel?' shop-sel':'');
+    div.innerHTML=`
+      <div class="shop-info">
+        <div class="shop-name">${isSel?'▶ ':'\u00a0\u00a0'}${item.icon} ${item.name}</div>
+        <div class="shop-desc">${item.desc}</div>
+      </div>
+      <span class="shop-cost" style="color:${ok?'var(--am)':'#554400'}">${cost}G</span>
+      <span style="font-size:12px;color:${ok?(isSel?'var(--g)':'var(--dg)'):'#333'}">${ok?'[ENTER]':'X'}</span>
+    `;
+    c.appendChild(div);
+  });
+  // Reroll hint row
+  const rr=document.createElement('div');
+  rr.style.cssText='margin-top:8px;font-size:11px;text-align:right;';
+  rr.innerHTML=`ESC REROLL <span style="color:${canReroll?'var(--am)':'#444'}">${nextRerollCost}G</span>`;
+  c.appendChild(rr);
+  ge('shop-overlay').classList.add('on');
+}
+function buyItem(i){
+  const item=S.shopItems[i];
+  if(!item)return;
+  const cost=item.cost(S.floor);
+  if(S.p.gold<cost){SFX.badswap();return;}
+  S.p.gold-=cost;item.apply(S.p,S);
+  SFX.buy();log(`Bought: ${item.name}`,'l');
+  openShop();updateDUI();
+}
+function closeShop(){
+  S.mode='dun';
+  ge('shop-overlay').classList.remove('on');
+  renderMap();updateDUI();
+}
+
+/* ═══════════════════════════════════════
+   TREASURE MATCH-3
+═══════════════════════════════════════ */
+function openTreasure(){
+  S.map.grid[S.p.y][S.p.x]='.'; // consume chest
+  SFX.loot();
+  log('TREASURE VAULT! Match tiles for loot!','l');
+  S.mode='treasure';
+  S.tTurns=4+Math.floor(S.floor/2);S.tGold=0;S.tHp=0;S.tGoldMult=1;
+  S.tsel=null;S.tc={r:3,c:3};S.tproc=false;
+  initBoard('trs');renderTrsBoard();
+  ge('trs-turns').textContent=S.tTurns;
+  ge('trs-gold').textContent=0;
+  ge('trs-hp').textContent=0;
+  ge('trs-log').innerHTML='';
+  ge('trs-cbo').textContent='';
+  showScr('trs');
+}
+function endTreasure(auto){
+  if(!auto&&S.tproc)return;
+  log(`Vault cleared: +${S.tGold}G, +${S.tHp}HP healed`,'l');
+  S.mode='dun';
+  showScr('dun');
+  renderMap();updateDUI();
+}
+
+/* ═══════════════════════════════════════
+   BOARD (shared logic)
+═══════════════════════════════════════ */
+// Combat board weights: ATK5 DEF2 MAG3 HLT2 SKL2 (total 14). HLT rare but real.
+function rndT(){
+  const w=[5,2,3,2,2];
+  let r=Math.random()*14;
+  for(let i=0;i<w.length;i++){r-=w[i];if(r<=0)return TILES[i];}
+  return TILES[0];
+}
+function initBoard(which){
+  const arr=Array.from({length:BS},()=>Array.from({length:BS},rndT));
+  for(let k=0;k<20;k++){const ms=findM(arr);if(!ms.length)break;ms.forEach(([r,c])=>arr[r][c]=rndT());}
+  if(which==='trs')S.tboard=arr;else S.board=arr;
+}
+function findM(board){
+  const hit=new Set();
+  for(let r=0;r<BS;r++)for(let c=0;c<=BS-3;c++){
+    const t=board[r][c];
+    if(t&&t===board[r][c+1]&&t===board[r][c+2]){let l=3;while(c+l<BS&&board[r][c+l]===t)l++;for(let i=0;i<l;i++)hit.add(`${r},${c+i}`);}
+  }
+  for(let c=0;c<BS;c++)for(let r=0;r<=BS-3;r++){
+    const t=board[r][c];
+    if(t&&t===board[r+1][c]&&t===board[r+2][c]){let l=3;while(r+l<BS&&board[r+l][c]===t)l++;for(let i=0;i<l;i++)hit.add(`${r+i},${c}`);}
+  }
+  return[...hit].map(s=>s.split(',').map(Number));
+}
+
+function _renderBoard(elId,board,cursor,sel){
+  const el=ge(elId);el.innerHTML='';
+  // Pre-compute which tiles have a valid swap that creates a match (only for combat board)
+  const hints=new Set();
+  if(elId==='board'&&!S.bsel&&S.hintsOn){
+    const dirs=[[0,1],[1,0],[0,-1],[-1,0]];
+    for(let r=0;r<BS;r++)for(let c=0;c<BS;c++){
+      for(const[dr,dc] of dirs){
+        const nr=r+dr,nc=c+dc;
+        if(nr<0||nr>=BS||nc<0||nc>=BS)continue;
+        // Temporarily swap
+        [board[r][c],board[nr][nc]]=[board[nr][nc],board[r][c]];
+        const hasMatch=findM(board).length>0;
+        [board[r][c],board[nr][nc]]=[board[nr][nc],board[r][c]];
+        if(hasMatch){hints.add(r*BS+c);hints.add(nr*BS+nc);}
+      }
+    }
+  }
+  for(let r=0;r<BS;r++)for(let c=0;c<BS;c++){
+    const t=board[r][c];
+    const d=document.createElement('div');
+    d.className='bt';
+    if(t){d.dataset.t=t;d.textContent=TC[t];}
+    const isCur=cursor&&cursor.r===r&&cursor.c===c;
+    const isSel=sel&&sel[0]===r&&sel[1]===c;
+    if(isSel)d.classList.add('sel');
+    else if(isCur)d.classList.add('cur');
+    if(hints.has(r*BS+c)&&!isSel&&!isCur)d.classList.add('hint');
+    el.appendChild(d);
+  }
+}
+function renderBoard(){_renderBoard('board',S.board,S.bc,S.bsel);}
+function renderTrsBoard(){_renderBoard('trs-board',S.tboard,S.tc,S.tsel);}
+
+async function gravity(board){
+  for(let c=0;c<BS;c++){
+    let empty=BS-1;
+    for(let r=BS-1;r>=0;r--){
+      if(board[r][c]!==null){board[empty][c]=board[r][c];if(empty!==r)board[r][c]=null;empty--;}
+    }
+    for(let r=empty;r>=0;r--)board[r][c]=rndT();
+  }
+}
+
+/* ──── COMBAT BOARD ──── */
+function onTile(r,c){
+  if(!S.playerTurn||S.processing)return;
+  if(!S.board[r][c])return;
+  S.bc={r,c};
+  if(!S.bsel){S.bsel=[r,c];SFX.sel();renderBoard();return;}
+  const[sr,sc]=S.bsel;
+  if(sr===r&&sc===c){S.bsel=null;SFX.desel();renderBoard();return;}
+  const dr=Math.abs(r-sr),dc=Math.abs(c-sc);
+  if((dr===1&&dc===0)||(dr===0&&dc===1)){S.bsel=null;doSwap(sr,sc,r,c);}
+  else{S.bsel=[r,c];SFX.sel();renderBoard();}
+}
+async function doSwap(r1,c1,r2,c2){
+  // Stunned: lose your action
+  if(S.pstatus.stunned){
+    delete S.pstatus.stunned;
+    S.bsel=null;
+    clog(`⚡ You are STUNNED — turn lost!`,'atk');
+    S.processing=true;await sl(400);
+    setTurn(false);S.processing=false;renderBoard();return;
+  }
+  S.processing=true;
+  [S.board[r1][c1],S.board[r2][c2]]=[S.board[r2][c2],S.board[r1][c1]];
+  renderBoard();await sl(90);
+  if(!findM(S.board).length){
+    [S.board[r1][c1],S.board[r2][c2]]=[S.board[r2][c2],S.board[r1][c1]];
+    renderBoard();SFX.badswap();S.processing=false;return;
+  }
+  await procCombatMatches();
+  if(S.enemy&&S.enemy.hp>0&&S.p.hp>0)setTurn(false);
+  S.processing=false;renderBoard();
+}
+async function procCombatMatches(){
+  let combo=0;
+  while(true){
+    const ms=findM(S.board);if(!ms.length)break;
+    combo++;
+    ms.forEach(([r,c])=>{const el=ge('board').children[r*BS+c];if(el)el.classList.add('flash');});
+    if(combo===1)SFX.m3();else if(combo===2)SFX.m4();else SFX.combo();
+    await sl(270);
+    const cnts={};ms.forEach(([r,c])=>{const t=S.board[r][c];cnts[t]=(cnts[t]||0)+1;});
+    const mult=1+(combo-1)*.3;
+    for(const[type,cnt]of Object.entries(cnts))applyCombatEffect(type,cnt,mult);
+    ms.forEach(([r,c])=>S.board[r][c]=null);
+    await gravity(S.board);
+    renderBoard();updateCUI();
+    if(combo>1)ge('c-cbo').textContent=`COMBO x${combo}!`;
+    await sl(160);
+    if(!S.enemy||S.enemy.hp<=0||S.p.hp<=0)break;
+  }
+  setTimeout(()=>ge('c-cbo').textContent='',700);
+  checkEnd();
+}
+function applyCombatEffect(type,cnt,mult){
+  const p=S.p,e=S.enemy;if(!e)return;
+  if(type==='ATK'){
+    let raw=Math.floor(cnt*p.atk*0.45*mult*S.atkBuff);
+    const reduction=Math.min(0.65, e.edef/40);
+    let dmg=Math.max(1,Math.floor(raw*(1-reduction)));
+    e.hp=Math.max(0,e.hp-dmg);SFX.bump();
+    clog(`♠ ${cnt}×ATK → ${dmg} dmg (${e.edef}def)`,'atk');
+  }else if(type==='DEF'){
+    const b=Math.floor(cnt*4*mult);S.shield+=b;
+    clog(`◆ ${cnt}×DEF → +${b} shield`,'def');
+  }else if(type==='MAG'){
+    const mpCost=Math.floor(cnt*4*mult);
+    if(p.mp>=mpCost){
+      p.mp-=mpCost;
+      const dmg=Math.max(1,Math.floor(cnt*(p.atk*0.5+3)*mult));
+      e.hp=Math.max(0,e.hp-dmg);
+      clog(`★ ${cnt}×MAG(-${mpCost}MP) → ${dmg} pierce`,'mag');
+    } else {
+      // Partial: use available MP for reduced damage
+      const ratio=p.mp/Math.max(1,mpCost);
+      const dmg=Math.max(1,Math.floor(cnt*(p.atk*0.5+3)*mult*ratio));
+      e.hp=Math.max(0,e.hp-dmg);p.mp=0;
+      clog(`★ LOW MP! → ${dmg} weak pierce`,'mag');
+    }
+  }else if(type==='HLT'){
+    const h=Math.floor(cnt*6*mult);p.hp=Math.min(p.maxHp,p.hp+h);
+    SFX.heal();clog(`♥ ${cnt}×HLT → +${h} HP`,'hlt');
+  }else if(type==='SKL'){
+    if(cnt>=4){
+      // 4+ SKL: dodge next enemy attack
+      S.dodgeNext=true;
+      S.atkBuff=Math.min(2.5,S.atkBuff+.4);
+      clog(`♣ ${cnt}×SKL → ATK×${S.atkBuff.toFixed(1)} + DODGE!`,'skl');
+    } else if(cnt>=3){
+      S.atkBuff=Math.min(2.5,S.atkBuff+.4);clog(`♣ ${cnt}×SKL → ATK×${S.atkBuff.toFixed(1)}`,'skl');
+    } else {
+      const d=Math.floor(cnt*p.atk*0.28*mult);e.hp=Math.max(0,e.hp-d);clog(`♣ ${cnt}×SKL → ${d} dmg`,'skl');
+    }
+  }
+}
+
+/* ──── TREASURE BOARD ──── */
+function onTrsTile(r,c){
+  if(S.tproc||S.tTurns<=0)return;
+  if(!S.tboard[r][c])return;
+  S.tc={r,c};
+  if(!S.tsel){S.tsel=[r,c];SFX.sel();renderTrsBoard();return;}
+  const[sr,sc]=S.tsel;
+  if(sr===r&&sc===c){S.tsel=null;SFX.desel();renderTrsBoard();return;}
+  const dr=Math.abs(r-sr),dc=Math.abs(c-sc);
+  if((dr===1&&dc===0)||(dr===0&&dc===1)){S.tsel=null;doTrsSwap(sr,sc,r,c);}
+  else{S.tsel=[r,c];SFX.sel();renderTrsBoard();}
+}
+async function doTrsSwap(r1,c1,r2,c2){
+  S.tproc=true;
+  const b=S.tboard;
+  [b[r1][c1],b[r2][c2]]=[b[r2][c2],b[r1][c1]];
+  renderTrsBoard();await sl(90);
+  if(!findM(b).length){
+    [b[r1][c1],b[r2][c2]]=[b[r2][c2],b[r1][c1]];
+    renderTrsBoard();SFX.badswap();S.tproc=false;return;
+  }
+  await procTrsMatches();
+  S.tTurns--;ge('trs-turns').textContent=S.tTurns;
+  if(S.tTurns<=0){await sl(400);endTreasure(true);}
+  S.tproc=false;renderTrsBoard();
+}
+async function procTrsMatches(){
+  let combo=0;
+  while(true){
+    const ms=findM(S.tboard);if(!ms.length)break;
+    combo++;
+    ms.forEach(([r,c])=>{const el=ge('trs-board').children[r*BS+c];if(el)el.classList.add('flash');});
+    if(combo===1)SFX.m3();else SFX.combo();
+    await sl(270);
+    const cnts={};ms.forEach(([r,c])=>{const t=S.tboard[r][c];cnts[t]=(cnts[t]||0)+1;});
+    const mult=1+(combo-1)*.3;
+    for(const[type,cnt]of Object.entries(cnts)){
+      if(type==='ATK'){
+        const g=Math.floor(cnt*2*S.floor*mult*S.tGoldMult);
+        S.tGold+=g;S.p.gold+=g;
+        trsLog(`♠ ${cnt}×ATK → +${g} GOLD`,'win');
+      }else if(type==='DEF'){
+        const sh=Math.floor(cnt*3*mult);S.shield+=sh;
+        trsLog(`◆ ${cnt}×DEF → +${sh} shield`,'def');
+      }else if(type==='MAG'){
+        // MAG in treasure = MP restore only, no free ATK boosts
+        S.p.mp=Math.min(S.p.maxMp,S.p.mp+cnt*8);
+        trsLog(`★ ${cnt}×MAG → MP+${cnt*8}`,'mag');
+      }else if(type==='HLT'){
+        const h=Math.floor(cnt*6*mult);S.p.hp=Math.min(S.p.maxHp,S.p.hp+h);
+        S.tHp+=h;SFX.heal();
+        trsLog(`♥ ${cnt}×HLT → +${h} HP`,'hlt');
+      }else if(type==='SKL'){
+        S.tGoldMult=Math.min(3,S.tGoldMult+0.5);
+        trsLog(`♣ ${cnt}×SKL → GOLD×${S.tGoldMult.toFixed(1)}`,'skl');
+      }
+    }
+    ms.forEach(([r,c])=>S.tboard[r][c]=null);
+    await gravity(S.tboard);
+    renderTrsBoard();
+    ge('trs-gold').textContent=S.tGold;
+    ge('trs-hp').textContent=S.tHp;
+    if(combo>1)ge('trs-cbo').textContent=`COMBO x${combo}!`;
+    await sl(160);
+  }
+  setTimeout(()=>ge('trs-cbo').textContent='',700);
+}
+function trsLog(msg,type){
+  const c=ge('trs-log');
+  const d=document.createElement('div');
+  d.className=`l-${type}`;d.textContent=msg;
+  c.appendChild(d);c.scrollTop=c.scrollHeight;
+}
+
+/* ═══════════════════════════════════════
+   COMBAT
+═══════════════════════════════════════ */
+function startCombat(mapEn){
+  const def=mapEn.def;
+  S.mode='cmb';
+  setMusic('cmb');
+  // Enemy edef scales up slowly each floor so it doesn't become impenetrable
+  S.enemy={ref:mapEn,def,hp:mapEn.hp,maxHp:def.hp,atk:def.atk,
+           edef:Math.floor(def.def*(1+(S.floor-1)*0.08))};
+  S.shield=0;S.atkBuff=1.0;S.dodgeNext=false;S.estatus={};S.pstatus={};
+  S.playerTurn=true;S.bsel=null;S.bc={r:3,c:3};S.processing=false;
+  showScr('cmb');
+  ge('c-ename').textContent=def.name+(def.boss?' [BOSS]':'');
+  ge('e-art').textContent=def.art;
+  ge('c-eatk').textContent=def.atk;ge('c-edef').textContent=def.def;
+  ge('c-log').innerHTML='';
+  initBoard('cmb');renderBoard();updateCUI();setIntent();setTurn(true);
+  clog(`⚔ ${def.boss?'★BOSS★ ':''}${def.name}`,'c');
+  clog(`HP:${def.hp} ATK:${def.atk} DEF:${def.def}`,'n');
+}
+function setTurn(isPlayer){
+  S.playerTurn=isPlayer;
+  ge('turn-ind').textContent=isPlayer?'YOUR TURN':'ENEMY TURN';
+  ge('turn-ind').className=isPlayer?'ti-p':'ti-e';
+  if(!isPlayer)setTimeout(doEnemyTurn,680);
+}
+function setIntent(){
+  if(!S.enemy)return;
+  const mvs=MOVES[S.enemy.def.name]||[{n:'ATTACK',d:5}];
+  const m=mvs[Math.floor(Math.random()*mvs.length)];
+  const sd=Math.floor((m.d||0)*(1+(S.floor-1)*.13));
+  let txt=`NEXT: ${m.n}`;
+  if(m.d)txt+=` (~${sd})`;
+  if(m.s==='burn')txt+=' [BURN]';if(m.s==='stun')txt+=' [STUN]';if(m.s==='pierce')txt+=' [PIERCE]';
+  ge('c-int').textContent=txt;
+}
+async function doEnemyTurn(){
+  if(!S.enemy||S.enemy.hp<=0)return;
+  // burn tick
+  if((S.estatus.burn||0)>0){
+    S.estatus.burn--;const bd=9;
+    S.enemy.hp=Math.max(0,S.enemy.hp-bd);
+    clog(`🔥 BURN: ${bd} dmg to ${S.enemy.def.name}`,'mag');
+    updateCUI();await sl(280);
+    if(S.enemy.hp<=0){checkEnd();return;}
+  }
+  if((S.estatus.stun||0)>0){
+    S.estatus.stun--;clog(`⚡ ${S.enemy.def.name} STUNNED`,'skl');updateCUI();
+  }else{
+    const mvs=MOVES[S.enemy.def.name]||[{n:'ATTACK',d:5}];
+    const mv=mvs[Math.floor(Math.random()*mvs.length)];
+    let dmg=Math.floor((mv.d||0)*(1+(S.floor-1)*.13));
+    if(mv.s==='regen'){
+      const rg=Math.floor(S.enemy.maxHp*.12);
+      S.enemy.hp=Math.min(S.enemy.maxHp,S.enemy.hp+rg);
+      clog(`💚 ${mv.n}: +${rg}HP`,'hlt');
+    }else if(mv.s==='buff'){
+      S.enemy.atk=Math.floor(S.enemy.atk*1.3);
+      clog(`💢 ${mv.n}: ATK→${S.enemy.atk}`,'atk');
+    }else{
+      // Dodge check (from 4×SKL)
+      if(S.dodgeNext&&mv.d>0){
+        S.dodgeNext=false;
+        clog(`💨 DODGE! ${mv.n} avoided!`,'skl');
+        SFX.cursor();
+      }else{
+        S.dodgeNext=false;
+        const blk=Math.min(S.shield,dmg);dmg-=blk;S.shield=Math.max(0,S.shield-blk);
+        const fd=mv.s==='pierce'?Math.max(0,dmg):Math.max(0,dmg-Math.floor(S.p.def*.35));
+        S.p.hp=Math.max(0,S.p.hp-fd);SFX.dmg();
+        const sfx=mv.s==='burn'?'🔥':mv.s==='stun'?'⚡':mv.s==='drain'?'🩸':'🗡';
+        clog(`${sfx} ${mv.n}: ${fd}dmg`+(blk?` (${blk}blkd)`:''),'atk');
+        if(mv.s==='burn')S.pstatus.burn=(S.pstatus.burn||0)+3;
+        if(mv.s==='weaken')S.atkBuff=Math.max(.3,S.atkBuff-.5);
+        if(mv.s==='drain')S.enemy.hp=Math.min(S.enemy.maxHp,S.enemy.hp+Math.floor(fd*.6));
+        if(mv.s==='stun')S.pstatus.stunned=1;
+      }
+    }
+  }
+  if((S.pstatus.burn||0)>0){S.pstatus.burn--;const bd=3;S.p.hp=Math.max(0,S.p.hp-bd);clog(`🔥 You burn: ${bd}`,'atk');}
+  updateCUI();setIntent();await sl(300);
+  if(S.p.hp<=0){checkEnd();return;}
+  setTurn(true);renderBoard();
+}
+function checkEnd(){
+  if(S.enemy&&S.enemy.hp<=0)winCombat();
+  else if(S.p.hp<=0)loseCombat();
+}
+function winCombat(){
+  SFX.kill();
+  const def=S.enemy.def;
+  const xp=def.xp,gold=def.gold[0]+Math.floor(Math.random()*(def.gold[1]-def.gold[0]));
+  S.p.xp+=xp;S.p.gold+=gold;S.p.kills++;S.totalKills++;
+  clog(`VICTORY! +${xp}XP +${gold}G`,'win');
+  while(S.p.xp>=S.p.xpNext){
+    S.p.xp-=S.p.xpNext;S.p.xpNext=Math.floor(S.p.xpNext*2.0); // steep curve
+    S.p.level++;S.p.maxHp+=15;S.p.hp=Math.min(S.p.maxHp,S.p.hp+15);
+    S.p.maxMp+=5;S.p.atk+=2;S.p.def+=1;
+    SFX.lvlup();clog(`LEVEL ${S.p.level}! ATK+2 MaxHP+15`,'win');
+    log(`⬆ LEVEL ${S.p.level}! ATK+2, MaxHP+15`,'l');
+  }
+  S.enemy.ref.dead=true;
+  setTimeout(()=>{
+    S.mode='dun';
+    setMusic('dun');
+    log(`Defeated ${def.name}. +${xp}XP +${gold}G`,'l');
+    showScr('dun');renderMap();updateDUI();
+  },700);
+}
+function loseCombat(){
+  saveScore({floor:S.floor,level:S.p.level,kills:S.totalKills,gold:S.p.gold,slainBy:S.enemy?S.enemy.def.name:'?'});
+  stopMusic(false);
+  SFX.gameover();
+  setTimeout(()=>{
+    S.mode='title';
+    const dm=ge('death-msg');
+    dm.style.display='block';
+    dm.innerHTML=
+      `<div style="color:var(--re);font-size:16px;letter-spacing:2px;margin-bottom:4px">☠ YOU HAVE DIED ☠</div>`+
+      `<div>Slain by: <span style="color:#ff8888">${S.enemy?S.enemy.def.name:'the dungeon'}</span></div>`+
+      `<div style="color:var(--dg);margin-top:2px">Floor ${S.floor} &nbsp;·&nbsp; Level ${S.p.level} &nbsp;·&nbsp; ${S.totalKills} kills &nbsp;·&nbsp; ${S.p.gold}G</div>`;
+    showScr('title');
+    renderScores();
+    // Start dungeon music softly on title
+    setTimeout(()=>setMusic('dun'),600);
+  },1800);
+}
+
+/* ═══════════════════════════════════════
+   FLOOR / DESCENT
+═══════════════════════════════════════ */
+function descend(){
+  S.floor++;
+  if(!S.endless && S.floor>10){
+    saveScore({floor:10,level:S.p.level,kills:S.totalKills,gold:S.p.gold,slainBy:'VICTORY!'});
+    ge('vic-st').innerHTML=`All 10 floors conquered!<br>The Forgotten King is dust.<br>Kills: ${S.totalKills} · Gold: ${S.p.gold} · Level: ${S.p.level}`;
+    showScr('vic');S.mode='victory';return;
+  }
+  // Dungeon drain — descending costs HP. Encourages spending gold at shops.
+  const drain=Math.floor(S.floor*1.6 + S.p.maxHp*0.025);
+  S.p.hp=Math.max(1,S.p.hp-drain);
+  const{grid,rooms}=genFloor(S.floor,S.endless);
+  S.map={grid,rooms};S.enemies=placeEnemies(rooms,S.floor);
+  S.seen=Array.from({length:MH},()=>Array(MW).fill(false));
+  S.p.x=rooms[0].cx;S.p.y=rooms[0].cy;
+  S.mode='dun';
+  log(`⬇ FLOOR ${S.floor} — the descent costs ${drain}HP.`,'d');
+  if(S.floor===5)  log(`★ A warden guards this floor...`,'d');
+  if(S.floor===10) log(`★★★ THE FORGOTTEN KING AWAITS ★★★`,'d');
+  renderMap();updateDUI();
+}
+
+/* ═══════════════════════════════════════
+   UI
+═══════════════════════════════════════ */
+function updateDUI(){
+  const p=S.p;
+  ge('d-fl').textContent=S.floor;
+  ge('d-lv').textContent=p.level;
+  ge('d-xp').textContent=`${p.xp}/${p.xpNext}`;
+  ge('d-xp-b').style.width=`${p.xp/p.xpNext*100}%`;
+  ge('d-hp').textContent=`${p.hp}/${p.maxHp}`;
+  ge('d-hp-b').style.width=`${p.hp/p.maxHp*100}%`;
+  ge('d-mp').textContent=`${p.mp}/${p.maxMp}`;
+  ge('d-mp-b').style.width=`${p.mp/p.maxMp*100}%`;
+  ge('d-atk').textContent=p.atk;
+  ge('d-def').textContent=p.def;
+  ge('d-gld').textContent=p.gold;
+  ge('d-kls').textContent=p.kills;
+}
+function updateCUI(){
+  const p=S.p,e=S.enemy;if(!e)return;
+  ge('c-php').textContent=`${p.hp}/${p.maxHp}`;
+  ge('c-php-b').style.width=`${Math.max(0,p.hp/p.maxHp*100)}%`;
+  ge('c-pmp').textContent=`${p.mp}/${p.maxMp}`;
+  const mpPct=p.maxMp>0?p.mp/p.maxMp:1;
+  ge('c-pmp-b').style.width=`${Math.max(0,mpPct*100)}%`;
+  // Flash bar red when critically low
+  const mpBar=ge('c-pmp-b');
+  if(mpPct<0.33&&p.mp<p.maxMp){
+    mpBar.classList.add('low-mp');
+    setTimeout(()=>mpBar.classList.remove('low-mp'),1100);
+  }else{mpBar.classList.remove('low-mp');}
+  ge('c-shld').textContent=S.shield;
+  ge('c-abuf').textContent=S.atkBuff.toFixed(1);
+  const dd=ge('c-dodge');if(dd)dd.textContent=S.dodgeNext?'READY':'—';
+  ge('c-ehp').textContent=`${Math.max(0,e.hp)}/${e.maxHp}`;
+  ge('c-ehp-b').style.width=`${Math.max(0,e.hp/e.maxHp*100)}%`;
+  ge('c-eatk').textContent=e.atk;
+  const se=ge('c-ests');se.innerHTML='';
+  if(S.estatus.burn>0)se.innerHTML+=`<span class="sts sts-burn">BURN(${S.estatus.burn})</span>`;
+  if(S.estatus.stun>0)se.innerHTML+=`<span class="sts sts-stun">STUN(${S.estatus.stun})</span>`;
+}
+
+/* ═══════════════════════════════════════
+   LOGS
+═══════════════════════════════════════ */
+function log(msg,type='n'){
+  const c=ge('log-inner');
+  const d=document.createElement('div');
+  d.className=`l-${type}`;d.textContent='> '+msg;
+  c.appendChild(d);c.scrollTop=c.scrollHeight;
+  while(c.children.length>16)c.removeChild(c.firstChild);
+}
+function clog(msg,type='n'){
+  const c=ge('c-log');
+  const d=document.createElement('div');
+  d.className=`l-${type}`;d.textContent=msg;
+  c.appendChild(d);c.scrollTop=c.scrollHeight;
+  while(c.children.length>30)c.removeChild(c.firstChild);
+}
+
+/* ═══════════════════════════════════════
+   SCREENS
+═══════════════════════════════════════ */
+function showScr(id){
+  document.querySelectorAll('.scr').forEach(s=>s.classList.remove('on'));
+  ge('s-'+id).classList.add('on');
+}
+
+/* ═══════════════════════════════════════
+   INPUT
+═══════════════════════════════════════ */
+/* ═══════════════════════════════════════
+   PAUSE
+═══════════════════════════════════════ */
+function openPause(){
+  if(S.mode==='title'||S.mode==='victory')return;
+  S.paused=true;
+  ge('pause-music-val').textContent=S.musicOn?'ON':'OFF';
+  ge('pause-hints-val').textContent=S.hintsOn?'ON':'OFF';
+  ge('pause-overlay').style.display='flex';
+}
+function closePause(){
+  S.paused=false;
+  ge('pause-overlay').style.display='none';
+}
+function toggleMusic(){
+  S.musicOn=!S.musicOn;
+  ge('pause-music-val').textContent=S.musicOn?'ON':'OFF';
+  if(S.musicOn){
+    if(S.mode==='cmb')setMusic('cmb');
+    else setMusic('dun');
+  } else {
+    stopMusic(true);
+    try{getMasterGain().music.gain.value=0.28;}catch(e){}
+  }
+}
+function toggleHints(){
+  S.hintsOn=!S.hintsOn;
+  const el=ge('pause-hints-val');if(el)el.textContent=S.hintsOn?'ON':'OFF';
+  renderBoard();
+}
+
+
+document.addEventListener('keydown',e=>{
+  const m=S.mode;
+
+  // ── PAUSE OVERLAY ──
+  if(S.paused){
+    if(e.key==='Escape'||e.key==='p'||e.key==='P'){e.preventDefault();closePause();}
+    if(e.key==='m'||e.key==='M'){e.preventDefault();toggleMusic();}
+    if(e.key==='h'||e.key==='H'){e.preventDefault();toggleHints();}
+    return;
+  }
+  if((e.key==='Escape'||e.key==='p'||e.key==='P')&&(m==='dun'||m==='cmb'||m==='treasure')){
+    e.preventDefault();openPause();return;
+  }
+  if((e.key==='m'||e.key==='M')&&m!=='title'&&m!=='victory'){
+    e.preventDefault();toggleMusic();return;
+  }
+  if((e.key==='h'||e.key==='H')&&m!=='title'&&m!=='victory'){
+    e.preventDefault();toggleHints();return;
+  }
+
+  // ── RETIRE ──
+  if((e.key==='r'||e.key==='R')&&(m==='dun'||m==='cmb'||m==='treasure'||m==='shop')){
+    e.preventDefault();
+    if(S.paused)closePause();
+    ge('shop-overlay').classList.remove('on');
+    retireRun();
+    return;
+  }
+
+  // ── TITLE ──
+  if(m==='title'){
+    if(e.key==='Enter'||e.key===' '){e.preventDefault();startGame(false);}
+    if(e.key==='e'||e.key==='E'){e.preventDefault();startGame(true);}
+    return;
+  }
+
+  // ── VICTORY ──
+  if(m==='victory'){
+    if(e.key==='Enter'||e.key===' '){e.preventDefault();startGame();}
+    return;
+  }
+
+  // ── DUNGEON ──
+  if(m==='dun'){
+    const dirs={ArrowUp:[0,-1],ArrowDown:[0,1],ArrowLeft:[-1,0],ArrowRight:[1,0],
+                w:[0,-1],s:[0,1],a:[-1,0],d:[1,0],
+                W:[0,-1],S:[0,1],A:[-1,0],D:[1,0]};
+    const dir=dirs[e.key];
+    if(dir){e.preventDefault();move(dir[0],dir[1]);}
+    return;
+  }
+
+  // ── COMBAT ──
+  if(m==='cmb'){
+    if(S.processing||!S.playerTurn)return;
+    boardKey(e,false);
+    return;
+  }
+
+  // ── TREASURE ──
+  if(m==='treasure'){
+    if(e.key==='q'||e.key==='Q'){e.preventDefault();endTreasure(false);return;}
+    if(S.tproc)return;
+    boardKey(e,true);
+    return;
+  }
+
+  // ── SHOP ──
+  if(m==='shop'){
+    if(e.key==='Escape'){e.preventDefault();openShop(true);SFX.shop();return;} // ESC = reroll
+    if(e.key==='ArrowUp'||e.key==='w'||e.key==='W'){
+      e.preventDefault();
+      S.shopIdx=Math.max(0,S.shopIdx-1);SFX.cursor();openShop();return;
+    }
+    if(e.key==='ArrowDown'||e.key==='s'||e.key==='S'){
+      e.preventDefault();
+      S.shopIdx=Math.min((S.shopItems||SHOP_ITEMS).length-1,S.shopIdx+1);SFX.cursor();openShop();return;
+    }
+    if(e.key==='Enter'||e.key===' '){
+      e.preventDefault();buyItem(S.shopIdx);return;
+    }
+    if(e.key==='q'||e.key==='Q'){e.preventDefault();closeShop();return;}
+    // Number shortcuts 1-6
+    const n=parseInt(e.key);
+    if(n>=1&&n<=6){e.preventDefault();S.shopIdx=n-1;SFX.cursor();openShop();}
+    return;
+  }
+});
+
+function boardKey(e,isTrs){
+  const bc=isTrs?S.tc:S.bc;
+  const arrow={ArrowUp:[-1,0],ArrowDown:[1,0],ArrowLeft:[0,-1],ArrowRight:[0,1]};
+  const dir=arrow[e.key];
+  if(dir){
+    e.preventDefault();
+    const nr=bc.r+dir[0],nc=bc.c+dir[1];
+    if(nr>=0&&nr<BS&&nc>=0&&nc<BS){bc.r=nr;bc.c=nc;SFX.cursor();}
+    if(isTrs)renderTrsBoard();else renderBoard();
+    return;
+  }
+  if(e.key===' '||e.key==='Enter'){
+    e.preventDefault();
+    if(isTrs)onTrsTile(bc.r,bc.c);else onTile(bc.r,bc.c);
+  }
+  if(e.key==='Escape'){
+    e.preventDefault();
+    if(isTrs){S.tsel=null;renderTrsBoard();}
+    else{S.bsel=null;renderBoard();}
+  }
+}
+
+/* ═══════════════════════════════════════
+   MOBILE TOUCH
+═══════════════════════════════════════ */
+let _touchStartTile=null;
+function _tilePos(el){
+  // Walk up to find the board grid cell index
+  const board=el.closest('#board,#trs-board');
+  if(!board)return null;
+  const cells=Array.from(board.children);
+  const idx=cells.indexOf(el);
+  if(idx<0)return null;
+  return{r:Math.floor(idx/BS),c:idx%BS,isTrs:board.id==='trs-board'};
+}
+document.addEventListener('touchstart',e=>{
+  const t=e.target;
+  if(!t.classList.contains('bt'))return;
+  const pos=_tilePos(t);
+  if(!pos)return;
+  _touchStartTile=pos;
+  // Also move cursor to this tile
+  if(pos.isTrs)S.tc={r:pos.r,c:pos.c};
+  else S.bc={r:pos.r,c:pos.c};
+  if(pos.isTrs)renderTrsBoard();else renderBoard();
+},{passive:true});
+
+document.addEventListener('touchend',e=>{
+  const t=document.elementFromPoint(
+    e.changedTouches[0].clientX,e.changedTouches[0].clientY);
+  if(!t||!t.classList.contains('bt')){_touchStartTile=null;return;}
+  const end=_tilePos(t);
+  if(!end||!_touchStartTile)return;
+  const start=_touchStartTile;_touchStartTile=null;
+  if(start.r===end.r&&start.c===end.c){
+    // Tap = select/deselect
+    if(end.isTrs)onTrsTile(end.r,end.c);else onTile(end.r,end.c);
+    return;
+  }
+  const dr=Math.abs(end.r-start.r),dc=Math.abs(end.c-start.c);
+  if((dr===1&&dc===0)||(dr===0&&dc===1)){
+    // Adjacent drag = direct swap attempt
+    if(end.isTrs){
+      S.tc={r:start.r,c:start.c};
+      if(!S.tsel)S.tsel=[start.r,start.c];
+      onTrsTile(end.r,end.c);
+    }else{
+      S.bc={r:start.r,c:start.c};
+      if(!S.bsel)S.bsel=[start.r,start.c];
+      onTile(end.r,end.c);
+    }
+  }
+},{passive:true});
+// Init: set mode so keydown works from page load
+S=fresh();
+const ge=id=>document.getElementById(id);
+const sl=ms=>new Promise(r=>setTimeout(r,ms));
+// Render scores on initial title
+window.addEventListener('DOMContentLoaded',()=>renderScores());
+
+/* ═══════════════════════════════════════
+   START
+═══════════════════════════════════════ */
+/* ═══════════════════════════════════════
+   HIGH SCORE
+═══════════════════════════════════════ */
+function loadScores(){
+  try{return JSON.parse(localStorage.getItem('adv_scores')||'[]');}catch(e){return[];}
+}
+function saveScore(entry){
+  try{
+    const scores=loadScores();
+    scores.push(entry);
+    scores.sort((a,b)=>b.floor-a.floor||b.kills-a.kills||b.gold-a.gold);
+    localStorage.setItem('adv_scores',JSON.stringify(scores.slice(0,5)));
+  }catch(e){}
+}
+
+function retireRun(){
+  // Save a “retired” score and go back to title
+  try{
+    saveScore({floor:S.floor,level:S.p.level,kills:S.totalKills,gold:S.p.gold,slainBy:'RETIRED'});
+  }catch(e){}
+
+  stopMusic(false);
+
+  const dm=ge('death-msg');
+  if(dm){
+    dm.style.display='block';
+    dm.innerHTML=
+      `<div style="color:var(--am);font-size:16px;letter-spacing:2px;margin-bottom:4px">⌁ YOU RETIRED ⌁</div>`+
+      `<div style="color:var(--dg);margin-top:2px">Floor ${S.floor} · Level ${S.p.level} · ${S.totalKills} kills · ${S.p.gold}G</div>`;
+  }
+
+  S.mode='title';
+  showScr('title');
+  renderScores();
+  setTimeout(()=>setMusic('dun'),600);
+}
+
+function renderScores(){
+  const scores=loadScores();
+  const el=ge('score-table');if(!el)return;
+  if(!scores.length){el.textContent='No runs yet.';return;}
+  el.innerHTML='<div style="color:var(--dg);font-size:10px;margin-bottom:4px">─── HALL OF THE FALLEN ───</div>'+
+    scores.map((s,i)=>`<div style="font-size:11px;line-height:1.8;color:${i===0?'var(--am)':'var(--dg)'}">` +
+      `${i===0?'☠ ':'  '}FL${s.floor} LV${s.level} ${s.kills}kills ${s.gold}G` +
+      `<span style="color:#333;margin-left:6px">${s.slainBy||'?'}</span></div>`
+    ).join('');
+}
+function startGame(endless=false){
+  S=fresh();
+  S.endless=!!endless;
+  S.mode='dun';
+
+  const el=ge('death-msg');if(el)el.style.display='none';
+
+  const{grid,rooms}=genFloor(1,S.endless);
+  S.map={grid,rooms};
+  S.enemies=placeEnemies(rooms,1);
+  S.seen=Array.from({length:MH},()=>Array(MW).fill(false));
+  S.p.x=rooms[0].cx;S.p.y=rooms[0].cy;
+
+  ge('log-inner').innerHTML='';
+  showScr('dun');updateDUI();renderMap();
+  setMusic('dun');
+
+  log(S.endless?'ENDLESS DESCENT. No king. No glory.':'The dungeon breathes. Death waits.','e');
+  log('WASD/ARROWS to move. Bump enemies.','n');
+  log('P/ESC pause · H toggles hints · R retire','n');
+}
+</script>
+</body>
+</html>
