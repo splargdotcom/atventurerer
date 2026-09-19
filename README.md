@@ -1,5 +1,14 @@
 # @venturerer
 
+<!-- splarg-storefront:start -->
+<p align="center">
+  <strong><a href="https://splarg.itch.io/atventurerer">▶ Play in browser on itch.io</a></strong>
+</p>
+<p align="center">
+  <a href="https://splarg.itch.io/atventurerer">Screenshots & current public release</a> · <a href="https://splarg.com/">splarg.com</a>
+</p>
+<!-- splarg-storefront:end -->
+
 **The Last Account · 1.4**
 
 A self-contained CRT roguelike / match-3 dungeon crawler by **Splarg**.
