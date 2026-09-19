@@ -4,7 +4,7 @@
 
 A self-contained CRT roguelike / match-3 dungeon crawler by **Splarg**.
 
-**Itch.io:** https://splarg.itch.io/
+**Play on itch.io:** https://splarg.itch.io/atventurerer
 
 ## Current release
 
@@ -32,3 +32,7 @@ Earlier published states remain recoverable through Git history. Future developm
 ## Technology
 
 HTML5 / CSS / JavaScript. No build step.
+
+## License
+
+MIT. See [LICENSE](LICENSE).
